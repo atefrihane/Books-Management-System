@@ -1,0 +1,74 @@
+body {
+    overflow-y: scroll !important;
+    overflow-x: hidden;
+}
+
+.swal-footer {
+    text-align: center !important;
+}
+
+.btn-hide,
+.btn-hide:not(:disabled):not(.disabled):active,
+.btn-hide:not(:disabled):not(.disabled):focus {
+    color: #000 !important;
+    background-color: transparent !important;
+    border-color: transparent !important;
+    box-shadow: transparent !important;
+}
+
+.btn-hide:hover {
+    background-color: transparent !important;
+}
+
+.btn-hide::after {
+    display: none;
+}
+
+.make-it-slow {
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+    transition: box-shadow 0.3s ease-in-out;
+}
+
+
+/* Transition to a bigger shadow on hover */
+
+.make-it-slow:hover {
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+
+/* The fast way */
+
+.make-it-fast {
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+}
+
+.active-class {
+    font-size: 20px;
+    color: lightgreen;
+}
+
+.not-active-class {
+    font-size: 20px;
+    color: lightgrey;
+}
+
+.style-image {
+    width: 8vw !important;
+    height: auto !important;
+}
+
+
+/** Adjust dropdown **/
+
+.dropdown-menu {
+    min-width: 2;
+}
+
+.dropdown-menu .dropdown-item {
+    white-space: normal;
+}
+
+td>div>.dropdown-menu.show {
+    left: -30px !important;
+}
