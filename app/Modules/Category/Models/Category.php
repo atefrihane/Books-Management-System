@@ -16,10 +16,8 @@ class Category extends Model
 
     public function books()
     {
-        return $this->belongsToMany(Book::class, 'book_categories');
+        return $this->belongsToMany(Book::class, 'book_category');
     }
-
-
 
 
     public function articles()
@@ -27,10 +25,7 @@ class Category extends Model
         return $this->belongsToMany(Article::class, 'article_categories');
     }
 
-    public function releases()
-    {
-        return $this->belongsToMany(Release::class, 'release_categories');
-    }
+ 
 
   
 }

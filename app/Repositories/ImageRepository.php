@@ -36,4 +36,15 @@ class ImageRepository implements ImageRepositoryInterface
         return false;
 
     }
+
+    public function uploadAudio($audio, $ressourceName)
+    {
+           
+        $filePath =  Str::random(40). '.' . $audio->getClientOriginalExtension();
+    
+        $audio->move(public_path($ressourceName), $filePath);
+
+        return $ressourceName.'/'.$filePath;
+
+    }
 }

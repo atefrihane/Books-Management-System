@@ -33,6 +33,7 @@ class StoreBook extends FormRequest
             'description' => 'required|max:500',
             'active' => 'required|in:0,1',
              'audio_link' => 'required|mimes:mpga,wav',
+             'author_id' => 'required||exists:authors,id',
         ];
 
     }

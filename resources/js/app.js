@@ -82,7 +82,7 @@ const app = new Vue({
             let file = event.target.files[0]
             let limit = 1024 * 1024 * 5;
             let formats = []
-            console.log(file);
+
             type == 0 ? formats = ['image/jpeg', 'image/jpg', 'image/png'] : type == 1 ? formats = ['application/pdf'] : formats = ['audio/mpeg']
             if (formats.includes(file['type']) && file['size'] < limit) {
                 return new Promise((resolve, reject) => {
@@ -111,7 +111,9 @@ const app = new Vue({
         },
         uploadBinary(event) {
 
-
+            if (event.target.files[0]['type'] != 'audio/mpeg') {
+                return false;
+            }
             return event.target.files[0]
 
 

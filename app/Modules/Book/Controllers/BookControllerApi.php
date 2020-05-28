@@ -33,7 +33,7 @@ class BookControllerApi extends Controller
     {
        
         
-        $saveBook = $this->books->store($request->input('book'));
+        $saveBook = $this->books->store($request->all());
         return response()->json(['status' => 200]);
     }
     public function handleUpdateBook(StoreBook $request)

@@ -21,6 +21,8 @@ class CreateArticlesTable extends Migration
             $table->integer('active');
             $table->string('photo')->nullable();
             $table->string('audio_link')->nullable();
+            $table->unsignedBigInteger('author_id');
+            $table->foreign('author_id')->references('id')->on('authors');
             $table->softDeletes();
             $table->timestamps();
         });

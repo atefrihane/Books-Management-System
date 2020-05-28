@@ -13,8 +13,8 @@ class CreateArticleCategories extends Migration
      */
     public function up()
     {
-        Schema::create('article_categories', function (Blueprint $table) {
-            $table->bigIncrements('id');
+        Schema::create('article_category', function (Blueprint $table) {
+           
             $table->bigInteger('article_id')->unsigned();
             $table->foreign('article_id')->references('id')->on('articles')->onDelete('cascade');
             $table->bigInteger('category_id')->unsigned();

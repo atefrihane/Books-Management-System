@@ -3661,7 +3661,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   props: ['categories', 'authors'],
   data: function data() {
     return {
-      digital_name: 'Upload an audio  file',
+      digital_name: 'Upload an audio file',
       disabled: false,
       errors: [],
       book: {
@@ -3672,7 +3672,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         published_year: '',
         isbn: '',
         description: '',
-        photo: '/img/placeholder.jpg',
+        photo: '',
         audio_link: ''
       }
     };
@@ -3740,9 +3740,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       if (file) {
         this.book.audio_link = file;
         this.digital_name = file.name;
+        return;
       }
 
-      return;
+      swal2.fire({
+        type: 'error',
+        title: 'Format fichier non supporté',
+        allowOutsideClick: false,
+        showConfirmButton: true,
+        confirmButtonText: 'Fermer'
+      });
     },
     selectCategory: function selectCategory(event) {
       var id = event.target.value;
@@ -3853,12 +3860,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _this2 = this;
 
       this.disabled = true;
-      var validate = true;
+      var validate = this.validateData();
 
       if (validate) {
         this.$Progress.start();
         var body = new FormData();
-        var categoriesIds = [];
         body.append('photo', this.book.photo);
         body.append('audio_link', this.book.audio_link);
         body.append('categories', JSON.stringify(this.book.categories));
@@ -3867,6 +3873,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         body.append('description', this.book.description);
         body.append('isbn', this.book.isbn);
         body.append('published_year', this.book.published_year);
+        body.append('author_id', this.book.author_id);
         axios.post('/api/book/save', body).then(function (response) {
           _this2.$Progress.finish();
 
@@ -108280,7 +108287,11 @@ var render = function() {
                 _c("img", {
                   staticClass: "rounded mx-auto d-block mb-3 img-upload",
                   staticStyle: { height: "20vh" },
-                  attrs: { src: _vm.book.photo },
+                  attrs: {
+                    src: _vm.book.photo
+                      ? _vm.book.photo
+                      : "/img/placeholder.jpg"
+                  },
                   on: {
                     click: function($event) {
                       return _vm.$refs.file.click()
@@ -126752,7 +126763,6 @@ var app = new Vue({
       var file = event.target.files[0];
       var limit = 1024 * 1024 * 5;
       var formats = [];
-      console.log(file);
       type == 0 ? formats = ['image/jpeg', 'image/jpg', 'image/png'] : type == 1 ? formats = ['application/pdf'] : formats = ['audio/mpeg'];
 
       if (formats.includes(file['type']) && file['size'] < limit) {
@@ -126775,6 +126785,10 @@ var app = new Vue({
       return false;
     },
     uploadBinary: function uploadBinary(event) {
+      if (event.target.files[0]['type'] != 'audio/mpeg') {
+        return false;
+      }
+
       return event.target.files[0];
     },
     previewBinaryFile: function previewBinaryFile(file) {

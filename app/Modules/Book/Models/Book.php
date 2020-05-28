@@ -13,38 +13,26 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Book extends Model
 {
     protected $guarded = ['id'];
-    public $with = ['product', 'authors', 'articles', 'categories', 'languages'];
+    public $with = ['product', 'author', 'articles', 'categories', 'languages'];
 
     use SoftDeletes;
 
-    public function product()
+ 
+    public function author()
     {
-        return $this->morphOne(Product::class, 'content');
-    }
-
-    public function authors()
-    {
-        return $this->belongsToMany(Author::class, 'book_authors');
+        return $this->belongsTo(Author::class, 'author_id');
 
     }
 
-    public function articles()
-    {
-        return $this->belongsToMany(Article::class, 'book_articles');
-
-    }
+  
 
     public function categories()
     {
-        return $this->belongsToMany(Category::class, 'book_categories');
+        return $this->belongsToMany(Category::class, 'book_category');
 
     }
 
-    public function languages()
-    {
-        return $this->belongsToMany(Language::class, 'book_languages');
-
-    }
+   
 
 
 

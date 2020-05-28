@@ -30,43 +30,32 @@ class BookRepository implements BookRepositoryInterface
     }
     public function store($book)
     {
-        dd($book);
+   
         $bookPhoto = $this->image->uploadImage($book['photo'], 'books');
 
-        $book['digital_link'] ? $bookPdf = $this->image->uploadPdf($book['digital_link'], 'books/pdf') : $bookPdf = null;
-        $nextId = $this->getLastId();
-
+        isset($book['audio_link']) ? $audioBook = $this->image->uploadAudio($book['audio_link'],'/img/books/audio/') : $audioBook = null;
+     
+        $bookCategories  = json_decode($book['categories']);
         $newBook = Book::create([
             'photo' => $bookPhoto,
             'active' => $book['active'],
             'title' => $book['title'],
-            'slug' => str_slug($book['title'] . ' ' . $nextId, '-'),
+            'slug' => str_slug($book['title'] . ' ' . time(), '-'),
             'published_year' => $book['published_year'],
-            'editor' => $book['editor'],
-            'count_pages' => $book['count_pages'],
             'isbn' => $book['isbn'],
             'description' => $book['description'],
-            'height' => $book['height'],
-            'width' => $book['width'],
-            'thickness' => $book['thickness'],
-            'weight' => $book['weight'],
-            'paper_price' => $book['paper_price'],
-            'digital_price' => $book['digital_price'],
-            'photo' => $bookPhoto,
-            'digital_link' => $bookPdf,
+            'audio_link' => $audioBook,
+            'author_id' => $book['author_id']
 
         ]);
 
-        $newBook->categories()->attach(array_column($book['categories'], 'id'));
+        $newBook->categories()->attach(array_column($bookCategories, 'id'));
 
-        $newBook->languages()->attach(array_column($book['languages'], 'id'));
 
-        (isset($book['articles'])) ? $newBook->articles()->attach($book['articles']) : '';
 
-        $newBook->authors()->attach($book['authors']);
+    
 
-        $newProduct = $this->products->create();
-        $newBook->product()->save($newProduct);
+     
 
         return true;
 

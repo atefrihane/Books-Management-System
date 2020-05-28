@@ -13,8 +13,8 @@ class CreateBookCategories extends Migration
      */
     public function up()
     {
-        Schema::create('book_categories', function (Blueprint $table) {
-            $table->bigIncrements('id');
+        Schema::create('book_category', function (Blueprint $table) {
+         
             $table->bigInteger('book_id')->unsigned();
             $table->foreign('book_id')->references('id')->on('books')->onDelete('cascade');
             $table->bigInteger('category_id')->unsigned();

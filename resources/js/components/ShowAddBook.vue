@@ -8,7 +8,7 @@
                     <show-errors :errors="errors"> </show-errors>
                     <div class="row">
                         <div class="col-md-12">
-                            <img :src="book.photo" class="rounded mx-auto d-block mb-3 img-upload" style="height:20vh;"
+                            <img :src="book.photo ? book.photo : '/img/placeholder.jpg'" class="rounded mx-auto d-block mb-3 img-upload" style="height:20vh;"
                                 @click="$refs.file.click()">
                             <input type="file" ref="file" style="display: none" @change="uploadFile($event,0)">
 
@@ -174,7 +174,7 @@
         props: ['categories', 'authors'],
         data() {
             return {
-                digital_name: 'Upload an audio  file',
+                digital_name: 'Upload an audio file',
 
                 disabled: false,
 
@@ -191,7 +191,7 @@
                     description: '',
 
 
-                    photo: '/img/placeholder.jpg',
+                    photo: '',
                     audio_link: '',
 
 
@@ -260,15 +260,26 @@
 
                     this.book.audio_link = file
                     this.digital_name = file.name
-
+                    return;
 
                 }
 
 
 
+                swal2.fire({
+                    type: 'error',
+                    title: 'Format fichier non supporté',
+                    allowOutsideClick: false,
+                    showConfirmButton: true,
+                    confirmButtonText: 'Fermer'
 
 
-                return;
+                });
+               
+
+
+
+               
 
 
 
@@ -413,11 +424,11 @@
             },
             submitAddBook() {
                 this.disabled = true;
-                let validate = true
+                let validate = this.validateData()
                 if (validate) {
                     this.$Progress.start()
                   let body =new FormData()
-                  let categoriesIds = [];
+               
                
                     body.append('photo', this.book.photo)
                     body.append('audio_link', this.book.audio_link)
@@ -427,7 +438,7 @@
                     body.append('description', this.book.description)
                     body.append('isbn', this.book.isbn)
                     body.append('published_year', this.book.published_year)
-
+                    body.append('author_id', this.book.author_id)
                    
 
 
