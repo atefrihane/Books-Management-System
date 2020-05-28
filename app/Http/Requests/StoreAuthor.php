@@ -23,7 +23,7 @@ class StoreAuthor extends FormRequest
      */
     public function rules()
     {
-
+      
         $this->request->get('author');
         return [
             '*.photo' => 'required',

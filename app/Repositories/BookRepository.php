@@ -30,7 +30,7 @@ class BookRepository implements BookRepositoryInterface
     }
     public function store($book)
     {
-
+        dd($book);
         $bookPhoto = $this->image->uploadImage($book['photo'], 'books');
 
         $book['digital_link'] ? $bookPdf = $this->image->uploadPdf($book['digital_link'], 'books/pdf') : $bookPdf = null;

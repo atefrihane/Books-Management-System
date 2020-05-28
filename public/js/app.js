@@ -3661,17 +3661,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   props: ['categories', 'authors'],
   data: function data() {
     return {
-      digital_name: 'Importer un fichier',
-      availablePaper: false,
-      availableDigital: false,
+      digital_name: 'Upload an audio  file',
       disabled: false,
-      freeDigital: false,
       errors: [],
       book: {
         active: 1,
         title: '',
         categories: [],
-        authors: [],
+        author_id: '',
         published_year: '',
         isbn: '',
         description: '',
@@ -3742,6 +3739,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
       if (file) {
         this.book.audio_link = file;
+        this.digital_name = file.name;
       }
 
       return;
@@ -3787,8 +3785,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         language.id == bookLanguage.id ? language.disabled = false : '';
       });
     },
-    matchAuthors: function matchAuthors(authors) {
-      this.book.authors = authors;
+    matchAuthors: function matchAuthors(authorId) {
+      this.book.author_id = authorId;
     },
     validateData: function validateData() {
       this.errors = [];
@@ -3807,16 +3805,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         return;
       }
 
-      if (this.book.categories.length == 0) {
+      if (!this.book.isbn) {
         this.disabled = false;
-        this.errors.push('Please select a category');
+        this.errors.push('ISBN is required');
         window.scrollTo(0, 0);
         return;
       }
 
-      if (this.book.authors.length == 0) {
+      if (this.book.categories.length == 0) {
         this.disabled = false;
-        this.errors.push('Please select an author');
+        this.errors.push('Please select a category');
         window.scrollTo(0, 0);
         return;
       }
@@ -3828,16 +3826,23 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         return;
       }
 
-      if (!this.book.isbn) {
+      if (!this.book.description) {
         this.disabled = false;
-        this.errors.push('ISBN is required');
+        this.errors.push('La description est requise');
         window.scrollTo(0, 0);
         return;
       }
 
-      if (!this.book.description) {
+      if (!this.book.audio_link) {
         this.disabled = false;
-        this.errors.push('La description est requise');
+        this.errors.push('Please import an audio file');
+        window.scrollTo(0, 0);
+        return;
+      }
+
+      if (!this.book.author_id) {
+        this.disabled = false;
+        this.errors.push('Please select an author');
         window.scrollTo(0, 0);
         return;
       }
@@ -3848,13 +3853,21 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _this2 = this;
 
       this.disabled = true;
-      var validate = this.validateData();
+      var validate = true;
 
       if (validate) {
         this.$Progress.start();
-        axios.post('/api/book/save', {
-          book: this.book
-        }).then(function (response) {
+        var body = new FormData();
+        var categoriesIds = [];
+        body.append('photo', this.book.photo);
+        body.append('audio_link', this.book.audio_link);
+        body.append('categories', JSON.stringify(this.book.categories));
+        body.append('title', this.book.title);
+        body.append('active', this.book.active);
+        body.append('description', this.book.description);
+        body.append('isbn', this.book.isbn);
+        body.append('published_year', this.book.published_year);
+        axios.post('/api/book/save', body).then(function (response) {
           _this2.$Progress.finish();
 
           if (response.data.status == 200) {
@@ -8149,7 +8162,7 @@ Vue.use(_trevoreyre_autocomplete_vue__WEBPACK_IMPORTED_MODULE_0__["default"]);
     return {
       searchedAuthors: [],
       formattedAuthors: [],
-      selectedAuthors: [],
+      selectedAuthor: '',
       activeClass: 'active-class',
       errorClass: 'not-active-class'
     };
@@ -8196,31 +8209,19 @@ Vue.use(_trevoreyre_autocomplete_vue__WEBPACK_IMPORTED_MODULE_0__["default"]);
       }
     },
     selectAuthor: function selectAuthor(id) {
-      var isSelected = false;
       this.searchedAuthors.forEach(function (author) {
         if (author.id == id) {
           author.selected = !author.selected;
-          isSelected = !author.selected;
+        } else {
+          author.selected = false;
         }
       });
-
-      if (!isSelected) {
-        toast.fire({
-          type: 'success',
-          title: 'Author selected'
-        });
-        this.selectedAuthors.push(id);
-        this.$emit('matchAuthors', this.selectedAuthors);
-      } else {
-        toast.fire({
-          type: 'success',
-          title: 'Author removed'
-        });
-        this.selectedAuthors = this.selectedAuthors.filter(function (selectedId) {
-          return selectedId != id;
-        });
-        this.$emit('matchAuthors', this.selectedAuthors);
-      }
+      toast.fire({
+        type: 'success',
+        title: 'Author selected'
+      });
+      this.selectedAuthor = id;
+      this.$emit('matchAuthors', id);
     }
   }
 });
@@ -108583,14 +108584,15 @@ var render = function() {
                   staticStyle: { border: "1px solid #ced4da" }
                 },
                 [
-                  _vm.book.audio_link &&
-                  this.digital_name != "Importer un fichier"
+                  _vm.book.audio_link
                     ? _c("div", { staticClass: "row" }, [
                         _c("div", { staticClass: "p-4 mx-auto" }, [
                           _c("audio", { attrs: { controls: "" } }, [
                             _c("source", {
                               attrs: {
-                                src: _vm.book.audio_link,
+                                src: _vm.$root.previewBinaryFile(
+                                  _vm.book.audio_link
+                                ),
                                 type: "audio/mpeg"
                               }
                             }),
@@ -126774,6 +126776,9 @@ var app = new Vue({
     },
     uploadBinary: function uploadBinary(event) {
       return event.target.files[0];
+    },
+    previewBinaryFile: function previewBinaryFile(file) {
+      return URL.createObjectURL(file);
     },
     destroyDataTable: function destroyDataTable() {
       $('.table').DataTable().destroy();

@@ -90,7 +90,7 @@
             return {
                 searchedAuthors: [],
                 formattedAuthors: [],
-                selectedAuthors: [],
+                selectedAuthor: '',
                 activeClass: 'active-class',
                 errorClass: 'not-active-class'
             }
@@ -147,34 +147,25 @@
 
             },
             selectAuthor(id) {
-                let isSelected = false;
+          
                 this.searchedAuthors.forEach(author => {
                     if (author.id == id) {
                         author.selected = !author.selected
-                        isSelected = !author.selected
+                     
+                    }
+                    else{
+                          author.selected = false
                     }
                 })
-                if (!isSelected) {
+              
                     toast.fire({
                         type: 'success',
                         title: 'Author selected'
                     })
-                    this.selectedAuthors.push(id)
-                    this.$emit('matchAuthors', this.selectedAuthors)
+                    this.selectedAuthor= id
+                    this.$emit('matchAuthors', id)
 
-                } else {
-                    toast.fire({
-                        type: 'success',
-                        title: 'Author removed'
-                    })
-                    this.selectedAuthors = this.selectedAuthors.filter(selectedId => {
-                        return selectedId != id;
-                    })
-
-                    this.$emit('matchAuthors', this.selectedAuthors)
-
-
-                }
+              
 
             }
         }

@@ -31,8 +31,8 @@
 
                     </div>
 
-                
-                     <div class="row mt-3">
+
+                    <div class="row mt-3">
                         <div class="col-md-12">
                             <label for="exampleInputEmail1">ISBN</label>
                             <input type="text" class="form-control" placeholder="Book's isbn.." v-model="book.isbn">
@@ -112,13 +112,13 @@
                         </div>
                         <div class="rounded-top" style="border: 1px solid #ced4da;">
 
-                            <div class="row" v-if="book.audio_link && this.digital_name!='Importer un fichier'">
+                            <div class="row" v-if="book.audio_link">
 
                                 <div class="p-4 mx-auto">
 
                                     <audio controls>
 
-                                        <source :src="book.audio_link" type="audio/mpeg">
+                                        <source :src="$root.previewBinaryFile(book.audio_link)" type="audio/mpeg">
                                         Your browser does not support the audio element.
                                     </audio>
                                 </div>
@@ -174,18 +174,17 @@
         props: ['categories', 'authors'],
         data() {
             return {
-                digital_name: 'Importer un fichier',
-                availablePaper: false,
-                availableDigital: false,
+                digital_name: 'Upload an audio  file',
+
                 disabled: false,
-                freeDigital: false,
+
                 errors: [],
                 book: {
                     active: 1,
                     title: '',
                     categories: [],
 
-                    authors: [],
+                    author_id: '',
                     published_year: '',
 
                     isbn: '',
@@ -260,6 +259,7 @@
                 if (file) {
 
                     this.book.audio_link = file
+                    this.digital_name = file.name
 
 
                 }
@@ -332,8 +332,8 @@
                     language.id == bookLanguage.id ? language.disabled = false : ''
                 })
             },
-            matchAuthors(authors) {
-                this.book.authors = authors
+            matchAuthors(authorId) {
+                this.book.author_id = authorId
 
             },
 
@@ -353,28 +353,20 @@
                     window.scrollTo(0, 0);
                     return;
                 }
+
+
+                if (!this.book.isbn) {
+                    this.disabled = false;
+                    this.errors.push('ISBN is required');
+                    window.scrollTo(0, 0);
+                    return;
+                }
                 if (this.book.categories.length == 0) {
                     this.disabled = false;
                     this.errors.push('Please select a category');
                     window.scrollTo(0, 0);
                     return;
                 }
-
-
-
-
-
-                if (this.book.authors.length == 0) {
-                    this.disabled = false;
-                    this.errors.push('Please select an author');
-                    window.scrollTo(0, 0);
-                    return;
-                }
-
-
-
-
-
 
                 if (!this.book.published_year) {
                     this.disabled = false;
@@ -385,13 +377,6 @@
 
 
 
-
-                if (!this.book.isbn) {
-                    this.disabled = false;
-                    this.errors.push('ISBN is required');
-                    window.scrollTo(0, 0);
-                    return;
-                }
 
                 if (!this.book.description) {
                     this.disabled = false;
@@ -404,6 +389,23 @@
 
 
 
+                if (!this.book.audio_link) {
+                    this.disabled = false;
+                    this.errors.push('Please import an audio file');
+                    window.scrollTo(0, 0);
+                    return;
+                }
+
+
+                if (!this.book.author_id) {
+                    this.disabled = false;
+                    this.errors.push('Please select an author');
+                    window.scrollTo(0, 0);
+                    return;
+                }
+
+
+
                 return true;
 
 
@@ -411,12 +413,26 @@
             },
             submitAddBook() {
                 this.disabled = true;
-                let validate = this.validateData()
+                let validate = true
                 if (validate) {
                     this.$Progress.start()
-                    axios.post('/api/book/save', {
-                            book: this.book
-                        })
+                  let body =new FormData()
+                  let categoriesIds = [];
+               
+                    body.append('photo', this.book.photo)
+                    body.append('audio_link', this.book.audio_link)
+                    body.append('categories', JSON.stringify(this.book.categories))
+                    body.append('title', this.book.title)
+                    body.append('active', this.book.active)
+                    body.append('description', this.book.description)
+                    body.append('isbn', this.book.isbn)
+                    body.append('published_year', this.book.published_year)
+
+                   
+
+
+
+                    axios.post('/api/book/save',body)
                         .then((response) => {
                             this.$Progress.finish()
                             if (response.data.status == 200) {
@@ -455,7 +471,8 @@
 
 
 
-            }
+            },
+           
 
 
         }

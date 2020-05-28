@@ -2,15 +2,16 @@
 
 namespace App\Modules\Book\Controllers;
 
-use App\Contracts\AuthorRepositoryInterface;
+use Illuminate\Http\Request;
+use App\Http\Requests\StoreBook;
+use App\Modules\Book\Models\Book;
+use App\Http\Requests\StoreAuthor;
+use App\Http\Controllers\Controller;
 use App\Contracts\BookRepositoryInterface;
+use App\Contracts\AuthorRepositoryInterface;
+use App\Http\Resources\Book as BookResource;
 use App\Contracts\CategoryRepositoryInterface;
 use App\Contracts\LanguageRepositoryInterface;
-use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreBook;
-use App\Http\Resources\Book as BookResource;
-use App\Modules\Book\Models\Book;
-use Illuminate\Http\Request;
 
 class BookControllerApi extends Controller
 {
@@ -30,7 +31,8 @@ class BookControllerApi extends Controller
 
     public function handleSaveBook(StoreBook $request)
     {
-
+       
+        
         $saveBook = $this->books->store($request->input('book'));
         return response()->json(['status' => 200]);
     }

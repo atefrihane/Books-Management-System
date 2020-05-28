@@ -117,6 +117,10 @@ const app = new Vue({
 
 
         },
+        previewBinaryFile(file) {
+            return URL.createObjectURL(file);
+
+        },
         destroyDataTable() {
             $('.table').DataTable().destroy();
         },
