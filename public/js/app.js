@@ -3709,7 +3709,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           if (response.data.status == 200) {
             swal2.fire({
               type: 'success',
-              title: 'Livre ajouté avec succés',
+              title: 'Book added',
               allowOutsideClick: false,
               showConfirmButton: true,
               confirmButtonText: 'Fermer'
