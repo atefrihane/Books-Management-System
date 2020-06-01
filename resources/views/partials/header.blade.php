@@ -103,7 +103,14 @@
                     </a>
                 </li>
                 <li class="nav-header"></li>
+                <li class="nav-item">
+                    <a href="{{route('showUsers')}}" class="nav-link {{ Route::is('showUsers') ? 'active' : '' }}">
+                        <i class="fas fa-user"></i> &nbsp;
+                        <p>Users</p>
+                    </a>
 
+
+                </li>
                 <li class="nav-item">
                     <a href="{{route('showBooks')}}" class="nav-link {{ Route::is('showBooks') ? 'active' : '' }}">
                         <i class="fas fa-book"></i> &nbsp;

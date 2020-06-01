@@ -19,6 +19,7 @@ class CreateBookCategories extends Migration
             $table->foreign('book_id')->references('id')->on('books')->onDelete('cascade');
             $table->bigInteger('category_id')->unsigned();
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
+            $table->primary(['book_id', 'category_id']);
             $table->timestamps();
         });
     }

@@ -27,7 +27,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <label for="exampleInputEmail1">Title</label>
-                            <input type="text" class="form-control" placeholder="Book's title.." v-model="book.title">
+                            <input type="text" class="form-control" placeholder="Title.." v-model="book.title">
                         </div>
 
                     </div>
@@ -35,13 +35,37 @@
 
                     <div class="row mt-3">
                         <div class="col-md-12">
-                            <label for="exampleInputEmail1">ISBN</label>
-                            <input type="text" class="form-control" placeholder="Book's isbn.." v-model="book.isbn">
+                            <label for="exampleInputEmail1">Subject</label>
+                            <input type="text" class="form-control" placeholder="Subject.." v-model="book.subject">
                         </div>
 
                     </div>
 
+                    <div class="row mt-3">
+                        <div class="col-md-12">
+                            <label for="exampleInputEmail1">Why to read</label>
+                            <input type="text" class="form-control" placeholder="Why to read..."
+                                v-model="book.why_to_read">
 
+
+
+                        </div>
+
+
+                    </div>
+
+
+                    <div class="row mt-3">
+                        <div class="col-md-12">
+                            <label for="exampleInputEmail1">Quotes</label>
+                            <input type="text" class="form-control" placeholder="Quotes.." v-model="book.quotes">
+
+
+
+                        </div>
+
+
+                    </div>
                     <div class="row mt-3">
                         <div class="col-md-12">
                             <label for="exampleInputEmail1" style="display: block;">Categories</label>
@@ -73,31 +97,53 @@
 
 
 
-                    <div class="row">
-                        <div class="col-md-12">
-                            <label for="exampleInputEmail1" class="mt-2 mb-2">Published year</label>
-                            <input type="number" class="form-control" placeholder="Published year.."
-                                v-model="book.published_year">
-                        </div>
 
+
+
+
+
+                    <div class="container mt-4">
+                        <div class="form-group mt-2 mb-2">
+                            <div class="d-flex flex-row bd-highlight">
+                                <div class="p-2 bd-highlight">
+                                    <h3 class="font-weight-normal">Import pdf file</h3>
+                                </div>
+
+
+
+
+
+                            </div>
+                        </div>
+                        <div class="rounded-top" style="border: 1px solid #ced4da;">
+
+                            <div class="row" v-if="book.pdf_link">
+
+                                <div class="p-4 mx-auto">
+
+                                    <embed :src="$root.previewBinaryFile(this.book.pdf_link)" width="500" height="375"
+                                        type="application/pdf">
+                                </div>
+
+                            </div>
+                            <div class="p-4">
+                                <div class="input-group mt-2">
+                                    <div class="custom-file">
+                                        <input type="file" class="custom-file-input" id="inputGroupFile02"
+                                            @change="uploadBinary($event,1)">
+                                        <label class="custom-file-label" for="inputGroupFile02">{{pdf_name}}</label>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
 
                     </div>
 
 
 
 
-
-
-
-
-                    <div class="row mt-3">
-                        <div class="col-md-12">
-                            <label for="exampleInputEmail1">Description</label>
-                            <textarea class="form-control" rows="3" placeholder="Déscription.."
-                                v-model="book.description"></textarea>
-                        </div>
-
-                    </div>
                     <div class="container mt-4">
                         <div class="form-group mt-2 mb-2">
                             <div class="d-flex flex-row bd-highlight">
@@ -113,12 +159,12 @@
                         </div>
                         <div class="rounded-top" style="border: 1px solid #ced4da;">
 
-                            <div class="row" v-if="this.book.audio_link">
+                            <div class="row" v-if="book.audio_link">
 
-                                <div class=" p-4 mx-auto">
+                                <div class="p-4 mx-auto">
+
                                     <audio width="450" controls
-                                        :src="$root.previewBinaryFile(this.book.audio_link)"></audio>
-
+                                        :src="$root.previewBinaryFile(this.book.audio_link,2)"></audio>
                                 </div>
 
                             </div>
@@ -126,9 +172,8 @@
                                 <div class="input-group mt-2">
                                     <div class="custom-file">
                                         <input type="file" class="custom-file-input" id="inputGroupFile02"
-                                            @change="uploadBinary($event)">
-                                        <label class="custom-file-label"
-                                            for="inputGroupFile02">{{this.digital_name}}</label>
+                                            @change="uploadBinary($event,2)">
+                                        <label class="custom-file-label" for="inputGroupFile02">{{digital_name}}</label>
                                     </div>
                                 </div>
 
@@ -171,36 +216,34 @@
             this.formatCategories()
             this.formatAuthors()
 
-
         },
         props: ['categories', 'authors', 'book_details'],
         data() {
             return {
                 digital_name: 'Upload an audio file',
-
+                pdf_name: 'Upload a pdf file',
                 disabled: false,
+                searchedAuthors: [],
 
                 errors: [],
                 book: {
-                    id: '',
                     active: 1,
                     title: '',
                     categories: [],
 
                     author_id: '',
-                    published_year: '',
+                    subject: '',
 
-                    isbn: '',
+                    why_to_read: '',
                     description: '',
 
 
                     photo: '',
                     audio_link: '',
+                    pdf_link: '',
 
+                }
 
-                },
-                searchedAuthors: [],
-                video: "https://www.w3schools.com/tags/movie.mp4"
 
             }
         },
@@ -213,13 +256,15 @@
                 this.book.id = this.book_details.id
                 this.book.active = this.book_details.active
                 this.book.title = this.book_details.title
-                this.book.categories = this.book_details.categories
-                this.book.published_year = this.book_details.published_year
-                this.book.isbn = this.book_details.isbn
-                this.book.description = this.book_details.description
+                this.book.subject = this.book_details.subject
+                this.book.why_to_read = this.book_details.why_to_read
+                this.book.quotes = this.book_details.quotes
                 this.book.photo = this.book_details.photo
                 this.book.author_id = this.book_details.author_id
                 this.book.audio_link = this.book_details.audio_link
+                this.book.pdf_link = this.book_details.pdf_link
+                this.book.categories = this.book_details.categories
+
             },
             formatAuthors() {
                 if (this.authors && this.authors.length > 0) {
@@ -287,15 +332,21 @@
 
             },
 
-            uploadBinary(event) {
+            uploadBinary(event, type) {
 
 
-                let file = this.$root.uploadBinary(event);
+                let file = this.$root.uploadBinary(event, type);
                 if (file) {
+                    if (type == 1) {
+                        this.book.pdf_link = file
+                        this.pdf_name = file.name
+                        return;
 
-                    this.book.audio_link = file
-                    this.digital_name = file.name
-                    return;
+                    } else {
+                        this.book.audio_link = file
+                        this.digital_name = file.name
+                        return;
+                    }
 
                 }
 
@@ -325,6 +376,7 @@
 
 
             },
+
             selectCategory(event) {
                 let id = event.target.value;
                 if (id) {
@@ -387,7 +439,7 @@
 
             validateData() {
                 this.errors = []
-                if (this.book.photo == '/img/placeholder.jpg') {
+                if (!this.book.photo) {
                     this.disabled = false;
                     this.errors.push('Photo is required');
                     window.scrollTo(0, 0);
@@ -401,9 +453,26 @@
                 }
 
 
-                if (!this.book.isbn) {
+                if (!this.book.subject) {
                     this.disabled = false;
-                    this.errors.push('ISBN is required');
+                    this.errors.push('subject is required');
+                    window.scrollTo(0, 0);
+                    return;
+                }
+
+
+                if (!this.book.why_to_read) {
+                    this.disabled = false;
+                    this.errors.push('Why to read  is required');
+                    window.scrollTo(0, 0);
+                    return;
+                }
+
+
+
+                if (!this.book.quotes) {
+                    this.disabled = false;
+                    this.errors.push('Quotes  is required');
                     window.scrollTo(0, 0);
                     return;
                 }
@@ -414,33 +483,6 @@
                     return;
                 }
 
-                if (!this.book.published_year) {
-                    this.disabled = false;
-                    this.errors.push('Published year is required');
-                    window.scrollTo(0, 0);
-                    return;
-                }
-
-
-
-
-                if (!this.book.description) {
-                    this.disabled = false;
-                    this.errors.push('La description est requise');
-                    window.scrollTo(0, 0);
-                    return;
-                }
-
-
-
-
-
-                if (!this.book.audio_link) {
-                    this.disabled = false;
-                    this.errors.push('Please import an audio file');
-                    window.scrollTo(0, 0);
-                    return;
-                }
 
 
                 if (!this.book.author_id) {
@@ -468,15 +510,17 @@
                     body.append('photo', this.book.photo)
                     if (typeof this.book.audio_link === 'object') {
                         body.append('audio_link', this.book.audio_link)
-                        //audio file has to be a type of file
+                    }
+                    if (typeof this.book.pdf_link === 'object') {
+                        body.append('pdf_link', this.book.pdf_link)
                     }
 
                     body.append('categories', JSON.stringify(this.book.categories))
                     body.append('title', this.book.title)
                     body.append('active', this.book.active)
-                    body.append('description', this.book.description)
-                    body.append('isbn', this.book.isbn)
-                    body.append('published_year', this.book.published_year)
+                    body.append('why_to_read', this.book.why_to_read)
+                    body.append('subject', this.book.subject)
+                    body.append('quotes', this.book.quotes)
                     body.append('author_id', this.book.author_id)
 
 

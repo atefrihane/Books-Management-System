@@ -52,6 +52,7 @@ class BookController extends Controller
         $checkBook = $this->books->fetchById($id);
 
         if ($checkBook) {
+        
             return view('Book::showBook', ['book' => $checkBook]);
         }
         return view('General::showNotFound');

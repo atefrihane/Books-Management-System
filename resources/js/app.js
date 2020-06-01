@@ -109,12 +109,23 @@ const app = new Vue({
 
 
         },
-        uploadBinary(event) {
+        uploadBinary(event, type) {
+            switch (type) {
+                case 1:
+                    if (event.target.files[0]['type'] != 'application/pdf') {
+                        return false;
+                    }
+                    return event.target.files[0]
+                    break;
+                case 2:
+                    if (event.target.files[0]['type'] != 'audio/mpeg') {
+                        return false;
+                    }
+                    return event.target.files[0]
+                    break;
 
-            if (event.target.files[0]['type'] != 'audio/mpeg') {
-                return false;
             }
-            return event.target.files[0]
+
 
 
 

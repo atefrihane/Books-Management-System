@@ -30,32 +30,27 @@ class BookRepository implements BookRepositoryInterface
     }
     public function store($book)
     {
-   
-        $bookPhoto = $this->image->uploadImage($book['photo'], 'books');
 
-        isset($book['audio_link']) ? $audioBook = $this->image->uploadAudio($book['audio_link'],'/img/books/audio/') : $audioBook = null;
-     
-        $bookCategories  = json_decode($book['categories']);
+        $bookPhoto = $this->image->uploadImage($book['photo'], 'books');
+        isset($book['pdf_link']) ? $pdfBook = $this->image->uploadAudio($book['pdf_link'], '/img/books/pdf') : $pdfBook = null;
+
+        isset($book['audio_link']) ? $audioBook = $this->image->uploadAudio($book['audio_link'], '/img/books/audio') : $audioBook = null;
+
+        $bookCategories = json_decode($book['categories']);
         $newBook = Book::create([
             'photo' => $bookPhoto,
             'active' => $book['active'],
             'title' => $book['title'],
-            'slug' => str_slug($book['title'] . ' ' . time(), '-'),
-            'published_year' => $book['published_year'],
-            'isbn' => $book['isbn'],
-            'description' => $book['description'],
+            'subject' => $book['subject'],
+            'why_to_read' => $book['why_to_read'],
+            'quotes' => $book['quotes'],
             'audio_link' => $audioBook,
-            'author_id' => $book['author_id']
+            'pdf_link' => $pdfBook,
+            'author_id' => $book['author_id'],
 
         ]);
 
         $newBook->categories()->attach(array_column($bookCategories, 'id'));
-
-
-
-    
-
-     
 
         return true;
 
@@ -74,36 +69,40 @@ class BookRepository implements BookRepositoryInterface
         if ($checkBook) {
             $bookPhoto = $checkBook->photo;
             $bookAudio = $checkBook->audio_link;
-
+            $bookPdf = $checkBook->pdf_link;
             if ($checkBook->photo != $book['photo']) {
                 $this->image->deleteFile($checkBook->photo);
                 $bookPhoto = $this->image->uploadImage($book['photo'], 'books');
 
             }
-           
-            if(isset($book['audio_link']))
-            {
-                $this->image->deleteFile($checkBook->audio_link); 
-                $bookAudio= $this->image->uploadAudio($book['audio_link'],'/img/books/audio/');
+
+            if (isset($book['audio_link'])) {
+                $this->image->deleteFile($checkBook->audio_link);
+                $bookAudio = $this->image->uploadAudio($book['audio_link'], '/img/books/audio/');
             }
-            $bookCategories  = json_decode($book['categories']);
+
+            if (isset($book['pdf_link'])) {
+                $this->image->deleteFile($checkBook->pdf_link);
+                $bookPdf = $this->image->uploadAudio($book['pdf_link'], '/img/books/pdf/');
+            }
+            $bookCategories = json_decode($book['categories']);
+
             $checkBook->update([
                 'photo' => $bookPhoto,
                 'active' => $book['active'],
                 'title' => $book['title'],
-                'slug' => str_slug($book['title'] . ' ' . time(), '-'),
-                'published_year' => $book['published_year'],
-                'isbn' => $book['isbn'],
-                'description' => $book['description'],
+                'subject' => $book['subject'],
+                'why_to_read' => $book['why_to_read'],
+                'quotes' => $book['quotes'],
                 'audio_link' => $bookAudio,
-                'author_id' => $book['author_id']
+                'pdf_link' => $bookPdf,
+                'author_id' => $book['author_id'],
     
             ]);
-          
+       
 
             $checkBook->categories()->sync(array_column($bookCategories, 'id'));
 
-      
             return true;
 
         }
@@ -114,7 +113,7 @@ class BookRepository implements BookRepositoryInterface
     {
         $checkBook = $this->fetchById($id);
         if ($checkBook) {
-        
+
             $checkBook->delete();
             return true;
         }

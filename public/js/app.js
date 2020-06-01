@@ -3488,6 +3488,50 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -3498,6 +3542,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   data: function data() {
     return {
       digital_name: 'Upload an audio file',
+      pdf_name: 'Upload a pdf file',
       disabled: false,
       errors: [],
       book: {
@@ -3505,11 +3550,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         title: '',
         categories: [],
         author_id: '',
-        published_year: '',
-        isbn: '',
+        subject: '',
+        why_to_read: '',
         description: '',
         photo: '',
-        audio_link: ''
+        audio_link: '',
+        pdf_link: ''
       }
     };
   },
@@ -3570,13 +3616,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee);
       }))();
     },
-    uploadBinary: function uploadBinary(event) {
-      var file = this.$root.uploadBinary(event);
+    uploadBinary: function uploadBinary(event, type) {
+      var file = this.$root.uploadBinary(event, type);
 
       if (file) {
-        this.book.audio_link = file;
-        this.digital_name = file.name;
-        return;
+        if (type == 1) {
+          this.book.pdf_link = file;
+          this.pdf_name = file.name;
+          return;
+        } else {
+          this.book.audio_link = file;
+          this.digital_name = file.name;
+          return;
+        }
       }
 
       swal2.fire({
@@ -3634,7 +3686,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     validateData: function validateData() {
       this.errors = [];
 
-      if (this.book.photo == '/img/placeholder.jpg') {
+      if (!this.book.photo) {
         this.disabled = false;
         this.errors.push('Photo is required');
         window.scrollTo(0, 0);
@@ -3648,9 +3700,23 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         return;
       }
 
-      if (!this.book.isbn) {
+      if (!this.book.subject) {
         this.disabled = false;
-        this.errors.push('ISBN is required');
+        this.errors.push('subject is required');
+        window.scrollTo(0, 0);
+        return;
+      }
+
+      if (!this.book.why_to_read) {
+        this.disabled = false;
+        this.errors.push('Why to read  is required');
+        window.scrollTo(0, 0);
+        return;
+      }
+
+      if (!this.book.quotes) {
+        this.disabled = false;
+        this.errors.push('Quotes  is required');
         window.scrollTo(0, 0);
         return;
       }
@@ -3658,20 +3724,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       if (this.book.categories.length == 0) {
         this.disabled = false;
         this.errors.push('Please select a category');
-        window.scrollTo(0, 0);
-        return;
-      }
-
-      if (!this.book.published_year) {
-        this.disabled = false;
-        this.errors.push('Published year is required');
-        window.scrollTo(0, 0);
-        return;
-      }
-
-      if (!this.book.description) {
-        this.disabled = false;
-        this.errors.push('La description est requise');
         window.scrollTo(0, 0);
         return;
       }
@@ -3696,12 +3748,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         var body = new FormData();
         body.append('photo', this.book.photo);
         body.append('audio_link', this.book.audio_link);
+        body.append('pdf_link', this.book.pdf_link);
         body.append('categories', JSON.stringify(this.book.categories));
         body.append('title', this.book.title);
         body.append('active', this.book.active);
-        body.append('description', this.book.description);
-        body.append('isbn', this.book.isbn);
-        body.append('published_year', this.book.published_year);
+        body.append('why_to_read', this.book.why_to_read);
+        body.append('subject', this.book.subject);
+        body.append('quotes', this.book.quotes);
         body.append('author_id', this.book.author_id);
         axios.post('/api/book/save', body).then(function (response) {
           _this2.$Progress.finish();
@@ -6401,6 +6454,51 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -6412,22 +6510,22 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   data: function data() {
     return {
       digital_name: 'Upload an audio file',
+      pdf_name: 'Upload a pdf file',
       disabled: false,
+      searchedAuthors: [],
       errors: [],
       book: {
-        id: '',
         active: 1,
         title: '',
         categories: [],
         author_id: '',
-        published_year: '',
-        isbn: '',
+        subject: '',
+        why_to_read: '',
         description: '',
         photo: '',
-        audio_link: ''
-      },
-      searchedAuthors: [],
-      video: "https://www.w3schools.com/tags/movie.mp4"
+        audio_link: '',
+        pdf_link: ''
+      }
     };
   },
   methods: {
@@ -6439,13 +6537,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.book.id = this.book_details.id;
       this.book.active = this.book_details.active;
       this.book.title = this.book_details.title;
-      this.book.categories = this.book_details.categories;
-      this.book.published_year = this.book_details.published_year;
-      this.book.isbn = this.book_details.isbn;
-      this.book.description = this.book_details.description;
+      this.book.subject = this.book_details.subject;
+      this.book.why_to_read = this.book_details.why_to_read;
+      this.book.quotes = this.book_details.quotes;
       this.book.photo = this.book_details.photo;
       this.book.author_id = this.book_details.author_id;
       this.book.audio_link = this.book_details.audio_link;
+      this.book.pdf_link = this.book_details.pdf_link;
+      this.book.categories = this.book_details.categories;
     },
     formatAuthors: function formatAuthors() {
       var _this = this;
@@ -6513,13 +6612,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee);
       }))();
     },
-    uploadBinary: function uploadBinary(event) {
-      var file = this.$root.uploadBinary(event);
+    uploadBinary: function uploadBinary(event, type) {
+      var file = this.$root.uploadBinary(event, type);
 
       if (file) {
-        this.book.audio_link = file;
-        this.digital_name = file.name;
-        return;
+        if (type == 1) {
+          this.book.pdf_link = file;
+          this.pdf_name = file.name;
+          return;
+        } else {
+          this.book.audio_link = file;
+          this.digital_name = file.name;
+          return;
+        }
       }
 
       swal2.fire({
@@ -6577,7 +6682,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     validateData: function validateData() {
       this.errors = [];
 
-      if (this.book.photo == '/img/placeholder.jpg') {
+      if (!this.book.photo) {
         this.disabled = false;
         this.errors.push('Photo is required');
         window.scrollTo(0, 0);
@@ -6591,9 +6696,23 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         return;
       }
 
-      if (!this.book.isbn) {
+      if (!this.book.subject) {
         this.disabled = false;
-        this.errors.push('ISBN is required');
+        this.errors.push('subject is required');
+        window.scrollTo(0, 0);
+        return;
+      }
+
+      if (!this.book.why_to_read) {
+        this.disabled = false;
+        this.errors.push('Why to read  is required');
+        window.scrollTo(0, 0);
+        return;
+      }
+
+      if (!this.book.quotes) {
+        this.disabled = false;
+        this.errors.push('Quotes  is required');
         window.scrollTo(0, 0);
         return;
       }
@@ -6601,27 +6720,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       if (this.book.categories.length == 0) {
         this.disabled = false;
         this.errors.push('Please select a category');
-        window.scrollTo(0, 0);
-        return;
-      }
-
-      if (!this.book.published_year) {
-        this.disabled = false;
-        this.errors.push('Published year is required');
-        window.scrollTo(0, 0);
-        return;
-      }
-
-      if (!this.book.description) {
-        this.disabled = false;
-        this.errors.push('La description est requise');
-        window.scrollTo(0, 0);
-        return;
-      }
-
-      if (!this.book.audio_link) {
-        this.disabled = false;
-        this.errors.push('Please import an audio file');
         window.scrollTo(0, 0);
         return;
       }
@@ -6648,15 +6746,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         body.append('photo', this.book.photo);
 
         if (_typeof(this.book.audio_link) === 'object') {
-          body.append('audio_link', this.book.audio_link); //audio file has to be a type of file
+          body.append('audio_link', this.book.audio_link);
+        }
+
+        if (_typeof(this.book.pdf_link) === 'object') {
+          body.append('pdf_link', this.book.pdf_link);
         }
 
         body.append('categories', JSON.stringify(this.book.categories));
         body.append('title', this.book.title);
         body.append('active', this.book.active);
-        body.append('description', this.book.description);
-        body.append('isbn', this.book.isbn);
-        body.append('published_year', this.book.published_year);
+        body.append('why_to_read', this.book.why_to_read);
+        body.append('subject', this.book.subject);
+        body.append('quotes', this.book.quotes);
         body.append('author_id', this.book.author_id);
         axios.post("/api/book/".concat(this.book.id, "/update"), body).then(function (response) {
           _this3.$Progress.finish();
@@ -107449,7 +107551,7 @@ var render = function() {
                     }
                   ],
                   staticClass: "form-control",
-                  attrs: { type: "text", placeholder: "Book's title.." },
+                  attrs: { type: "text", placeholder: "Title.." },
                   domProps: { value: _vm.book.title },
                   on: {
                     input: function($event) {
@@ -107466,7 +107568,7 @@ var render = function() {
             _c("div", { staticClass: "row mt-3" }, [
               _c("div", { staticClass: "col-md-12" }, [
                 _c("label", { attrs: { for: "exampleInputEmail1" } }, [
-                  _vm._v("ISBN")
+                  _vm._v("Subject")
                 ]),
                 _vm._v(" "),
                 _c("input", {
@@ -107474,19 +107576,79 @@ var render = function() {
                     {
                       name: "model",
                       rawName: "v-model",
-                      value: _vm.book.isbn,
-                      expression: "book.isbn"
+                      value: _vm.book.subject,
+                      expression: "book.subject"
                     }
                   ],
                   staticClass: "form-control",
-                  attrs: { type: "text", placeholder: "Book's isbn.." },
-                  domProps: { value: _vm.book.isbn },
+                  attrs: { type: "text", placeholder: "Subject.." },
+                  domProps: { value: _vm.book.subject },
                   on: {
                     input: function($event) {
                       if ($event.target.composing) {
                         return
                       }
-                      _vm.$set(_vm.book, "isbn", $event.target.value)
+                      _vm.$set(_vm.book, "subject", $event.target.value)
+                    }
+                  }
+                })
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "row mt-3" }, [
+              _c("div", { staticClass: "col-md-12" }, [
+                _c("label", { attrs: { for: "exampleInputEmail1" } }, [
+                  _vm._v("Why to read")
+                ]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.book.why_to_read,
+                      expression: "book.why_to_read"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: { type: "text", placeholder: "Why to read..." },
+                  domProps: { value: _vm.book.why_to_read },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.book, "why_to_read", $event.target.value)
+                    }
+                  }
+                })
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "row mt-3" }, [
+              _c("div", { staticClass: "col-md-12" }, [
+                _c("label", { attrs: { for: "exampleInputEmail1" } }, [
+                  _vm._v("Quotes")
+                ]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.book.quotes,
+                      expression: "book.quotes"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: { type: "text", placeholder: "Quotes.." },
+                  domProps: { value: _vm.book.quotes },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.book, "quotes", $event.target.value)
                     }
                   }
                 })
@@ -107598,71 +107760,6 @@ var render = function() {
               )
             ]),
             _vm._v(" "),
-            _c("div", { staticClass: "row" }, [
-              _c("div", { staticClass: "col-md-12" }, [
-                _c(
-                  "label",
-                  {
-                    staticClass: "mt-2 mb-2",
-                    attrs: { for: "exampleInputEmail1" }
-                  },
-                  [_vm._v("Published year")]
-                ),
-                _vm._v(" "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.book.published_year,
-                      expression: "book.published_year"
-                    }
-                  ],
-                  staticClass: "form-control",
-                  attrs: { type: "number", placeholder: "Published year.." },
-                  domProps: { value: _vm.book.published_year },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.$set(_vm.book, "published_year", $event.target.value)
-                    }
-                  }
-                })
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "row mt-3" }, [
-              _c("div", { staticClass: "col-md-12" }, [
-                _c("label", { attrs: { for: "exampleInputEmail1" } }, [
-                  _vm._v("Description")
-                ]),
-                _vm._v(" "),
-                _c("textarea", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.book.description,
-                      expression: "book.description"
-                    }
-                  ],
-                  staticClass: "form-control",
-                  attrs: { rows: "3", placeholder: "Déscription.." },
-                  domProps: { value: _vm.book.description },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.$set(_vm.book, "description", $event.target.value)
-                    }
-                  }
-                })
-              ])
-            ]),
-            _vm._v(" "),
             _c("div", { staticClass: "container mt-4" }, [
               _vm._m(0),
               _vm._v(" "),
@@ -107673,22 +107770,20 @@ var render = function() {
                   staticStyle: { border: "1px solid #ced4da" }
                 },
                 [
-                  _vm.book.audio_link
+                  _vm.book.pdf_link
                     ? _c("div", { staticClass: "row" }, [
                         _c("div", { staticClass: "p-4 mx-auto" }, [
-                          _c("audio", { attrs: { controls: "" } }, [
-                            _c("source", {
-                              attrs: {
-                                src: _vm.$root.previewBinaryFile(
-                                  _vm.book.audio_link
-                                ),
-                                type: "audio/mpeg"
-                              }
-                            }),
-                            _vm._v(
-                              "\n                                    Your browser does not support the audio element.\n                                "
-                            )
-                          ])
+                          _c("embed", {
+                            attrs: {
+                              src: _vm.$root.previewBinaryFile(
+                                this.book.pdf_link,
+                                1
+                              ),
+                              width: "500",
+                              height: "375",
+                              type: "application/pdf"
+                            }
+                          })
                         ])
                       ])
                     : _vm._e(),
@@ -107701,7 +107796,62 @@ var render = function() {
                           attrs: { type: "file", id: "inputGroupFile02" },
                           on: {
                             change: function($event) {
-                              return _vm.uploadBinary($event)
+                              return _vm.uploadBinary($event, 1)
+                            }
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c(
+                          "label",
+                          {
+                            staticClass: "custom-file-label",
+                            attrs: { for: "inputGroupFile02" }
+                          },
+                          [_vm._v(_vm._s(_vm.pdf_name))]
+                        )
+                      ])
+                    ])
+                  ])
+                ]
+              )
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "container mt-4" }, [
+              _vm._m(1),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  staticClass: "rounded-top",
+                  staticStyle: { border: "1px solid #ced4da" }
+                },
+                [
+                  _vm.book.audio_link
+                    ? _c("div", { staticClass: "row" }, [
+                        _c("div", { staticClass: "p-4 mx-auto" }, [
+                          _c("audio", {
+                            attrs: {
+                              width: "450",
+                              controls: "",
+                              src: _vm.$root.previewBinaryFile(
+                                this.book.audio_link,
+                                2
+                              )
+                            }
+                          })
+                        ])
+                      ])
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "p-4" }, [
+                    _c("div", { staticClass: "input-group mt-2" }, [
+                      _c("div", { staticClass: "custom-file" }, [
+                        _c("input", {
+                          staticClass: "custom-file-input",
+                          attrs: { type: "file", id: "inputGroupFile02" },
+                          on: {
+                            change: function($event) {
+                              return _vm.uploadBinary($event, 2)
                             }
                           }
                         }),
@@ -107768,6 +107918,20 @@ var render = function() {
   ])
 }
 var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "form-group mt-2 mb-2" }, [
+      _c("div", { staticClass: "d-flex flex-row bd-highlight" }, [
+        _c("div", { staticClass: "p-2 bd-highlight" }, [
+          _c("h3", { staticClass: "font-weight-normal" }, [
+            _vm._v("Import pdf file")
+          ])
+        ])
+      ])
+    ])
+  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -108494,8 +108658,6 @@ var render = function() {
                     _vm._v(" "),
                     _c("td", [_vm._v(_vm._s(book.categories.length))]),
                     _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(book.published_year))]),
-                    _vm._v(" "),
                     _c("td", [
                       _vm._v(_vm._s(book.active == 1 ? "Active" : "Inactive"))
                     ]),
@@ -108591,8 +108753,6 @@ var staticRenderFns = [
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Title")]),
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Categories")]),
-        _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Published year")]),
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Status")]),
         _vm._v(" "),
@@ -111188,7 +111348,7 @@ var render = function() {
                     }
                   ],
                   staticClass: "form-control",
-                  attrs: { type: "text", placeholder: "Book's title.." },
+                  attrs: { type: "text", placeholder: "Title.." },
                   domProps: { value: _vm.book.title },
                   on: {
                     input: function($event) {
@@ -111205,7 +111365,7 @@ var render = function() {
             _c("div", { staticClass: "row mt-3" }, [
               _c("div", { staticClass: "col-md-12" }, [
                 _c("label", { attrs: { for: "exampleInputEmail1" } }, [
-                  _vm._v("ISBN")
+                  _vm._v("Subject")
                 ]),
                 _vm._v(" "),
                 _c("input", {
@@ -111213,19 +111373,79 @@ var render = function() {
                     {
                       name: "model",
                       rawName: "v-model",
-                      value: _vm.book.isbn,
-                      expression: "book.isbn"
+                      value: _vm.book.subject,
+                      expression: "book.subject"
                     }
                   ],
                   staticClass: "form-control",
-                  attrs: { type: "text", placeholder: "Book's isbn.." },
-                  domProps: { value: _vm.book.isbn },
+                  attrs: { type: "text", placeholder: "Subject.." },
+                  domProps: { value: _vm.book.subject },
                   on: {
                     input: function($event) {
                       if ($event.target.composing) {
                         return
                       }
-                      _vm.$set(_vm.book, "isbn", $event.target.value)
+                      _vm.$set(_vm.book, "subject", $event.target.value)
+                    }
+                  }
+                })
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "row mt-3" }, [
+              _c("div", { staticClass: "col-md-12" }, [
+                _c("label", { attrs: { for: "exampleInputEmail1" } }, [
+                  _vm._v("Why to read")
+                ]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.book.why_to_read,
+                      expression: "book.why_to_read"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: { type: "text", placeholder: "Why to read..." },
+                  domProps: { value: _vm.book.why_to_read },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.book, "why_to_read", $event.target.value)
+                    }
+                  }
+                })
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "row mt-3" }, [
+              _c("div", { staticClass: "col-md-12" }, [
+                _c("label", { attrs: { for: "exampleInputEmail1" } }, [
+                  _vm._v("Quotes")
+                ]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.book.quotes,
+                      expression: "book.quotes"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: { type: "text", placeholder: "Quotes.." },
+                  domProps: { value: _vm.book.quotes },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.book, "quotes", $event.target.value)
                     }
                   }
                 })
@@ -111337,71 +111557,6 @@ var render = function() {
               )
             ]),
             _vm._v(" "),
-            _c("div", { staticClass: "row" }, [
-              _c("div", { staticClass: "col-md-12" }, [
-                _c(
-                  "label",
-                  {
-                    staticClass: "mt-2 mb-2",
-                    attrs: { for: "exampleInputEmail1" }
-                  },
-                  [_vm._v("Published year")]
-                ),
-                _vm._v(" "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.book.published_year,
-                      expression: "book.published_year"
-                    }
-                  ],
-                  staticClass: "form-control",
-                  attrs: { type: "number", placeholder: "Published year.." },
-                  domProps: { value: _vm.book.published_year },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.$set(_vm.book, "published_year", $event.target.value)
-                    }
-                  }
-                })
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "row mt-3" }, [
-              _c("div", { staticClass: "col-md-12" }, [
-                _c("label", { attrs: { for: "exampleInputEmail1" } }, [
-                  _vm._v("Description")
-                ]),
-                _vm._v(" "),
-                _c("textarea", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.book.description,
-                      expression: "book.description"
-                    }
-                  ],
-                  staticClass: "form-control",
-                  attrs: { rows: "3", placeholder: "Déscription.." },
-                  domProps: { value: _vm.book.description },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.$set(_vm.book, "description", $event.target.value)
-                    }
-                  }
-                })
-              ])
-            ]),
-            _vm._v(" "),
             _c("div", { staticClass: "container mt-4" }, [
               _vm._m(0),
               _vm._v(" "),
@@ -111412,15 +111567,71 @@ var render = function() {
                   staticStyle: { border: "1px solid #ced4da" }
                 },
                 [
-                  this.book.audio_link
+                  _vm.book.pdf_link
                     ? _c("div", { staticClass: "row" }, [
-                        _c("div", { staticClass: " p-4 mx-auto" }, [
+                        _c("div", { staticClass: "p-4 mx-auto" }, [
+                          _c("embed", {
+                            attrs: {
+                              src: _vm.$root.previewBinaryFile(
+                                this.book.pdf_link
+                              ),
+                              width: "500",
+                              height: "375",
+                              type: "application/pdf"
+                            }
+                          })
+                        ])
+                      ])
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "p-4" }, [
+                    _c("div", { staticClass: "input-group mt-2" }, [
+                      _c("div", { staticClass: "custom-file" }, [
+                        _c("input", {
+                          staticClass: "custom-file-input",
+                          attrs: { type: "file", id: "inputGroupFile02" },
+                          on: {
+                            change: function($event) {
+                              return _vm.uploadBinary($event, 1)
+                            }
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c(
+                          "label",
+                          {
+                            staticClass: "custom-file-label",
+                            attrs: { for: "inputGroupFile02" }
+                          },
+                          [_vm._v(_vm._s(_vm.pdf_name))]
+                        )
+                      ])
+                    ])
+                  ])
+                ]
+              )
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "container mt-4" }, [
+              _vm._m(1),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  staticClass: "rounded-top",
+                  staticStyle: { border: "1px solid #ced4da" }
+                },
+                [
+                  _vm.book.audio_link
+                    ? _c("div", { staticClass: "row" }, [
+                        _c("div", { staticClass: "p-4 mx-auto" }, [
                           _c("audio", {
                             attrs: {
                               width: "450",
                               controls: "",
                               src: _vm.$root.previewBinaryFile(
-                                this.book.audio_link
+                                this.book.audio_link,
+                                2
                               )
                             }
                           })
@@ -111436,7 +111647,7 @@ var render = function() {
                           attrs: { type: "file", id: "inputGroupFile02" },
                           on: {
                             change: function($event) {
-                              return _vm.uploadBinary($event)
+                              return _vm.uploadBinary($event, 2)
                             }
                           }
                         }),
@@ -111447,7 +111658,7 @@ var render = function() {
                             staticClass: "custom-file-label",
                             attrs: { for: "inputGroupFile02" }
                           },
-                          [_vm._v(_vm._s(this.digital_name))]
+                          [_vm._v(_vm._s(_vm.digital_name))]
                         )
                       ])
                     ])
@@ -111508,6 +111719,20 @@ var render = function() {
   ])
 }
 var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "form-group mt-2 mb-2" }, [
+      _c("div", { staticClass: "d-flex flex-row bd-highlight" }, [
+        _c("div", { staticClass: "p-2 bd-highlight" }, [
+          _c("h3", { staticClass: "font-weight-normal" }, [
+            _vm._v("Import pdf file")
+          ])
+        ])
+      ])
+    ])
+  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -125040,12 +125265,24 @@ var app = new Vue({
 
       return false;
     },
-    uploadBinary: function uploadBinary(event) {
-      if (event.target.files[0]['type'] != 'audio/mpeg') {
-        return false;
-      }
+    uploadBinary: function uploadBinary(event, type) {
+      switch (type) {
+        case 1:
+          if (event.target.files[0]['type'] != 'application/pdf') {
+            return false;
+          }
 
-      return event.target.files[0];
+          return event.target.files[0];
+          break;
+
+        case 2:
+          if (event.target.files[0]['type'] != 'audio/mpeg') {
+            return false;
+          }
+
+          return event.target.files[0];
+          break;
+      }
     },
     previewBinaryFile: function previewBinaryFile(file) {
       if (_typeof(file) === 'object') {

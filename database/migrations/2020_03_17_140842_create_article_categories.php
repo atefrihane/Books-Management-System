@@ -19,6 +19,7 @@ class CreateArticleCategories extends Migration
             $table->foreign('article_id')->references('id')->on('articles')->onDelete('cascade');
             $table->bigInteger('category_id')->unsigned();
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
+            $table->primary(['article_id', 'category_id']);
             $table->timestamps();
         });
     }

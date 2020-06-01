@@ -10,7 +10,7 @@
             </div>
 
             <div class="col-sm-6 text-md-right">
-            <a href="{{route('showAddBook')}}" class="btn btn-primary">Ajouter un ouvrage</a>
+            <a href="{{route('showAddBook')}}" class="btn btn-primary">Add a book</a>
                
                 </div>
         </div>
