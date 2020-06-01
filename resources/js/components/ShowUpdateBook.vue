@@ -3,7 +3,7 @@
         <div class="card card-primary">
             <h3 class=" p-4">Update a book</h3>
 
-          <form role="form">
+            <form role="form">
                 <div class="card-body">
                     <show-errors :errors="errors"> </show-errors>
                     <div class="row">
@@ -36,7 +36,8 @@
                     <div class="row mt-3">
                         <div class="col-md-12">
                             <label for="exampleInputEmail1">Subject</label>
-                            <textarea type="text"   cols="30" rows="3" class="form-control" placeholder="Subject.." v-model="book.subject"> </textarea>
+                            <textarea type="text" cols="30" rows="3" class="form-control" placeholder="Subject.."
+                                v-model="book.subject"> </textarea>
                         </div>
 
                     </div>
@@ -44,7 +45,7 @@
                     <div class="row mt-3">
                         <div class="col-md-12">
                             <label for="exampleInputEmail1">Why to read</label>
-                            <textarea type="text"  cols="30" rows="3" class="form-control" placeholder="Why to read..."
+                            <textarea type="text" cols="30" rows="3" class="form-control" placeholder="Why to read..."
                                 v-model="book.why_to_read"></textarea>
 
 
@@ -58,7 +59,7 @@
                     <div class="row mt-3">
                         <div class="col-md-12">
                             <label for="exampleInputEmail1">Quotes</label>
-                                  <textarea type="text"  cols="30" rows="3" class="form-control" placeholder="Why to read..."
+                            <textarea type="text" cols="30" rows="3" class="form-control" placeholder="Why to read..."
                                 v-model="book.quotes"></textarea>
 
 
@@ -501,7 +502,7 @@
                 this.disabled = true;
                 let validate = this.validateData()
                 if (validate) {
-                    this.$Progress.start()
+
                     let body = new FormData()
 
                     body.append('id', this.book.id)
@@ -522,12 +523,17 @@
                     body.append('author_id', this.book.author_id)
 
 
+                    let config = {
+                        onUploadProgress: progressEvent => {
+                            this.$Progress.start()
+                        }
+                    }
 
-
-                    axios.post(`/api/book/${this.book.id}/update`, body)
+                    axios.post(`/api/book/${this.book.id}/update`, body, config)
                         .then((response) => {
                             this.$Progress.finish()
                             if (response.data.status == 200) {
+
                                 swal2.fire({
                                     type: 'success',
                                     title: 'Book updated',

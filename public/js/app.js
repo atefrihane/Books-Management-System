@@ -3606,6 +3606,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -3814,11 +3815,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     submitAddBook: function submitAddBook() {
       var _this2 = this;
 
-      this.$Progress.start();
-      this.disabled = true;
       var validate = this.validateData();
+      this.disabled = true;
 
       if (validate) {
+        this.$Progress.start();
         var body = new FormData();
         body.append('photo', this.book.photo);
         body.append('audio_link', this.book.audio_link);
@@ -3831,6 +3832,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         body.append('quotes', this.book.quotes);
         body.append('author_id', this.book.author_id);
         axios.post('/api/book/save', body).then(function (response) {
+          _this2.$Progress.finish();
+
           if (response.data.status == 200) {
             swal2.fire({
               type: 'success',
@@ -3844,8 +3847,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               }
             });
           }
-
-          _this2.$Progress.finish();
         })["catch"](function (error) {
           _this2.$Progress.fail();
 
@@ -6646,6 +6647,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -6887,7 +6889,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var validate = this.validateData();
 
       if (validate) {
-        this.$Progress.start();
         var body = new FormData();
         body.append('id', this.book.id);
         body.append('photo', this.book.photo);
@@ -6907,7 +6908,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         body.append('subject', this.book.subject);
         body.append('quotes', this.book.quotes);
         body.append('author_id', this.book.author_id);
-        axios.post("/api/book/".concat(this.book.id, "/update"), body).then(function (response) {
+        var config = {
+          onUploadProgress: function onUploadProgress(progressEvent) {
+            _this3.$Progress.start();
+          }
+        };
+        axios.post("/api/book/".concat(this.book.id, "/update"), body, config).then(function (response) {
           _this3.$Progress.finish();
 
           if (response.data.status == 200) {

@@ -36,7 +36,8 @@
                     <div class="row mt-3">
                         <div class="col-md-12">
                             <label for="exampleInputEmail1">Subject</label>
-                            <textarea type="text"   cols="30" rows="3" class="form-control" placeholder="Subject.." v-model="book.subject"> </textarea>
+                            <textarea type="text" cols="30" rows="3" class="form-control" placeholder="Subject.."
+                                v-model="book.subject"> </textarea>
                         </div>
 
                     </div>
@@ -44,7 +45,7 @@
                     <div class="row mt-3">
                         <div class="col-md-12">
                             <label for="exampleInputEmail1">Why to read</label>
-                            <textarea type="text"  cols="30" rows="3" class="form-control" placeholder="Why to read..."
+                            <textarea type="text" cols="30" rows="3" class="form-control" placeholder="Why to read..."
                                 v-model="book.why_to_read"></textarea>
 
 
@@ -58,7 +59,7 @@
                     <div class="row mt-3">
                         <div class="col-md-12">
                             <label for="exampleInputEmail1">Quotes</label>
-                                  <textarea type="text"  cols="30" rows="3" class="form-control" placeholder="Why to read..."
+                            <textarea type="text" cols="30" rows="3" class="form-control" placeholder="Why to read..."
                                 v-model="book.quotes"></textarea>
 
 
@@ -465,11 +466,12 @@
 
             },
             submitAddBook() {
-                    this.$Progress.start()
-                this.disabled = true;
                 let validate = this.validateData()
-                if (validate) {
 
+                this.disabled = true;
+
+                if (validate) {
+                    this.$Progress.start()
                     let body = new FormData()
 
 
@@ -489,10 +491,10 @@
 
                     axios.post('/api/book/save', body)
                         .then((response) => {
-                        
+                            this.$Progress.finish()
 
                             if (response.data.status == 200) {
-                               
+
                                 swal2.fire({
                                     type: 'success',
                                     title: 'Book added',
@@ -502,7 +504,7 @@
 
 
                                 }).then((result) => {
-                                
+
                                     if (result.value) {
                                         window.location = '/books';
                                     }
@@ -510,7 +512,7 @@
 
                             }
 
-                                 this.$Progress.finish()
+
                         })
                         .catch((error) => {
                             this.$Progress.fail()
