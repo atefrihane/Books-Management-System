@@ -471,7 +471,7 @@
                 this.disabled = true;
 
                 if (validate) {
-
+                    this.$Progress.start()
                     let body = new FormData()
 
 
@@ -491,7 +491,7 @@
                         onUploadProgress: progressEvent => {
                             let progress = Math.round((progressEvent.loaded * 100) / progressEvent.total)
 
-                           this.$Progress.start()
+
                             this.$Progress.increase(progress)
                         }
                     }

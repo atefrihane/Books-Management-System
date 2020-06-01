@@ -3819,6 +3819,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.disabled = true;
 
       if (validate) {
+        this.$Progress.start();
         var body = new FormData();
         body.append('photo', this.book.photo);
         body.append('audio_link', this.book.audio_link);
@@ -3833,8 +3834,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         var config = {
           onUploadProgress: function onUploadProgress(progressEvent) {
             var progress = Math.round(progressEvent.loaded * 100 / progressEvent.total);
-
-            _this2.$Progress.start();
 
             _this2.$Progress.increase(progress);
           }
