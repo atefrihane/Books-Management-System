@@ -8,7 +8,8 @@
                     <show-errors :errors="errors"> </show-errors>
                     <div class="row">
                         <div class="col-md-12">
-                            <img :src="article.photo ? article.photo : '/img/placeholder.jpg'" class="rounded mx-auto d-block mb-3 img-upload" style="height:20vh;"
+                            <img :src="article.photo ? article.photo : '/img/placeholder.jpg'"
+                                class="rounded mx-auto d-block mb-3 img-upload" style="height:20vh;"
                                 @click="$refs.file.click()">
                             <input type="file" ref="file" style="display: none" @change="uploadFile($event,0)">
 
@@ -26,13 +27,14 @@
                     <div class="row">
                         <div class="col-md-12">
                             <label for="exampleInputEmail1">Title</label>
-                            <input type="text" class="form-control" placeholder="article's title.." v-model="article.title">
+                            <input type="text" class="form-control" placeholder="article's title.."
+                                v-model="article.title">
                         </div>
 
                     </div>
 
 
-                 
+
 
 
                     <div class="row mt-3">
@@ -66,22 +68,73 @@
 
 
 
-                
-
-
-
-
-
-
-
                     <div class="row mt-3">
                         <div class="col-md-12">
                             <label for="exampleInputEmail1">Description</label>
-                            <textarea class="form-control" rows="3" placeholder="Déscription.."
-                                v-model="article.description"></textarea>
+                            <input type="text" class="form-control" placeholder="quotes.."
+                                v-model="article.description">
+
                         </div>
 
                     </div>
+
+                    <div class="row mt-3">
+                        <div class="col-md-12">
+                            <label for="exampleInputEmail1">Quotes</label>
+                            <input class="form-control" placeholder="Quotes.." v-model="article.quotes"></input>
+                        </div>
+
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-12">
+                            <label for="exampleInputEmail1">Writing date</label>
+                            <input class="form-control" type="date" v-model="article.writing_date"
+                                placeholder="Writing date">
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="container mt-4">
+                        <div class="form-group mt-2 mb-2">
+                            <div class="d-flex flex-row bd-highlight">
+                                <div class="p-2 bd-highlight">
+                                    <h3 class="font-weight-normal">Import pdf file</h3>
+                                </div>
+
+
+
+
+
+                            </div>
+                        </div>
+                        <div class="rounded-top" style="border: 1px solid #ced4da;">
+
+                            <div class="row" v-if="article.pdf_link">
+
+                                <div class="p-4 mx-auto">
+
+                                    <embed :src="$root.previewBinaryFile(this.article.pdf_link,1)" width="500"
+                                        height="375" type="application/pdf">
+                                </div>
+
+                            </div>
+                            <div class="p-4">
+                                <div class="input-group mt-2">
+                                    <div class="custom-file">
+                                        <input type="file" class="custom-file-input" id="inputGroupFile02"
+                                            @change="uploadBinary($event,1)">
+                                        <label class="custom-file-label" for="inputGroupFile02">{{pdf_name}}</label>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+
+                    </div>
+
                     <div class="container mt-4">
                         <div class="form-group mt-2 mb-2">
                             <div class="d-flex flex-row bd-highlight">
@@ -103,7 +156,7 @@
 
                                     <audio controls>
 
-                                        <source :src="$root.previewBinaryFile(article.audio_link)" type="audio/mpeg">
+                                        <source :src="$root.previewBinaryFile(article.audio_link,2)" type="audio/mpeg">
                                         Your browser does not support the audio element.
                                     </audio>
                                 </div>
@@ -113,7 +166,7 @@
                                 <div class="input-group mt-2">
                                     <div class="custom-file">
                                         <input type="file" class="custom-file-input" id="inputGroupFile02"
-                                            @change="uploadBinary($event)">
+                                            @change="uploadBinary($event,2)">
                                         <label class="custom-file-label" for="inputGroupFile02">{{digital_name}}</label>
                                     </div>
                                 </div>
@@ -129,9 +182,9 @@
                     <show-authors :authors="this.authors" v-on:matchAuthors="matchAuthors($event)"> </show-authors>
                     <div class="mx-auto mt-4" style="width: 200px;">
                         <div class="row">
-                            <a href="/articles" class="btn btn-danger ml-3">Annuler </a>
+                            <a href="/articles" class="btn btn-danger ml-3">Cancel </a>
                             <button type="button" class="btn btn-primary ml-4" @click="submitAddarticle()"
-                                :disabled="disabled">Confirmer</button>
+                                :disabled="disabled">Confirm</button>
                         </div>
                     </div>
 
@@ -160,7 +213,7 @@
         data() {
             return {
                 digital_name: 'Upload an audio file',
-
+                pdf_name: 'Upload a pdf file',
                 disabled: false,
 
                 errors: [],
@@ -168,17 +221,12 @@
                     active: 1,
                     title: '',
                     categories: [],
-
                     author_id: '',
-                
-
-  
                     description: '',
-
-
+                    writing_date: '',
                     photo: '',
                     audio_link: '',
-
+                    pdf_link: '',
 
                 }
 
@@ -237,15 +285,21 @@
 
             },
 
-            uploadBinary(event) {
+            uploadBinary(event, type) {
 
 
-                let file = this.$root.uploadBinary(event);
+                let file = this.$root.uploadBinary(event, type);
                 if (file) {
+                    if (type == 1) {
+                        this.article.pdf_link = file
+                        this.pdf_name = file.name
+                        return;
 
-                    this.article.audio_link = file
-                    this.digital_name = file.name
-                    return;
+                    } else {
+                        this.article.audio_link = file
+                        this.digital_name = file.name
+                        return;
+                    }
 
                 }
 
@@ -260,18 +314,6 @@
 
 
                 });
-               
-
-
-
-               
-
-
-
-
-
-
-
 
 
             },
@@ -337,7 +379,7 @@
 
             validateData() {
                 this.errors = []
-                if (this.article.photo == '/img/placeholder.jpg') {
+                if (!this.article.photo) {
                     this.disabled = false;
                     this.errors.push('Photo is required');
                     window.scrollTo(0, 0);
@@ -351,7 +393,7 @@
                 }
 
 
-              
+
                 if (this.article.categories.length == 0) {
                     this.disabled = false;
                     this.errors.push('Please select a category');
@@ -359,25 +401,27 @@
                     return;
                 }
 
-              
+
 
 
 
 
                 if (!this.article.description) {
                     this.disabled = false;
-                    this.errors.push('La description est requise');
+                    this.errors.push('Description required');
+                    window.scrollTo(0, 0);
+                    return;
+                }
+                if (!this.article.quotes) {
+                    this.disabled = false;
+                    this.errors.push('quotes required');
                     window.scrollTo(0, 0);
                     return;
                 }
 
-
-
-
-
-                if (!this.article.audio_link) {
+                if (!this.article.writing_date) {
                     this.disabled = false;
-                    this.errors.push('Please import an audio file');
+                    this.errors.push('Writing date required');
                     window.scrollTo(0, 0);
                     return;
                 }
@@ -402,29 +446,31 @@
                 let validate = this.validateData()
                 if (validate) {
                     this.$Progress.start()
-                  let body =new FormData()
-               
-               
+                    let body = new FormData()
+
+
                     body.append('photo', this.article.photo)
                     body.append('audio_link', this.article.audio_link)
+                    body.append('pdf_link', this.article.pdf_link)
                     body.append('categories', JSON.stringify(this.article.categories))
                     body.append('title', this.article.title)
                     body.append('active', this.article.active)
                     body.append('description', this.article.description)
-            
-                 
+
+                    body.append('quotes', this.article.quotes)
+                    body.append('writing_date', this.article.writing_date)
                     body.append('author_id', this.article.author_id)
-                   
 
 
 
-                    axios.post('/api/article/save',body)
+
+                    axios.post('/api/article/save', body)
                         .then((response) => {
                             this.$Progress.finish()
                             if (response.data.status == 200) {
                                 swal2.fire({
                                     type: 'success',
-                                    title: 'Articleadded successfuly',
+                                    title: 'Article added successfuly',
                                     allowOutsideClick: false,
                                     showConfirmButton: true,
                                     confirmButtonText: 'Fermer'
@@ -458,7 +504,7 @@
 
 
             },
-           
+
 
 
         }

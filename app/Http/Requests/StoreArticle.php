@@ -24,13 +24,16 @@ class StoreArticle extends FormRequest
     public function rules()
     {
 
-        $this->request->get('article');
+
         return [
             'photo' => 'required',
             'title' => 'required|max:200',
-            'description' => 'required|max:500',
+            'description' => 'required|max:200',
+            'quotes' => 'required|max:200',
+            'writing_date' => 'required|date',
             'active' => 'required|in:0,1',
              'audio_link' => 'nullable|mimes:mpga,wav',
+             'pdf_link' => 'nullable|mimes:pdf',
              'author_id' => 'required||exists:authors,id',
         ];
 

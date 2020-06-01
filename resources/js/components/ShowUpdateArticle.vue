@@ -1,7 +1,7 @@
 <template>
     <div class="container-fluid">
         <div class="card card-primary">
-            <h3 class=" p-4">Update a article</h3>
+            <h3 class=" p-4">Update an article</h3>
 
             <form role="form">
                 <div class="card-body">
@@ -27,13 +27,14 @@
                     <div class="row">
                         <div class="col-md-12">
                             <label for="exampleInputEmail1">Title</label>
-                            <input type="text" class="form-control" placeholder="article's title.." v-model="article.title">
+                            <input type="text" class="form-control" placeholder="article's title.."
+                                v-model="article.title">
                         </div>
 
                     </div>
 
 
-                 
+
 
 
                     <div class="row mt-3">
@@ -67,23 +68,73 @@
 
 
 
-                   
-
-
-
-
-
-
-
-
                     <div class="row mt-3">
                         <div class="col-md-12">
                             <label for="exampleInputEmail1">Description</label>
-                            <textarea class="form-control" rows="3" placeholder="Déscription.."
-                                v-model="article.description"></textarea>
+                            <input type="text" class="form-control" placeholder="quotes.."
+                                v-model="article.description">
+
                         </div>
 
                     </div>
+
+                    <div class="row mt-3">
+                        <div class="col-md-12">
+                            <label for="exampleInputEmail1">Quotes</label>
+                            <input class="form-control" placeholder="Quotes.." v-model="article.quotes"></input>
+                        </div>
+
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-12">
+                            <label for="exampleInputEmail1">Writing date</label>
+                            <input class="form-control" type="date" v-model="article.writing_date"
+                                placeholder="Writing date">
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="container mt-4">
+                        <div class="form-group mt-2 mb-2">
+                            <div class="d-flex flex-row bd-highlight">
+                                <div class="p-2 bd-highlight">
+                                    <h3 class="font-weight-normal">Import pdf file</h3>
+                                </div>
+
+
+
+
+
+                            </div>
+                        </div>
+                        <div class="rounded-top" style="border: 1px solid #ced4da;">
+
+                            <div class="row" v-if="article.pdf_link">
+
+                                <div class="p-4 mx-auto">
+
+                                    <embed :src="$root.previewBinaryFile(this.article.pdf_link,1)" width="500"
+                                        height="375" type="application/pdf">
+                                </div>
+
+                            </div>
+                            <div class="p-4">
+                                <div class="input-group mt-2">
+                                    <div class="custom-file">
+                                        <input type="file" class="custom-file-input" id="inputGroupFile02"
+                                            @change="uploadBinary($event,1)">
+                                        <label class="custom-file-label" for="inputGroupFile02">{{pdf_name}}</label>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+
+                    </div>
+
                     <div class="container mt-4">
                         <div class="form-group mt-2 mb-2">
                             <div class="d-flex flex-row bd-highlight">
@@ -99,12 +150,15 @@
                         </div>
                         <div class="rounded-top" style="border: 1px solid #ced4da;">
 
-                            <div class="row" v-if="this.article.audio_link">
+                            <div class="row" v-if="article.audio_link">
 
-                                <div class=" p-4 mx-auto">
-                                    <audio width="450" controls
-                                        :src="$root.previewBinaryFile(this.article.audio_link)"></audio>
+                                <div class="p-4 mx-auto">
 
+                                    <audio controls>
+
+                                        <source :src="$root.previewBinaryFile(article.audio_link,2)" type="audio/mpeg">
+                                        Your browser does not support the audio element.
+                                    </audio>
                                 </div>
 
                             </div>
@@ -112,9 +166,8 @@
                                 <div class="input-group mt-2">
                                     <div class="custom-file">
                                         <input type="file" class="custom-file-input" id="inputGroupFile02"
-                                            @change="uploadBinary($event)">
-                                        <label class="custom-file-label"
-                                            for="inputGroupFile02">{{this.digital_name}}</label>
+                                            @change="uploadBinary($event,2)">
+                                        <label class="custom-file-label" for="inputGroupFile02">{{digital_name}}</label>
                                     </div>
                                 </div>
 
@@ -131,9 +184,9 @@
                     </show-authors>
                     <div class="mx-auto mt-4" style="width: 200px;">
                         <div class="row">
-                            <a href="/articles" class="btn btn-danger ml-3">Annuler </a>
+                            <a href="/articles" class="btn btn-danger ml-3">Cancel </a>
                             <button type="button" class="btn btn-primary ml-4" @click="submitAddarticle()"
-                                :disabled="disabled">Confirmer</button>
+                                :disabled="disabled">Confirm</button>
                         </div>
                     </div>
 
@@ -157,14 +210,14 @@
             this.formatCategories()
             this.formatAuthors()
 
-
         },
         props: ['categories', 'authors', 'article_details'],
         data() {
             return {
                 digital_name: 'Upload an audio file',
-
+                pdf_name: 'Upload a pdf file',
                 disabled: false,
+                searchedAuthors: [],
 
                 errors: [],
                 article: {
@@ -172,21 +225,15 @@
                     active: 1,
                     title: '',
                     categories: [],
-
                     author_id: '',
-                    published_year: '',
-
- 
                     description: '',
-
-
+                    writing_date: '',
                     photo: '',
                     audio_link: '',
+                    pdf_link: '',
 
+                }
 
-                },
-                searchedAuthors: [],
-              
             }
         },
         methods: {
@@ -199,12 +246,13 @@
                 this.article.active = this.article_details.active
                 this.article.title = this.article_details.title
                 this.article.categories = this.article_details.categories
-                this.article.published_year = this.article_details.published_year
-        
+                this.article.quotes = this.article_details.quotes
+                this.article.writing_date = this.article_details.writing_date
                 this.article.description = this.article_details.description
                 this.article.photo = this.article_details.photo
                 this.article.author_id = this.article_details.author_id
                 this.article.audio_link = this.article_details.audio_link
+                this.article.pdf_link = this.article_details.pdf_link
             },
             formatAuthors() {
                 if (this.authors && this.authors.length > 0) {
@@ -272,15 +320,21 @@
 
             },
 
-            uploadBinary(event) {
+            uploadBinary(event, type) {
 
 
-                let file = this.$root.uploadBinary(event);
+                let file = this.$root.uploadBinary(event, type);
                 if (file) {
+                    if (type == 1) {
+                        this.article.pdf_link = file
+                        this.pdf_name = file.name
+                        return;
 
-                    this.article.audio_link = file
-                    this.digital_name = file.name
-                    return;
+                    } else {
+                        this.article.audio_link = file
+                        this.digital_name = file.name
+                        return;
+                    }
 
                 }
 
@@ -295,18 +349,6 @@
 
 
                 });
-
-
-
-
-
-
-
-
-
-
-
-
 
 
             },
@@ -372,7 +414,7 @@
 
             validateData() {
                 this.errors = []
-                if (this.article.photo == '/img/placeholder.jpg') {
+                if (!this.article.photo) {
                     this.disabled = false;
                     this.errors.push('Photo is required');
                     window.scrollTo(0, 0);
@@ -386,7 +428,7 @@
                 }
 
 
-             
+
                 if (this.article.categories.length == 0) {
                     this.disabled = false;
                     this.errors.push('Please select a category');
@@ -394,25 +436,27 @@
                     return;
                 }
 
-           
+
 
 
 
 
                 if (!this.article.description) {
                     this.disabled = false;
-                    this.errors.push('La description est requise');
+                    this.errors.push('Description required');
+                    window.scrollTo(0, 0);
+                    return;
+                }
+                if (!this.article.quotes) {
+                    this.disabled = false;
+                    this.errors.push('quotes required');
                     window.scrollTo(0, 0);
                     return;
                 }
 
-
-
-
-
-                if (!this.article.audio_link) {
+                if (!this.article.writing_date) {
                     this.disabled = false;
-                    this.errors.push('Please import an audio file');
+                    this.errors.push('Writing date required');
                     window.scrollTo(0, 0);
                     return;
                 }
@@ -443,15 +487,18 @@
                     body.append('photo', this.article.photo)
                     if (typeof this.article.audio_link === 'object') {
                         body.append('audio_link', this.article.audio_link)
-                        //audio file has to be a type of file
+                    }
+                    if (typeof this.article.pdf_link === 'object') {
+                        body.append('pdf_link', this.article.pdf_link)
                     }
 
                     body.append('categories', JSON.stringify(this.article.categories))
                     body.append('title', this.article.title)
                     body.append('active', this.article.active)
                     body.append('description', this.article.description)
-    
-                    body.append('published_year', this.article.published_year)
+
+                    body.append('quotes', this.article.quotes)
+                    body.append('writing_date', this.article.writing_date)
                     body.append('author_id', this.article.author_id)
 
 
@@ -463,7 +510,7 @@
                             if (response.data.status == 200) {
                                 swal2.fire({
                                     type: 'success',
-                                    title: 'Article updated',
+                                    title: 'Article updated successfuly',
                                     allowOutsideClick: false,
                                     showConfirmButton: true,
                                     confirmButtonText: 'Fermer'

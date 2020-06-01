@@ -32,24 +32,27 @@ class ArticleRepository implements ArticleRepositoryInterface
     }
     public function store($article)
     {
-
+     
         $articlePhoto = $this->image->uploadImage($article['photo'], 'articles');
 
-        isset($article['audio_link']) ? $audioarticle = $this->image->uploadAudio($article['audio_link'], '/img/articles/audio/') : $audioarticle = null;
-
+        isset($article['audio_link']) ? $audioArticle = $this->image->uploadAudio($article['audio_link'], '/img/articles/audio/') : $audioArticle = null;
+        isset($article['pdf_link']) ? $pdfArticle = $this->image->uploadAudio($article['pdf_link'], '/img/articles/pdf/') : $pdfArticle = null;
         $articleCategories = json_decode($article['categories']);
         $newarticle = article::create([
             'photo' => $articlePhoto,
             'active' => $article['active'],
             'title' => $article['title'],
-            'slug' => str_slug($article['title'] . ' ' . time(), '-'),
             'description' => $article['description'],
-            'audio_link' => $audioarticle,
+            'quotes' => $article['quotes'],
+            'writing_date' => $article['writing_date'],
+            'audio_link' => $audioArticle,
+            'pdf_link' => $pdfArticle,
             'author_id' => $article['author_id'],
 
         ]);
 
         $newarticle->categories()->attach(array_column($articleCategories, 'id'));
+        return true;
 
     }
     public function fetchById($id)
@@ -64,7 +67,8 @@ class ArticleRepository implements ArticleRepositoryInterface
 
         if ($checkArticle) {
             $articlePhoto = $checkArticle->photo;
-            $articleAudio = $checkArticle->audio_link;
+            $audioArticle = $checkArticle->audio_link;
+            $pdfArticle= $checkArticle->pdf_link;
 
             if ($checkArticle->photo != $article['photo']) {
                 $this->image->deleteFile($checkArticle->photo);
@@ -74,17 +78,23 @@ class ArticleRepository implements ArticleRepositoryInterface
 
             if (isset($article['audio_link'])) {
                 $this->image->deleteFile($checkArticle->audio_link);
-                $articleAudio = $this->image->uploadAudio($article['audio_link'], '/img/articles/audio/');
+                $audioArticle = $this->image->uploadAudio($article['audio_link'], '/img/articles/audio/');
+            }
+
+            if (isset($article['pdf_link'])) {
+                $this->image->deleteFile($checkArticle->pdf_link);
+                $pdfArticle = $this->image->uploadAudio($article['pdf_link'], '/img/articles/pdf/');
             }
             $articleCategories = json_decode($article['categories']);
             $checkArticle->update([
                 'photo' => $articlePhoto,
                 'active' => $article['active'],
                 'title' => $article['title'],
-                'slug' => str_slug($article['title'] . ' ' . time(), '-'),
-
                 'description' => $article['description'],
-                'audio_link' => $articleAudio,
+                'quotes' => $article['quotes'],
+                'writing_date' => $article['writing_date'],
+                'audio_link' => $audioArticle,
+                'pdf_link' => $pdfArticle,
                 'author_id' => $article['author_id'],
 
             ]);

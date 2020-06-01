@@ -2831,6 +2831,59 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2841,6 +2894,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   data: function data() {
     return {
       digital_name: 'Upload an audio file',
+      pdf_name: 'Upload a pdf file',
       disabled: false,
       errors: [],
       article: {
@@ -2849,8 +2903,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         categories: [],
         author_id: '',
         description: '',
+        writing_date: '',
         photo: '',
-        audio_link: ''
+        audio_link: '',
+        pdf_link: ''
       }
     };
   },
@@ -2911,13 +2967,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee);
       }))();
     },
-    uploadBinary: function uploadBinary(event) {
-      var file = this.$root.uploadBinary(event);
+    uploadBinary: function uploadBinary(event, type) {
+      var file = this.$root.uploadBinary(event, type);
 
       if (file) {
-        this.article.audio_link = file;
-        this.digital_name = file.name;
-        return;
+        if (type == 1) {
+          this.article.pdf_link = file;
+          this.pdf_name = file.name;
+          return;
+        } else {
+          this.article.audio_link = file;
+          this.digital_name = file.name;
+          return;
+        }
       }
 
       swal2.fire({
@@ -2975,7 +3037,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     validateData: function validateData() {
       this.errors = [];
 
-      if (this.article.photo == '/img/placeholder.jpg') {
+      if (!this.article.photo) {
         this.disabled = false;
         this.errors.push('Photo is required');
         window.scrollTo(0, 0);
@@ -2998,14 +3060,21 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
       if (!this.article.description) {
         this.disabled = false;
-        this.errors.push('La description est requise');
+        this.errors.push('Description required');
         window.scrollTo(0, 0);
         return;
       }
 
-      if (!this.article.audio_link) {
+      if (!this.article.quotes) {
         this.disabled = false;
-        this.errors.push('Please import an audio file');
+        this.errors.push('quotes required');
+        window.scrollTo(0, 0);
+        return;
+      }
+
+      if (!this.article.writing_date) {
+        this.disabled = false;
+        this.errors.push('Writing date required');
         window.scrollTo(0, 0);
         return;
       }
@@ -3030,10 +3099,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         var body = new FormData();
         body.append('photo', this.article.photo);
         body.append('audio_link', this.article.audio_link);
+        body.append('pdf_link', this.article.pdf_link);
         body.append('categories', JSON.stringify(this.article.categories));
         body.append('title', this.article.title);
         body.append('active', this.article.active);
         body.append('description', this.article.description);
+        body.append('quotes', this.article.quotes);
+        body.append('writing_date', this.article.writing_date);
         body.append('author_id', this.article.author_id);
         axios.post('/api/article/save', body).then(function (response) {
           _this2.$Progress.finish();
@@ -3041,7 +3113,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           if (response.data.status == 200) {
             swal2.fire({
               type: 'success',
-              title: 'Articleadded successfuly',
+              title: 'Article added successfuly',
               allowOutsideClick: false,
               showConfirmButton: true,
               confirmButtonText: 'Fermer'
@@ -5755,6 +5827,59 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -5766,7 +5891,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   data: function data() {
     return {
       digital_name: 'Upload an audio file',
+      pdf_name: 'Upload a pdf file',
       disabled: false,
+      searchedAuthors: [],
       errors: [],
       article: {
         id: '',
@@ -5774,12 +5901,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         title: '',
         categories: [],
         author_id: '',
-        published_year: '',
         description: '',
+        writing_date: '',
         photo: '',
-        audio_link: ''
-      },
-      searchedAuthors: []
+        audio_link: '',
+        pdf_link: ''
+      }
     };
   },
   methods: {
@@ -5792,11 +5919,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.article.active = this.article_details.active;
       this.article.title = this.article_details.title;
       this.article.categories = this.article_details.categories;
-      this.article.published_year = this.article_details.published_year;
+      this.article.quotes = this.article_details.quotes;
+      this.article.writing_date = this.article_details.writing_date;
       this.article.description = this.article_details.description;
       this.article.photo = this.article_details.photo;
       this.article.author_id = this.article_details.author_id;
       this.article.audio_link = this.article_details.audio_link;
+      this.article.pdf_link = this.article_details.pdf_link;
     },
     formatAuthors: function formatAuthors() {
       var _this = this;
@@ -5864,13 +5993,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee);
       }))();
     },
-    uploadBinary: function uploadBinary(event) {
-      var file = this.$root.uploadBinary(event);
+    uploadBinary: function uploadBinary(event, type) {
+      var file = this.$root.uploadBinary(event, type);
 
       if (file) {
-        this.article.audio_link = file;
-        this.digital_name = file.name;
-        return;
+        if (type == 1) {
+          this.article.pdf_link = file;
+          this.pdf_name = file.name;
+          return;
+        } else {
+          this.article.audio_link = file;
+          this.digital_name = file.name;
+          return;
+        }
       }
 
       swal2.fire({
@@ -5928,7 +6063,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     validateData: function validateData() {
       this.errors = [];
 
-      if (this.article.photo == '/img/placeholder.jpg') {
+      if (!this.article.photo) {
         this.disabled = false;
         this.errors.push('Photo is required');
         window.scrollTo(0, 0);
@@ -5951,14 +6086,21 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
       if (!this.article.description) {
         this.disabled = false;
-        this.errors.push('La description est requise');
+        this.errors.push('Description required');
         window.scrollTo(0, 0);
         return;
       }
 
-      if (!this.article.audio_link) {
+      if (!this.article.quotes) {
         this.disabled = false;
-        this.errors.push('Please import an audio file');
+        this.errors.push('quotes required');
+        window.scrollTo(0, 0);
+        return;
+      }
+
+      if (!this.article.writing_date) {
+        this.disabled = false;
+        this.errors.push('Writing date required');
         window.scrollTo(0, 0);
         return;
       }
@@ -5985,14 +6127,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         body.append('photo', this.article.photo);
 
         if (_typeof(this.article.audio_link) === 'object') {
-          body.append('audio_link', this.article.audio_link); //audio file has to be a type of file
+          body.append('audio_link', this.article.audio_link);
+        }
+
+        if (_typeof(this.article.pdf_link) === 'object') {
+          body.append('pdf_link', this.article.pdf_link);
         }
 
         body.append('categories', JSON.stringify(this.article.categories));
         body.append('title', this.article.title);
         body.append('active', this.article.active);
         body.append('description', this.article.description);
-        body.append('published_year', this.article.published_year);
+        body.append('quotes', this.article.quotes);
+        body.append('writing_date', this.article.writing_date);
         body.append('author_id', this.article.author_id);
         axios.post("/api/article/".concat(this.article.id, "/update"), body).then(function (response) {
           _this3.$Progress.finish();
@@ -6000,7 +6147,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           if (response.data.status == 200) {
             swal2.fire({
               type: 'success',
-              title: 'Article updated',
+              title: 'Article updated successfuly',
               allowOutsideClick: false,
               showConfirmButton: true,
               confirmButtonText: 'Fermer'
@@ -107100,7 +107247,7 @@ var render = function() {
                   _vm._v("Description")
                 ]),
                 _vm._v(" "),
-                _c("textarea", {
+                _c("input", {
                   directives: [
                     {
                       name: "model",
@@ -107110,7 +107257,7 @@ var render = function() {
                     }
                   ],
                   staticClass: "form-control",
-                  attrs: { rows: "3", placeholder: "Déscription.." },
+                  attrs: { type: "text", placeholder: "quotes.." },
                   domProps: { value: _vm.article.description },
                   on: {
                     input: function($event) {
@@ -107118,6 +107265,66 @@ var render = function() {
                         return
                       }
                       _vm.$set(_vm.article, "description", $event.target.value)
+                    }
+                  }
+                })
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "row mt-3" }, [
+              _c("div", { staticClass: "col-md-12" }, [
+                _c("label", { attrs: { for: "exampleInputEmail1" } }, [
+                  _vm._v("Quotes")
+                ]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.article.quotes,
+                      expression: "article.quotes"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: { placeholder: "Quotes.." },
+                  domProps: { value: _vm.article.quotes },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.article, "quotes", $event.target.value)
+                    }
+                  }
+                })
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "row mt-3" }, [
+              _c("div", { staticClass: "col-md-12" }, [
+                _c("label", { attrs: { for: "exampleInputEmail1" } }, [
+                  _vm._v("Writing date")
+                ]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.article.writing_date,
+                      expression: "article.writing_date"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: { type: "date", placeholder: "Writing date" },
+                  domProps: { value: _vm.article.writing_date },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.article, "writing_date", $event.target.value)
                     }
                   }
                 })
@@ -107134,6 +107341,62 @@ var render = function() {
                   staticStyle: { border: "1px solid #ced4da" }
                 },
                 [
+                  _vm.article.pdf_link
+                    ? _c("div", { staticClass: "row" }, [
+                        _c("div", { staticClass: "p-4 mx-auto" }, [
+                          _c("embed", {
+                            attrs: {
+                              src: _vm.$root.previewBinaryFile(
+                                this.article.pdf_link,
+                                1
+                              ),
+                              width: "500",
+                              height: "375",
+                              type: "application/pdf"
+                            }
+                          })
+                        ])
+                      ])
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "p-4" }, [
+                    _c("div", { staticClass: "input-group mt-2" }, [
+                      _c("div", { staticClass: "custom-file" }, [
+                        _c("input", {
+                          staticClass: "custom-file-input",
+                          attrs: { type: "file", id: "inputGroupFile02" },
+                          on: {
+                            change: function($event) {
+                              return _vm.uploadBinary($event, 1)
+                            }
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c(
+                          "label",
+                          {
+                            staticClass: "custom-file-label",
+                            attrs: { for: "inputGroupFile02" }
+                          },
+                          [_vm._v(_vm._s(_vm.pdf_name))]
+                        )
+                      ])
+                    ])
+                  ])
+                ]
+              )
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "container mt-4" }, [
+              _vm._m(1),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  staticClass: "rounded-top",
+                  staticStyle: { border: "1px solid #ced4da" }
+                },
+                [
                   _vm.article.audio_link
                     ? _c("div", { staticClass: "row" }, [
                         _c("div", { staticClass: "p-4 mx-auto" }, [
@@ -107141,7 +107404,8 @@ var render = function() {
                             _c("source", {
                               attrs: {
                                 src: _vm.$root.previewBinaryFile(
-                                  _vm.article.audio_link
+                                  _vm.article.audio_link,
+                                  2
                                 ),
                                 type: "audio/mpeg"
                               }
@@ -107162,7 +107426,7 @@ var render = function() {
                           attrs: { type: "file", id: "inputGroupFile02" },
                           on: {
                             change: function($event) {
-                              return _vm.uploadBinary($event)
+                              return _vm.uploadBinary($event, 2)
                             }
                           }
                         }),
@@ -107202,7 +107466,7 @@ var render = function() {
                       staticClass: "btn btn-danger ml-3",
                       attrs: { href: "/articles" }
                     },
-                    [_vm._v("Annuler ")]
+                    [_vm._v("Cancel ")]
                   ),
                   _vm._v(" "),
                   _c(
@@ -107216,7 +107480,7 @@ var render = function() {
                         }
                       }
                     },
-                    [_vm._v("Confirmer")]
+                    [_vm._v("Confirm")]
                   )
                 ])
               ]
@@ -107229,6 +107493,20 @@ var render = function() {
   ])
 }
 var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "form-group mt-2 mb-2" }, [
+      _c("div", { staticClass: "d-flex flex-row bd-highlight" }, [
+        _c("div", { staticClass: "p-2 bd-highlight" }, [
+          _c("h3", { staticClass: "font-weight-normal" }, [
+            _vm._v("Import pdf file")
+          ])
+        ])
+      ])
+    ])
+  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -110671,7 +110949,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container-fluid" }, [
     _c("div", { staticClass: "card card-primary" }, [
-      _c("h3", { staticClass: " p-4" }, [_vm._v("Update a article")]),
+      _c("h3", { staticClass: " p-4" }, [_vm._v("Update an article")]),
       _vm._v(" "),
       _c("form", { attrs: { role: "form" } }, [
         _c(
@@ -110896,7 +111174,7 @@ var render = function() {
                   _vm._v("Description")
                 ]),
                 _vm._v(" "),
-                _c("textarea", {
+                _c("input", {
                   directives: [
                     {
                       name: "model",
@@ -110906,7 +111184,7 @@ var render = function() {
                     }
                   ],
                   staticClass: "form-control",
-                  attrs: { rows: "3", placeholder: "Déscription.." },
+                  attrs: { type: "text", placeholder: "quotes.." },
                   domProps: { value: _vm.article.description },
                   on: {
                     input: function($event) {
@@ -110914,6 +111192,66 @@ var render = function() {
                         return
                       }
                       _vm.$set(_vm.article, "description", $event.target.value)
+                    }
+                  }
+                })
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "row mt-3" }, [
+              _c("div", { staticClass: "col-md-12" }, [
+                _c("label", { attrs: { for: "exampleInputEmail1" } }, [
+                  _vm._v("Quotes")
+                ]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.article.quotes,
+                      expression: "article.quotes"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: { placeholder: "Quotes.." },
+                  domProps: { value: _vm.article.quotes },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.article, "quotes", $event.target.value)
+                    }
+                  }
+                })
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "row mt-3" }, [
+              _c("div", { staticClass: "col-md-12" }, [
+                _c("label", { attrs: { for: "exampleInputEmail1" } }, [
+                  _vm._v("Writing date")
+                ]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.article.writing_date,
+                      expression: "article.writing_date"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: { type: "date", placeholder: "Writing date" },
+                  domProps: { value: _vm.article.writing_date },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.article, "writing_date", $event.target.value)
                     }
                   }
                 })
@@ -110930,16 +111268,18 @@ var render = function() {
                   staticStyle: { border: "1px solid #ced4da" }
                 },
                 [
-                  this.article.audio_link
+                  _vm.article.pdf_link
                     ? _c("div", { staticClass: "row" }, [
-                        _c("div", { staticClass: " p-4 mx-auto" }, [
-                          _c("audio", {
+                        _c("div", { staticClass: "p-4 mx-auto" }, [
+                          _c("embed", {
                             attrs: {
-                              width: "450",
-                              controls: "",
                               src: _vm.$root.previewBinaryFile(
-                                this.article.audio_link
-                              )
+                                this.article.pdf_link,
+                                1
+                              ),
+                              width: "500",
+                              height: "375",
+                              type: "application/pdf"
                             }
                           })
                         ])
@@ -110954,7 +111294,7 @@ var render = function() {
                           attrs: { type: "file", id: "inputGroupFile02" },
                           on: {
                             change: function($event) {
-                              return _vm.uploadBinary($event)
+                              return _vm.uploadBinary($event, 1)
                             }
                           }
                         }),
@@ -110965,7 +111305,66 @@ var render = function() {
                             staticClass: "custom-file-label",
                             attrs: { for: "inputGroupFile02" }
                           },
-                          [_vm._v(_vm._s(this.digital_name))]
+                          [_vm._v(_vm._s(_vm.pdf_name))]
+                        )
+                      ])
+                    ])
+                  ])
+                ]
+              )
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "container mt-4" }, [
+              _vm._m(1),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  staticClass: "rounded-top",
+                  staticStyle: { border: "1px solid #ced4da" }
+                },
+                [
+                  _vm.article.audio_link
+                    ? _c("div", { staticClass: "row" }, [
+                        _c("div", { staticClass: "p-4 mx-auto" }, [
+                          _c("audio", { attrs: { controls: "" } }, [
+                            _c("source", {
+                              attrs: {
+                                src: _vm.$root.previewBinaryFile(
+                                  _vm.article.audio_link,
+                                  2
+                                ),
+                                type: "audio/mpeg"
+                              }
+                            }),
+                            _vm._v(
+                              "\n                                    Your browser does not support the audio element.\n                                "
+                            )
+                          ])
+                        ])
+                      ])
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "p-4" }, [
+                    _c("div", { staticClass: "input-group mt-2" }, [
+                      _c("div", { staticClass: "custom-file" }, [
+                        _c("input", {
+                          staticClass: "custom-file-input",
+                          attrs: { type: "file", id: "inputGroupFile02" },
+                          on: {
+                            change: function($event) {
+                              return _vm.uploadBinary($event, 2)
+                            }
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c(
+                          "label",
+                          {
+                            staticClass: "custom-file-label",
+                            attrs: { for: "inputGroupFile02" }
+                          },
+                          [_vm._v(_vm._s(_vm.digital_name))]
                         )
                       ])
                     ])
@@ -110999,7 +111398,7 @@ var render = function() {
                       staticClass: "btn btn-danger ml-3",
                       attrs: { href: "/articles" }
                     },
-                    [_vm._v("Annuler ")]
+                    [_vm._v("Cancel ")]
                   ),
                   _vm._v(" "),
                   _c(
@@ -111013,7 +111412,7 @@ var render = function() {
                         }
                       }
                     },
-                    [_vm._v("Confirmer")]
+                    [_vm._v("Confirm")]
                   )
                 ])
               ]
@@ -111026,6 +111425,20 @@ var render = function() {
   ])
 }
 var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "form-group mt-2 mb-2" }, [
+      _c("div", { staticClass: "d-flex flex-row bd-highlight" }, [
+        _c("div", { staticClass: "p-2 bd-highlight" }, [
+          _c("h3", { staticClass: "font-weight-normal" }, [
+            _vm._v("Import pdf file")
+          ])
+        ])
+      ])
+    ])
+  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
