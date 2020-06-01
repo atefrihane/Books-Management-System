@@ -125228,7 +125228,8 @@ window.swal2 = sweetalert2__WEBPACK_IMPORTED_MODULE_0___default.a; //Progressbar
 Vue.use(vue_progressbar__WEBPACK_IMPORTED_MODULE_1___default.a, {
   color: 'rgb(143, 255, 199)',
   failedColor: 'red',
-  height: '2px'
+  height: '2px',
+  thickness: '2.5px'
 }); //Toast
 
 var toast = sweetalert2__WEBPACK_IMPORTED_MODULE_0___default.a.mixin({

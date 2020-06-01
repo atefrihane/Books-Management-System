@@ -10,7 +10,8 @@ import VueProgressBar from 'vue-progressbar'
 Vue.use(VueProgressBar, {
         color: 'rgb(143, 255, 199)',
         failedColor: 'red',
-        height: '2px'
+        height: '2px',
+        thickness: '2.5px',
     })
     //Toast
 const toast = swal2.mixin({
