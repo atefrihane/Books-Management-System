@@ -3834,7 +3834,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           onUploadProgress: function onUploadProgress(progressEvent) {
             var progress = Math.round(progressEvent.loaded * 100 / progressEvent.total);
 
-            _this2.$Progress.increase(progress);
+            _this2.$Progress.start(progress);
           }
         };
         axios.post('/api/book/save', body, config).then(function (response) {
@@ -6917,9 +6917,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         var config = {
           onUploadProgress: function onUploadProgress(progressEvent) {
             var progress = Math.round(progressEvent.loaded * 100 / progressEvent.total);
-            console.log(progress);
 
-            _this3.$Progress.start();
+            _this3.$Progress.start(progress);
           }
         };
         axios.post("/api/book/".concat(this.book.id, "/update"), body, config).then(function (response) {

@@ -63,7 +63,7 @@ class BookRepository implements BookRepositoryInterface
     }
     public function update($book)
     {
-     
+    
         $checkBook = $this->fetchById($book['id']);
 
         if ($checkBook) {

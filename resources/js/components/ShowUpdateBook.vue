@@ -526,8 +526,8 @@
                     let config = {
                         onUploadProgress: progressEvent => {
                             let progress = Math.round( (progressEvent.loaded * 100) / progressEvent.total )
-                            console.log(progress)
-                            this.$Progress.start()
+                            
+                             this.$Progress.start(progress)
                         }
                     }
 
