@@ -527,7 +527,8 @@
                         onUploadProgress: progressEvent => {
                             let progress = Math.round( (progressEvent.loaded * 100) / progressEvent.total )
                             
-                             this.$Progress.start(progress)
+                    this.$Progress.start()
+                            this.$Progress.increment(progress)
                         }
                     }
 

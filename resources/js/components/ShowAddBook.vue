@@ -485,13 +485,14 @@
                     body.append('subject', this.book.subject)
                     body.append('quotes', this.book.quotes)
                     body.append('author_id', this.book.author_id)
-            
+
 
                     let config = {
                         onUploadProgress: progressEvent => {
                             let progress = Math.round((progressEvent.loaded * 100) / progressEvent.total)
 
-                           this.$Progress.start(progress)
+                            this.$Progress.start()
+                            this.$Progress.increment(progress)
                         }
                     }
 
