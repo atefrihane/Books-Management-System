@@ -73,52 +73,37 @@ class BookRepository implements BookRepositoryInterface
 
         if ($checkBook) {
             $bookPhoto = $checkBook->photo;
-            $bookPdf = $checkBook->digital_link;
+            $bookAudio = $checkBook->audio_link;
 
             if ($checkBook->photo != $book['photo']) {
                 $this->image->deleteFile($checkBook->photo);
                 $bookPhoto = $this->image->uploadImage($book['photo'], 'books');
 
             }
-            if (!$book['digital_link'] && $checkBook->digital_link) {
-                $this->image->deleteFile($checkBook->digital_link);
-                $bookPdf = null;
-
+           
+            if(isset($book['audio_link']))
+            {
+                $this->image->deleteFile($checkBook->audio_link); 
+                $bookAudio= $this->image->uploadAudio($book['audio_link'],'/img/books/audio/');
             }
-
-            if ($book['digital_link'] && $book['digital_link'] != $checkBook->digital_link) {
-                $this->image->deleteFile($checkBook->digital_link);
-                $bookPdf = $this->image->uploadPdf($book['digital_link'], 'books/pdf');
-
-            }
-
+            $bookCategories  = json_decode($book['categories']);
             $checkBook->update([
                 'photo' => $bookPhoto,
                 'active' => $book['active'],
                 'title' => $book['title'],
-                'slug' => str_slug($book['title'] . ' ' . $book['id'], '-'),
+                'slug' => str_slug($book['title'] . ' ' . time(), '-'),
                 'published_year' => $book['published_year'],
-                'editor' => $book['editor'],
-                'count_pages' => $book['count_pages'],
                 'isbn' => $book['isbn'],
                 'description' => $book['description'],
-                'height' => $book['height'],
-                'width' => $book['width'],
-                'thickness' => $book['thickness'],
-                'weight' => $book['weight'],
-                'paper_price' => $book['paper_price'],
-                'digital_price' => $book['digital_price'],
-                'photo' => $bookPhoto,
-                'digital_link' => $bookPdf,
-
+                'audio_link' => $bookAudio,
+                'author_id' => $book['author_id']
+    
             ]);
+          
 
-            $checkBook->categories()->sync(array_column($book['categories'], 'id'));
+            $checkBook->categories()->sync(array_column($bookCategories, 'id'));
 
-            $checkBook->languages()->sync(array_column($book['languages'], 'id'));
-            (isset($book['articles'])) ? $checkBook->articles()->sync($book['articles']) : '';
-
-            $checkBook->authors()->sync($book['authors']);
+      
             return true;
 
         }
@@ -129,7 +114,7 @@ class BookRepository implements BookRepositoryInterface
     {
         $checkBook = $this->fetchById($id);
         if ($checkBook) {
-            $checkBook->product()->delete();
+        
             $checkBook->delete();
             return true;
         }

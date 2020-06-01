@@ -120,7 +120,13 @@ const app = new Vue({
 
         },
         previewBinaryFile(file) {
-            return URL.createObjectURL(file);
+
+            if (typeof file === 'object') {
+
+                return URL.createObjectURL(file)
+            }
+
+            return file
 
         },
         destroyDataTable() {

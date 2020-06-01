@@ -2682,69 +2682,6 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -2899,42 +2836,28 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
     this.formatCategories();
-    this.formatLanguages();
   },
-  props: ['languages', 'categories', 'articles', 'authors'],
+  props: ['categories', 'authors'],
   data: function data() {
-    var _article;
-
     return {
-      digital_name: 'Importer un fichier',
-      availablePaper: false,
-      availableDigital: false,
+      digital_name: 'Upload an audio file',
       disabled: false,
-      freeDigital: false,
       errors: [],
-      article: (_article = {
+      article: {
         active: 1,
         title: '',
         categories: [],
-        languages: [],
-        authors: [],
-        published_year: '',
-        editor: '',
-        count_pages: '',
-        isbn: '',
-        description: ''
-      }, _defineProperty(_article, "isbn", ''), _defineProperty(_article, "digital_price", ''), _defineProperty(_article, "photo", '/img/placeholder.jpg'), _defineProperty(_article, "digital_link", ''), _article)
+        author_id: '',
+        description: '',
+        photo: '',
+        audio_link: ''
+      }
     };
   },
   methods: {
     formatCategories: function formatCategories() {
       for (var i = 0; i < this.categories.length; i++) {
         this.$set(this.categories[i], 'disabled', false);
-      }
-    },
-    formatLanguages: function formatLanguages() {
-      for (var i = 0; i < this.languages.length; i++) {
-        this.$set(this.languages[i], 'disabled', false);
       }
     },
     uploadFile: function uploadFile(event, type) {
@@ -2966,7 +2889,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 return _context.abrupt("return");
 
               case 9:
-                _this.article.digital_link = file.link;
+                _this.article.audio_link = file.link;
                 _this.digital_name = file.name;
                 return _context.abrupt("return");
 
@@ -2987,6 +2910,23 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           }
         }, _callee);
       }))();
+    },
+    uploadBinary: function uploadBinary(event) {
+      var file = this.$root.uploadBinary(event);
+
+      if (file) {
+        this.article.audio_link = file;
+        this.digital_name = file.name;
+        return;
+      }
+
+      swal2.fire({
+        type: 'error',
+        title: 'Format fichier non supporté',
+        allowOutsideClick: false,
+        showConfirmButton: true,
+        confirmButtonText: 'Fermer'
+      });
     },
     selectCategory: function selectCategory(event) {
       var id = event.target.value;
@@ -3029,97 +2969,29 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         language.id == articleLanguage.id ? language.disabled = false : '';
       });
     },
-    matchAuthors: function matchAuthors(authors) {
-      this.article.authors = authors;
-    },
-    affectArticles: function affectArticles(articles) {
-      this.article.articles = articles;
-    },
-    setAvailableDigital: function setAvailableDigital() {
-      this.availableDigital = !this.availableDigital;
-
-      if (!this.availableDigital) {
-        this.digital_name = 'Importer un fichier';
-        this.article.digital_price = '';
-      }
-    },
-    setAvailablePaper: function setAvailablePaper() {
-      this.availablePaper = !this.availablePaper;
-
-      if (!this.availablePaper) {
-        this.article.weight = '';
-        this.article.height = '';
-        this.article.width = '';
-        this.article.thickness = '';
-        this.article.paper_price = '';
-      }
-    },
-    setFreeDigital: function setFreeDigital() {
-      this.freeDigital = !this.freeDigital;
-      this.freeDigital == true ? this.article.digital_price = '' : '';
+    matchAuthors: function matchAuthors(authorId) {
+      this.article.author_id = authorId;
     },
     validateData: function validateData() {
       this.errors = [];
 
       if (this.article.photo == '/img/placeholder.jpg') {
         this.disabled = false;
-        this.errors.push('Veuillez importer une photo pour le livre');
+        this.errors.push('Photo is required');
         window.scrollTo(0, 0);
         return;
       }
 
       if (!this.article.title) {
         this.disabled = false;
-        this.errors.push('Le titre est requis');
+        this.errors.push('Title is required');
         window.scrollTo(0, 0);
         return;
       }
 
       if (this.article.categories.length == 0) {
         this.disabled = false;
-        this.errors.push('Veuillez séléctionner au moins une catégorie');
-        window.scrollTo(0, 0);
-        return;
-      }
-
-      if (this.article.languages.length == 0) {
-        this.disabled = false;
-        this.errors.push('Veuillez séléctionner au moins une langue');
-        window.scrollTo(0, 0);
-        return;
-      }
-
-      if (this.article.authors.length == 0) {
-        this.disabled = false;
-        this.errors.push('Veuillez séléctionner au moins un auteur');
-        window.scrollTo(0, 0);
-        return;
-      }
-
-      if (!this.article.published_year) {
-        this.disabled = false;
-        this.errors.push('L\'année de publication est requise');
-        window.scrollTo(0, 0);
-        return;
-      }
-
-      if (!this.article.editor) {
-        this.disabled = false;
-        this.errors.push('L\'editeur est requis');
-        window.scrollTo(0, 0);
-        return;
-      }
-
-      if (!this.article.count_pages) {
-        this.disabled = false;
-        this.errors.push('Le nombre des pages est requis');
-        window.scrollTo(0, 0);
-        return;
-      }
-
-      if (!this.article.isbn) {
-        this.disabled = false;
-        this.errors.push('L\'ISBN est requis');
+        this.errors.push('Please select a category');
         window.scrollTo(0, 0);
         return;
       }
@@ -3131,62 +3003,23 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         return;
       }
 
-      if (this.availableDigital) {
-        if (!this.article.digital_link) {
-          this.disabled = false;
-          this.errors.push('Veuillez importer un fichier pour la vérsion numérique');
-          window.scrollTo(0, 0);
-          return;
-        }
-
-        if (!this.freeDigital && !this.article.digital_price) {
-          this.disabled = false;
-          this.errors.push('Veuillez spécifier un prix pour la version numerique');
-          window.scrollTo(0, 0);
-          return;
-        }
+      if (!this.article.audio_link) {
+        this.disabled = false;
+        this.errors.push('Please import an audio file');
+        window.scrollTo(0, 0);
+        return;
       }
 
-      if (this.availablePaper) {
-        if (!this.article.height) {
-          this.disabled = false;
-          this.errors.push('L\'hauteur est requise');
-          window.scrollTo(0, 0);
-          return;
-        }
-
-        if (!this.article.width) {
-          this.disabled = false;
-          this.errors.push('La largeur est requise');
-          window.scrollTo(0, 0);
-          return;
-        }
-
-        if (!this.article.thickness) {
-          this.disabled = false;
-          this.errors.push('L\'epaisseur est requis');
-          window.scrollTo(0, 0);
-          return;
-        }
-
-        if (!this.article.weight) {
-          this.disabled = false;
-          this.errors.push('Le poids est requis');
-          window.scrollTo(0, 0);
-          return;
-        }
-
-        if (!this.article.paper_price) {
-          this.disabled = false;
-          this.errors.push('Le prix est requis');
-          window.scrollTo(0, 0);
-          return;
-        }
+      if (!this.article.author_id) {
+        this.disabled = false;
+        this.errors.push('Please select an author');
+        window.scrollTo(0, 0);
+        return;
       }
 
       return true;
     },
-    submitAddArticle: function submitAddArticle() {
+    submitAddarticle: function submitAddarticle() {
       var _this2 = this;
 
       this.disabled = true;
@@ -3194,15 +3027,21 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       if (validate) {
         this.$Progress.start();
-        axios.post('/api/article/save', {
-          article: this.article
-        }).then(function (response) {
+        var body = new FormData();
+        body.append('photo', this.article.photo);
+        body.append('audio_link', this.article.audio_link);
+        body.append('categories', JSON.stringify(this.article.categories));
+        body.append('title', this.article.title);
+        body.append('active', this.article.active);
+        body.append('description', this.article.description);
+        body.append('author_id', this.article.author_id);
+        axios.post('/api/article/save', body).then(function (response) {
           _this2.$Progress.finish();
 
           if (response.data.status == 200) {
             swal2.fire({
               type: 'success',
-              title: 'Article ajouté avec succés',
+              title: 'Articleadded successfuly',
               allowOutsideClick: false,
               showConfirmButton: true,
               confirmButtonText: 'Fermer'
@@ -3226,9 +3065,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           }
         });
       }
-    },
-    cancelArticle: function cancelArticle() {
-      window.location = '/articles';
     }
   }
 });
@@ -3840,13 +3676,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         return;
       }
 
-      if (!this.book.audio_link) {
-        this.disabled = false;
-        this.errors.push('Please import an audio file');
-        window.scrollTo(0, 0);
-        return;
-      }
-
       if (!this.book.author_id) {
         this.disabled = false;
         this.errors.push('Please select an author');
@@ -4442,7 +4271,7 @@ __webpack_require__.r(__webpack_exports__);
           _this.allBooks = _this.books;
           toast.fire({
             type: 'success',
-            title: 'Livre supprimé'
+            title: 'Book deleted'
           });
           _this.isChecked = !_this.isChecked;
 
@@ -4452,7 +4281,7 @@ __webpack_require__.r(__webpack_exports__);
         if (response.data.status == 404) {
           swal2.fire({
             type: 'error',
-            title: 'Livre introuvable..',
+            title: 'Book not found..',
             allowOutsideClick: false,
             showConfirmButton: true,
             confirmButtonText: 'Fermer'
@@ -4480,25 +4309,6 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _nested_ShowModal_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./nested/ShowModal.vue */ "./resources/js/components/nested/ShowModal.vue");
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -5735,6 +5545,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _nested_ShowErrors_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./nested/ShowErrors.vue */ "./resources/js/components/nested/ShowErrors.vue");
 
 
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
@@ -5898,161 +5710,68 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
-    this.updateArticle();
-    this.formatAuthors();
     this.formatCategories();
-    this.formatLanguages();
+    this.formatAuthors();
   },
-  props: ['languages', 'categories', 'authors', 'article_details'],
+  props: ['categories', 'authors', 'article_details'],
   data: function data() {
     return {
-      digital_name: 'Importer un fichier',
-      availablePaper: false,
-      availableDigital: false,
+      digital_name: 'Upload an audio file',
       disabled: false,
-      freeDigital: false,
-      selectedAuthors: [],
-      searchedAuthors: [],
       errors: [],
       article: {
         id: '',
         active: 1,
         title: '',
         categories: [],
-        languages: [],
-        authors: [],
+        author_id: '',
         published_year: '',
-        editor: '',
-        count_pages: '',
         isbn: '',
         description: '',
-        digital_price: '',
-        photo: '/img/placeholder.jpg',
-        digital_link: ''
-      }
+        photo: '',
+        audio_link: ''
+      },
+      searchedAuthors: []
     };
   },
   methods: {
-    updateArticle: function updateArticle() {
-      this.article = this.article_details;
-      this.article.paper_price ? this.availablePaper = true : this.availablePaper = false;
-      this.article.digital_link ? this.availableDigital = true : this.availableDigital = false;
-      this.article.digital_price ? this.freeDigital = false : '';
-
-      if (this.article.digital_link && !this.article.digital_price) {
-        this.freeDigital = true;
+    formatCategories: function formatCategories() {
+      for (var i = 0; i < this.categories.length; i++) {
+        this.$set(this.categories[i], 'disabled', false);
       }
 
-      this.selectedAuthors = _.map(this.article_details.authors, 'id');
+      this.article.id = this.article_details.id;
+      this.article.active = this.article_details.active;
+      this.article.title = this.article_details.title;
+      this.article.categories = this.article_details.categories;
+      this.article.published_year = this.article_details.published_year;
+      this.article.isbn = this.article_details.isbn;
+      this.article.description = this.article_details.description;
+      this.article.photo = this.article_details.photo;
+      this.article.author_id = this.article_details.author_id;
+      this.article.audio_link = this.article_details.audio_link;
     },
     formatAuthors: function formatAuthors() {
       var _this = this;
 
-      if (this.article.authors && this.article.authors.length > 0) {
-        var oldAuthors = [];
-        this.article.authors.forEach(function (oldAuthor) {
-          _this.searchedAuthors.push({
+      if (this.authors && this.authors.length > 0) {
+        this.authors.forEach(function (oldAuthor) {
+          if (oldAuthor.id == _this.article.author_id) _this.searchedAuthors.push({
             id: oldAuthor.id,
             fullName: oldAuthor.first_name + ' ' + oldAuthor.last_name,
             biography: oldAuthor.biography,
             photo: oldAuthor.photo,
             selected: true
           });
-
-          oldAuthors.push(oldAuthor.id);
         });
-        this.article.authors = oldAuthors;
       }
-    },
-    formatCategories: function formatCategories() {
-      var _this2 = this;
-
-      for (var i = 0; i < this.categories.length; i++) {
-        this.$set(this.categories[i], 'disabled', false);
-      }
-
-      this.article.categories.forEach(function (articleCategory) {
-        _this2.categories.forEach(function (category) {
-          if (articleCategory.id == category.id) {
-            category.disabled = true;
-          }
-        });
-      });
-    },
-    formatLanguages: function formatLanguages() {
-      var _this3 = this;
-
-      for (var i = 0; i < this.languages.length; i++) {
-        this.$set(this.languages[i], 'disabled', false);
-      }
-
-      this.article.languages.forEach(function (articleLanguage) {
-        _this3.languages.forEach(function (language) {
-          if (articleLanguage.id == language.id) {
-            language.disabled = true;
-          }
-        });
-      });
     },
     uploadFile: function uploadFile(event, type) {
-      var _this4 = this;
+      var _this2 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
         var file;
@@ -6061,7 +5780,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context.prev = _context.next) {
               case 0:
                 _context.next = 2;
-                return _this4.$root.uploadFile(event, type);
+                return _this2.$root.uploadFile(event, type);
 
               case 2:
                 file = _context.sent;
@@ -6076,12 +5795,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   break;
                 }
 
-                _this4.article.photo = file.link;
+                _this2.article.photo = file.link;
                 return _context.abrupt("return");
 
               case 9:
-                _this4.article.digital_link = file.link;
-                _this4.digital_name = file.name;
+                _this2.article.audio_link = file.link;
+                _this2.digital_name = file.name;
                 return _context.abrupt("return");
 
               case 12:
@@ -6102,6 +5821,23 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee);
       }))();
     },
+    uploadBinary: function uploadBinary(event) {
+      var file = this.$root.uploadBinary(event);
+
+      if (file) {
+        this.article.audio_link = file;
+        this.digital_name = file.name;
+        return;
+      }
+
+      swal2.fire({
+        type: 'error',
+        title: 'Format fichier non supporté',
+        allowOutsideClick: false,
+        showConfirmButton: true,
+        confirmButtonText: 'Fermer'
+      });
+    },
     selectCategory: function selectCategory(event) {
       var id = event.target.value;
 
@@ -6114,6 +5850,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         this.categories.forEach(function (category) {
           category.id == id ? category.disabled = true : '';
         });
+        this.defaultCategorySelection;
       }
     },
     selectLanguage: function selectLanguage(event) {
@@ -6142,187 +5879,100 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         language.id == articleLanguage.id ? language.disabled = false : '';
       });
     },
-    matchAuthors: function matchAuthors(authors) {
-      this.article.authors = authors;
-    },
-    setAvailableDigital: function setAvailableDigital() {
-      this.availableDigital = !this.availableDigital;
-
-      if (!this.availableDigital) {
-        this.digital_name = 'Importer un fichier';
-        this.article.digital_price = '';
-        this.article.digital_link = '';
-        this.freeDigital = false;
-      } else {
-        this.availableDigital = true;
-      }
-    },
-    setAvailablePaper: function setAvailablePaper() {
-      this.availablePaper = !this.availablePaper;
-
-      if (!this.availablePaper) {
-        this.article.weight = '';
-        this.article.height = '';
-        this.article.width = '';
-        this.article.thickness = '';
-        this.article.paper_price = '';
-      }
-    },
-    setFreeDigital: function setFreeDigital() {
-      this.freeDigital = !this.freeDigital;
-      this.freeDigital == true ? this.article.digital_price = '' : '';
+    matchAuthors: function matchAuthors(authorId) {
+      this.article.author_id = authorId;
     },
     validateData: function validateData() {
       this.errors = [];
 
       if (this.article.photo == '/img/placeholder.jpg') {
         this.disabled = false;
-        this.errors.push('Veuillez importer une photo pour le livre');
+        this.errors.push('Photo is required');
         window.scrollTo(0, 0);
         return;
       }
 
       if (!this.article.title) {
         this.disabled = false;
-        this.errors.push('Le titre est requis');
-        window.scrollTo(0, 0);
-        return;
-      }
-
-      if (this.article.categories.length == 0) {
-        this.disabled = false;
-        this.errors.push('Veuillez séléctionner au moins une catégorie');
-        window.scrollTo(0, 0);
-        return;
-      }
-
-      if (this.article.languages.length == 0) {
-        this.disabled = false;
-        this.errors.push('Veuillez séléctionner au moins une langue');
-        window.scrollTo(0, 0);
-        return;
-      }
-
-      if (this.article.authors.length == 0) {
-        this.disabled = false;
-        this.errors.push('Veuillez séléctionner au moins un auteur');
-        window.scrollTo(0, 0);
-        return;
-      }
-
-      if (!this.article.published_year) {
-        this.disabled = false;
-        this.errors.push('L\'année de publication est requise');
-        window.scrollTo(0, 0);
-        return;
-      }
-
-      if (!this.article.editor) {
-        this.disabled = false;
-        this.errors.push('L\'editeur est requis');
-        window.scrollTo(0, 0);
-        return;
-      }
-
-      if (!this.article.count_pages) {
-        this.disabled = false;
-        this.errors.push('Le nombre des pages est requis');
-        window.scrollTo(0, 0);
-        return;
-      }
-
-      if (this.article.count_pages <= 0) {
-        this.disabled = false;
-        this.errors.push('Le nombre des pages est invalide');
+        this.errors.push('Title is required');
         window.scrollTo(0, 0);
         return;
       }
 
       if (!this.article.isbn) {
         this.disabled = false;
-        this.errors.push('L\'ISBN est requis');
+        this.errors.push('ISBN is required');
+        window.scrollTo(0, 0);
+        return;
+      }
+
+      if (this.article.categories.length == 0) {
+        this.disabled = false;
+        this.errors.push('Please select a category');
+        window.scrollTo(0, 0);
+        return;
+      }
+
+      if (!this.article.published_year) {
+        this.disabled = false;
+        this.errors.push('Published year is required');
         window.scrollTo(0, 0);
         return;
       }
 
       if (!this.article.description) {
+        this.disabled = false;
         this.errors.push('La description est requise');
         window.scrollTo(0, 0);
         return;
       }
 
-      if (this.availableDigital) {
-        if (!this.article.digital_link) {
-          this.disabled = false;
-          this.errors.push('Veuillez importer un fichier pour la vérsion numérique');
-          window.scrollTo(0, 0);
-          return;
-        }
-
-        if (!this.freeDigital && !this.article.digital_price) {
-          this.disabled = false;
-          this.errors.push('Veuillez spécifier un prix pour la version numerique');
-          window.scrollTo(0, 0);
-          return;
-        }
+      if (!this.article.audio_link) {
+        this.disabled = false;
+        this.errors.push('Please import an audio file');
+        window.scrollTo(0, 0);
+        return;
       }
 
-      if (this.availablePaper) {
-        if (!this.article.height) {
-          this.disabled = false;
-          this.errors.push('L\'hauteur est requise');
-          window.scrollTo(0, 0);
-          return;
-        }
-
-        if (!this.article.width) {
-          this.disabled = false;
-          this.errors.push('La largeur est requise');
-          window.scrollTo(0, 0);
-          return;
-        }
-
-        if (!this.article.thickness) {
-          this.disabled = false;
-          this.errors.push('L\'epaisseur est requis');
-          window.scrollTo(0, 0);
-          return;
-        }
-
-        if (!this.article.weight) {
-          this.disabled = false;
-          this.errors.push('Le poids est requis');
-          window.scrollTo(0, 0);
-          return;
-        }
-
-        if (!this.article.paper_price) {
-          this.disabled = false;
-          this.errors.push('Le prix est requis');
-          window.scrollTo(0, 0);
-          return;
-        }
+      if (!this.article.author_id) {
+        this.disabled = false;
+        this.errors.push('Please select an author');
+        window.scrollTo(0, 0);
+        return;
       }
 
       return true;
     },
-    submitUpdateArticle: function submitUpdateArticle() {
-      var _this5 = this;
+    submitAddarticle: function submitAddarticle() {
+      var _this3 = this;
 
       this.disabled = true;
       var validate = this.validateData();
 
       if (validate) {
         this.$Progress.start();
-        axios.post("/api/article/".concat(this.article.id, "/update"), {
-          article: this.article
-        }).then(function (response) {
-          _this5.$Progress.finish();
+        var body = new FormData();
+        body.append('id', this.article.id);
+        body.append('photo', this.article.photo);
+
+        if (_typeof(this.article.audio_link) === 'object') {
+          body.append('audio_link', this.article.audio_link); //audio file has to be a type of file
+        }
+
+        body.append('categories', JSON.stringify(this.article.categories));
+        body.append('title', this.article.title);
+        body.append('active', this.article.active);
+        body.append('description', this.article.description);
+        body.append('isbn', this.article.isbn);
+        body.append('published_year', this.article.published_year);
+        body.append('author_id', this.article.author_id);
+        axios.post("/api/article/".concat(this.article.id, "/update"), body).then(function (response) {
+          _this3.$Progress.finish();
 
           if (response.data.status == 200) {
             swal2.fire({
               type: 'success',
-              title: 'Article modifié avec succés',
+              title: 'article updated',
               allowOutsideClick: false,
               showConfirmButton: true,
               confirmButtonText: 'Fermer'
@@ -6333,22 +5983,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             });
           }
         })["catch"](function (error) {
-          _this5.$Progress.fail();
+          _this3.$Progress.fail();
 
-          _this5.disabled = false;
+          _this3.disabled = false;
 
           if (error.response.status == 422) {
-            _this5.errors = [];
+            _this3.errors = [];
             var errors = Object.values(error.response.data.errors);
             errors = _.flatMap(errors);
-            _this5.errors = errors;
+            _this3.errors = errors;
             window.scrollTo(0, 0);
           }
         });
       }
-    },
-    cancelArticle: function cancelArticle() {
-      window.location = '/articles';
     }
   }
 });
@@ -6604,10 +6251,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _nested_ShowArticles_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./nested/ShowArticles.vue */ "./resources/js/components/nested/ShowArticles.vue");
-/* harmony import */ var _nested_ShowAuthors_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./nested/ShowAuthors.vue */ "./resources/js/components/nested/ShowAuthors.vue");
-/* harmony import */ var _nested_ShowErrors_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./nested/ShowErrors.vue */ "./resources/js/components/nested/ShowErrors.vue");
+/* harmony import */ var _nested_ShowAuthors_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./nested/ShowAuthors.vue */ "./resources/js/components/nested/ShowAuthors.vue");
+/* harmony import */ var _nested_ShowErrors_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./nested/ShowErrors.vue */ "./resources/js/components/nested/ShowErrors.vue");
 
+
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
@@ -6778,222 +6426,69 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
-    this.updateBook();
-    this.formatAuthors();
     this.formatCategories();
-    this.formatLanguages();
+    this.formatAuthors();
   },
-  props: ['languages', 'categories', 'articles', 'authors', 'book_details'],
+  props: ['categories', 'authors', 'book_details'],
   data: function data() {
     return {
-      digital_name: 'Importer un fichier',
-      availablePaper: false,
-      availableDigital: false,
+      digital_name: 'Upload an audio file',
       disabled: false,
-      freeDigital: false,
-      selected_articles: [],
-      selectedAuthors: [],
-      searchedAuthors: [],
       errors: [],
       book: {
         id: '',
         active: 1,
         title: '',
         categories: [],
-        languages: [],
-        articles: [],
-        authors: [],
+        author_id: '',
         published_year: '',
-        editor: '',
-        count_pages: '',
         isbn: '',
         description: '',
-        height: '',
-        width: '',
-        thickness: '',
-        weight: '',
-        paper_price: '',
-        digital_price: '',
-        photo: '/img/placeholder.jpg',
-        digital_link: ''
-      }
+        photo: '',
+        audio_link: ''
+      },
+      searchedAuthors: [],
+      video: "https://www.w3schools.com/tags/movie.mp4"
     };
   },
   methods: {
-    updateBook: function updateBook() {
-      this.book = this.book_details;
-      this.book.paper_price ? this.availablePaper = true : this.availablePaper = false;
-      this.book.digital_link ? this.availableDigital = true : this.availableDigital = false;
-      this.book.digital_price ? this.freeDigital = false : '';
-
-      if (this.book.digital_link && !this.book.digital_price) {
-        this.freeDigital = true;
+    formatCategories: function formatCategories() {
+      for (var i = 0; i < this.categories.length; i++) {
+        this.$set(this.categories[i], 'disabled', false);
       }
 
-      this.selected_articles = _.map(this.book_details.articles, 'id');
-      this.book.articles = this.selected_articles;
-      this.selectedAuthors = _.map(this.book_details.authors, 'id');
+      this.book.id = this.book_details.id;
+      this.book.active = this.book_details.active;
+      this.book.title = this.book_details.title;
+      this.book.categories = this.book_details.categories;
+      this.book.published_year = this.book_details.published_year;
+      this.book.isbn = this.book_details.isbn;
+      this.book.description = this.book_details.description;
+      this.book.photo = this.book_details.photo;
+      this.book.author_id = this.book_details.author_id;
+      this.book.audio_link = this.book_details.audio_link;
     },
     formatAuthors: function formatAuthors() {
       var _this = this;
 
-      if (this.book.authors && this.book.authors.length > 0) {
-        var oldAuthors = [];
-        this.book.authors.forEach(function (oldAuthor) {
-          _this.searchedAuthors.push({
+      if (this.authors && this.authors.length > 0) {
+        this.authors.forEach(function (oldAuthor) {
+          if (oldAuthor.id == _this.book.author_id) _this.searchedAuthors.push({
             id: oldAuthor.id,
             fullName: oldAuthor.first_name + ' ' + oldAuthor.last_name,
             biography: oldAuthor.biography,
             photo: oldAuthor.photo,
             selected: true
           });
-
-          oldAuthors.push(oldAuthor.id);
         });
-        this.book.authors = oldAuthors;
       }
-    },
-    formatCategories: function formatCategories() {
-      var _this2 = this;
-
-      for (var i = 0; i < this.categories.length; i++) {
-        this.$set(this.categories[i], 'disabled', false);
-      }
-
-      this.book.categories.forEach(function (bookCategory) {
-        _this2.categories.forEach(function (category) {
-          if (bookCategory.id == category.id) {
-            category.disabled = true;
-          }
-        });
-      });
-    },
-    formatLanguages: function formatLanguages() {
-      var _this3 = this;
-
-      for (var i = 0; i < this.languages.length; i++) {
-        this.$set(this.languages[i], 'disabled', false);
-      }
-
-      this.book.languages.forEach(function (bookLanguage) {
-        _this3.languages.forEach(function (language) {
-          if (bookLanguage.id == language.id) {
-            language.disabled = true;
-          }
-        });
-      });
     },
     uploadFile: function uploadFile(event, type) {
-      var _this4 = this;
+      var _this2 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
         var file;
@@ -7002,7 +6497,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context.prev = _context.next) {
               case 0:
                 _context.next = 2;
-                return _this4.$root.uploadFile(event, type);
+                return _this2.$root.uploadFile(event, type);
 
               case 2:
                 file = _context.sent;
@@ -7017,12 +6512,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   break;
                 }
 
-                _this4.book.photo = file.link;
+                _this2.book.photo = file.link;
                 return _context.abrupt("return");
 
               case 9:
-                _this4.book.digital_link = file.link;
-                _this4.digital_name = file.name;
+                _this2.book.audio_link = file.link;
+                _this2.digital_name = file.name;
                 return _context.abrupt("return");
 
               case 12:
@@ -7043,6 +6538,23 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee);
       }))();
     },
+    uploadBinary: function uploadBinary(event) {
+      var file = this.$root.uploadBinary(event);
+
+      if (file) {
+        this.book.audio_link = file;
+        this.digital_name = file.name;
+        return;
+      }
+
+      swal2.fire({
+        type: 'error',
+        title: 'Format fichier non supporté',
+        allowOutsideClick: false,
+        showConfirmButton: true,
+        confirmButtonText: 'Fermer'
+      });
+    },
     selectCategory: function selectCategory(event) {
       var id = event.target.value;
 
@@ -7055,6 +6567,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         this.categories.forEach(function (category) {
           category.id == id ? category.disabled = true : '';
         });
+        this.defaultCategorySelection;
       }
     },
     selectLanguage: function selectLanguage(event) {
@@ -7083,195 +6596,100 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         language.id == bookLanguage.id ? language.disabled = false : '';
       });
     },
-    matchAuthors: function matchAuthors(authors) {
-      this.book.authors = authors;
-    },
-    affectArticles: function affectArticles(articles) {
-      this.book.articles = articles;
-    },
-    setAvailableDigital: function setAvailableDigital() {
-      this.availableDigital = !this.availableDigital;
-
-      if (!this.availableDigital) {
-        this.digital_name = 'Importer un fichier';
-        this.book.digital_price = '';
-        this.book.digital_link = '';
-        this.freeDigital = false;
-      }
-    },
-    setAvailablePaper: function setAvailablePaper() {
-      this.availablePaper = !this.availablePaper;
-
-      if (!this.availablePaper) {
-        this.book.weight = '';
-        this.book.height = '';
-        this.book.width = '';
-        this.book.thickness = '';
-        this.book.paper_price = '';
-      }
-    },
-    setFreeDigital: function setFreeDigital() {
-      this.freeDigital = !this.freeDigital;
-      this.freeDigital == true ? this.book.digital_price = '' : '';
+    matchAuthors: function matchAuthors(authorId) {
+      this.book.author_id = authorId;
     },
     validateData: function validateData() {
       this.errors = [];
 
       if (this.book.photo == '/img/placeholder.jpg') {
         this.disabled = false;
-        this.errors.push('Veuillez importer une photo pour le livre');
+        this.errors.push('Photo is required');
         window.scrollTo(0, 0);
         return;
       }
 
       if (!this.book.title) {
         this.disabled = false;
-        this.errors.push('Le titre est requis');
-        window.scrollTo(0, 0);
-        return;
-      }
-
-      if (this.book.categories.length == 0) {
-        this.disabled = false;
-        this.errors.push('Veuillez séléctionner au moins une catégorie');
-        window.scrollTo(0, 0);
-        return;
-      }
-
-      if (this.book.languages.length == 0) {
-        this.disabled = false;
-        this.errors.push('Veuillez séléctionner au moins une langue');
-        window.scrollTo(0, 0);
-        return;
-      }
-
-      if (this.book.authors.length == 0) {
-        this.disabled = false;
-        this.errors.push('Veuillez séléctionner au moins un auteur');
-        window.scrollTo(0, 0);
-        return;
-      }
-
-      if (!this.book.published_year) {
-        this.disabled = false;
-        this.errors.push('L\'année de publication est requise');
-        window.scrollTo(0, 0);
-        return;
-      }
-
-      if (!this.book.editor) {
-        this.disabled = false;
-        this.errors.push('L\'editeur est requis');
-        window.scrollTo(0, 0);
-        return;
-      }
-
-      if (!this.book.count_pages) {
-        this.disabled = false;
-        this.errors.push('Le nombre des pages est requis');
-        window.scrollTo(0, 0);
-        return;
-      }
-
-      if (this.book.count_pages <= 0) {
-        this.disabled = false;
-        this.errors.push('Le nombre des pages est invalide');
+        this.errors.push('Title is required');
         window.scrollTo(0, 0);
         return;
       }
 
       if (!this.book.isbn) {
         this.disabled = false;
-        this.errors.push('L\'ISBN est requis');
+        this.errors.push('ISBN is required');
+        window.scrollTo(0, 0);
+        return;
+      }
+
+      if (this.book.categories.length == 0) {
+        this.disabled = false;
+        this.errors.push('Please select a category');
+        window.scrollTo(0, 0);
+        return;
+      }
+
+      if (!this.book.published_year) {
+        this.disabled = false;
+        this.errors.push('Published year is required');
         window.scrollTo(0, 0);
         return;
       }
 
       if (!this.book.description) {
+        this.disabled = false;
         this.errors.push('La description est requise');
         window.scrollTo(0, 0);
         return;
       }
 
-      if (!this.availablePaper && !this.availableDigital) {
+      if (!this.book.audio_link) {
         this.disabled = false;
-        this.errors.push('Veuillez séléctionner au moins une version');
+        this.errors.push('Please import an audio file');
         window.scrollTo(0, 0);
         return;
       }
 
-      if (this.availableDigital) {
-        if (!this.book.digital_link) {
-          this.disabled = false;
-          this.errors.push('Veuillez importer un fichier pour la vérsion numérique');
-          window.scrollTo(0, 0);
-          return;
-        }
-
-        if (!this.freeDigital && !this.book.digital_price) {
-          this.disabled = false;
-          this.errors.push('Veuillez spécifier un prix pour la version numerique');
-          window.scrollTo(0, 0);
-          return;
-        }
-      }
-
-      if (this.availablePaper) {
-        if (!this.book.height) {
-          this.disabled = false;
-          this.errors.push('L\'hauteur est requise');
-          window.scrollTo(0, 0);
-          return;
-        }
-
-        if (!this.book.width) {
-          this.disabled = false;
-          this.errors.push('La largeur est requise');
-          window.scrollTo(0, 0);
-          return;
-        }
-
-        if (!this.book.thickness) {
-          this.disabled = false;
-          this.errors.push('L\'epaisseur est requis');
-          window.scrollTo(0, 0);
-          return;
-        }
-
-        if (!this.book.weight) {
-          this.disabled = false;
-          this.errors.push('Le poids est requis');
-          window.scrollTo(0, 0);
-          return;
-        }
-
-        if (!this.book.paper_price) {
-          this.disabled = false;
-          this.errors.push('Le prix est requis');
-          window.scrollTo(0, 0);
-          return;
-        }
+      if (!this.book.author_id) {
+        this.disabled = false;
+        this.errors.push('Please select an author');
+        window.scrollTo(0, 0);
+        return;
       }
 
       return true;
     },
-    submitUpdateBook: function submitUpdateBook() {
-      var _this5 = this;
+    submitAddBook: function submitAddBook() {
+      var _this3 = this;
 
       this.disabled = true;
       var validate = this.validateData();
 
       if (validate) {
         this.$Progress.start();
-        axios.post("/api/book/".concat(this.book.id, "/update"), {
-          book: this.book
-        }).then(function (response) {
-          _this5.$Progress.finish();
+        var body = new FormData();
+        body.append('id', this.book.id);
+        body.append('photo', this.book.photo);
+
+        if (_typeof(this.book.audio_link) === 'object') {
+          body.append('audio_link', this.book.audio_link); //audio file has to be a type of file
+        }
+
+        body.append('categories', JSON.stringify(this.book.categories));
+        body.append('title', this.book.title);
+        body.append('active', this.book.active);
+        body.append('description', this.book.description);
+        body.append('isbn', this.book.isbn);
+        body.append('published_year', this.book.published_year);
+        body.append('author_id', this.book.author_id);
+        axios.post("/api/book/".concat(this.book.id, "/update"), body).then(function (response) {
+          _this3.$Progress.finish();
 
           if (response.data.status == 200) {
             swal2.fire({
               type: 'success',
-              title: 'Livre modifié avec succés',
+              title: 'Book updated',
               allowOutsideClick: false,
               showConfirmButton: true,
               confirmButtonText: 'Fermer'
@@ -7282,22 +6700,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             });
           }
         })["catch"](function (error) {
-          _this5.$Progress.fail();
+          _this3.$Progress.fail();
 
-          _this5.disabled = false;
+          _this3.disabled = false;
 
           if (error.response.status == 422) {
-            _this5.errors = [];
+            _this3.errors = [];
             var errors = Object.values(error.response.data.errors);
             errors = _.flatMap(errors);
-            _this5.errors = errors;
+            _this3.errors = errors;
             window.scrollTo(0, 0);
           }
         });
       }
-    },
-    cancelBook: function cancelBook() {
-      window.location = '/books';
     }
   }
 });
@@ -8161,7 +7576,6 @@ Vue.use(_trevoreyre_autocomplete_vue__WEBPACK_IMPORTED_MODULE_0__["default"]);
 
     if (this.oldSearchedAuthors && this.oldSearchedAuthors.length > 0) {
       this.searchedAuthors = this.oldSearchedAuthors;
-      this.selectedAuthors = _.map(this.oldSearchedAuthors, 'id');
     }
   },
   props: ['authors', 'oldSearchedAuthors'],
@@ -107384,7 +106798,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container-fluid" }, [
     _c("div", { staticClass: "card card-primary" }, [
-      _c("h3", { staticClass: " p-4" }, [_vm._v("Ajouter un article")]),
+      _c("h3", { staticClass: " p-4" }, [_vm._v("Add an article")]),
       _vm._v(" "),
       _c("form", { attrs: { role: "form" } }, [
         _c(
@@ -107398,7 +106812,11 @@ var render = function() {
                 _c("img", {
                   staticClass: "rounded mx-auto d-block mb-3 img-upload",
                   staticStyle: { height: "20vh" },
-                  attrs: { src: _vm.article.photo },
+                  attrs: {
+                    src: _vm.article.photo
+                      ? _vm.article.photo
+                      : "/img/placeholder.jpg"
+                  },
                   on: {
                     click: function($event) {
                       return _vm.$refs.file.click()
@@ -107420,7 +106838,7 @@ var render = function() {
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "form-group" }, [
-              _c("label", [_vm._v("Etat")]),
+              _c("label", [_vm._v("Status")]),
               _vm._v(" "),
               _c(
                 "select",
@@ -107455,9 +106873,9 @@ var render = function() {
                   }
                 },
                 [
-                  _c("option", { domProps: { value: 1 } }, [_vm._v("Actf")]),
+                  _c("option", { domProps: { value: 1 } }, [_vm._v("Active")]),
                   _vm._v(" "),
-                  _c("option", { domProps: { value: 0 } }, [_vm._v("Inactif")])
+                  _c("option", { domProps: { value: 0 } }, [_vm._v("Inactive")])
                 ]
               )
             ]),
@@ -107465,7 +106883,7 @@ var render = function() {
             _c("div", { staticClass: "row" }, [
               _c("div", { staticClass: "col-md-12" }, [
                 _c("label", { attrs: { for: "exampleInputEmail1" } }, [
-                  _vm._v("Titre")
+                  _vm._v("Title")
                 ]),
                 _vm._v(" "),
                 _c("input", {
@@ -107478,7 +106896,7 @@ var render = function() {
                     }
                   ],
                   staticClass: "form-control",
-                  attrs: { type: "text", placeholder: "Titre.." },
+                  attrs: { type: "text", placeholder: "article's title.." },
                   domProps: { value: _vm.article.title },
                   on: {
                     input: function($event) {
@@ -107495,7 +106913,7 @@ var render = function() {
             _c("div", { staticClass: "row mt-3" }, [
               _c(
                 "div",
-                { staticClass: "col-md-6" },
+                { staticClass: "col-md-12" },
                 [
                   _c(
                     "label",
@@ -107503,7 +106921,7 @@ var render = function() {
                       staticStyle: { display: "block" },
                       attrs: { for: "exampleInputEmail1" }
                     },
-                    [_vm._v("Catégories")]
+                    [_vm._v("Categories")]
                   ),
                   _vm._v(" "),
                   _c("div", { staticClass: "form-group" }, [
@@ -107530,7 +106948,7 @@ var render = function() {
                           },
                           [
                             _vm._v(
-                              "Selectionner une catégorie\n                                "
+                              "Select categories\n                                "
                             )
                           ]
                         ),
@@ -107568,7 +106986,7 @@ var render = function() {
                           },
                           [
                             _vm._v(
-                              " " +
+                              "\n                                " +
                                 _vm._s(_vm.$root.ucfirst(articleCategory.name))
                             )
                           ]
@@ -107596,248 +107014,13 @@ var render = function() {
                   })
                 ],
                 2
-              ),
-              _vm._v(" "),
-              _c(
-                "div",
-                { staticClass: "col-md-6" },
-                [
-                  _c(
-                    "label",
-                    {
-                      staticStyle: { display: "block" },
-                      attrs: { for: "exampleInputEmail1" }
-                    },
-                    [_vm._v("Langues")]
-                  ),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "form-group" }, [
-                    _c(
-                      "select",
-                      {
-                        staticClass: "form-control",
-                        on: {
-                          change: function($event) {
-                            return _vm.selectLanguage($event)
-                          }
-                        }
-                      },
-                      [
-                        _c(
-                          "option",
-                          {
-                            attrs: {
-                              disabled: _vm.article.languages.length > 0
-                            },
-                            domProps: {
-                              selected: _vm.article.languages.length == 0
-                            }
-                          },
-                          [
-                            _vm._v(
-                              "Selectionner une langue\n                                "
-                            )
-                          ]
-                        ),
-                        _vm._v(" "),
-                        _vm._l(_vm.languages, function(language) {
-                          return _c(
-                            "option",
-                            {
-                              attrs: { disabled: language.disabled },
-                              domProps: { value: language.id }
-                            },
-                            [
-                              _vm._v(
-                                "\n                                  " +
-                                  _vm._s(_vm.$root.ucfirst(language.name))
-                              )
-                            ]
-                          )
-                        })
-                      ],
-                      2
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _vm._l(_vm.article.languages, function(articleLanguage) {
-                    return _vm.article.languages.length > 0
-                      ? _c("div", { staticClass: "btn-group mb-3 m-1" }, [
-                          _c(
-                            "button",
-                            {
-                              staticClass: "btn btn-outline-secondary",
-                              attrs: { type: "button" }
-                            },
-                            [
-                              _vm._v(
-                                " " +
-                                  _vm._s(
-                                    _vm.$root.ucfirst(articleLanguage.name)
-                                  )
-                              )
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "button",
-                            {
-                              staticClass: "btn btn-outline-secondary",
-                              attrs: { type: "button" },
-                              on: {
-                                click: function($event) {
-                                  return _vm.resetLanguage(articleLanguage)
-                                }
-                              }
-                            },
-                            [
-                              _c("span", { attrs: { "aria-hidden": "true" } }, [
-                                _vm._v("×")
-                              ])
-                            ]
-                          )
-                        ])
-                      : _vm._e()
-                  })
-                ],
-                2
               )
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "row" }, [
-              _c("div", { staticClass: "col-md-6" }, [
-                _c(
-                  "label",
-                  {
-                    staticClass: "mt-2 mb-2",
-                    attrs: { for: "exampleInputEmail1" }
-                  },
-                  [_vm._v("Année de publication")]
-                ),
-                _vm._v(" "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.article.published_year,
-                      expression: "article.published_year"
-                    }
-                  ],
-                  staticClass: "form-control",
-                  attrs: {
-                    type: "number",
-                    placeholder: "Année de publication.."
-                  },
-                  domProps: { value: _vm.article.published_year },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.$set(
-                        _vm.article,
-                        "published_year",
-                        $event.target.value
-                      )
-                    }
-                  }
-                })
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "col-md-6" }, [
-                _c(
-                  "label",
-                  { staticClass: "mt-2", attrs: { for: "exampleInputEmail1" } },
-                  [_vm._v("Editeur")]
-                ),
-                _vm._v(" "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.article.editor,
-                      expression: "article.editor"
-                    }
-                  ],
-                  staticClass: "form-control",
-                  attrs: { type: "text", placeholder: "Editeur.." },
-                  domProps: { value: _vm.article.editor },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.$set(_vm.article, "editor", $event.target.value)
-                    }
-                  }
-                })
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "row mt-3" }, [
-              _c("div", { staticClass: "col-md-6" }, [
-                _c("label", { attrs: { for: "exampleInputEmail1" } }, [
-                  _vm._v("Nombre de pages")
-                ]),
-                _vm._v(" "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.article.count_pages,
-                      expression: "article.count_pages"
-                    }
-                  ],
-                  staticClass: "form-control",
-                  attrs: { type: "number", placeholder: "Nombre de pages.." },
-                  domProps: { value: _vm.article.count_pages },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.$set(_vm.article, "count_pages", $event.target.value)
-                    }
-                  }
-                })
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "col-md-6" }, [
-                _c("label", { attrs: { for: "exampleInputEmail1" } }, [
-                  _vm._v("ISBN")
-                ]),
-                _vm._v(" "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.article.isbn,
-                      expression: "article.isbn"
-                    }
-                  ],
-                  staticClass: "form-control",
-                  attrs: { type: "text", placeholder: "ISBN.." },
-                  domProps: { value: _vm.article.isbn },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.$set(_vm.article, "isbn", $event.target.value)
-                    }
-                  }
-                })
-              ])
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "row mt-3" }, [
               _c("div", { staticClass: "col-md-12" }, [
                 _c("label", { attrs: { for: "exampleInputEmail1" } }, [
-                  _vm._v("Déscription")
+                  _vm._v("Description")
                 ]),
                 _vm._v(" "),
                 _c("textarea", {
@@ -107865,35 +107048,7 @@ var render = function() {
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "container mt-4" }, [
-              _c("div", { staticClass: "form-group mt-2 mb-2" }, [
-                _c("div", { staticClass: "d-flex flex-row bd-highlight" }, [
-                  _vm._m(0),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "p-2 ml-2 bd-highlight" }, [
-                    _c("div", { staticClass: "form-check mt-1" }, [
-                      _c("input", {
-                        staticClass: "form-check-input",
-                        attrs: { type: "checkbox" },
-                        domProps: { checked: _vm.availableDigital },
-                        on: {
-                          click: function($event) {
-                            return _vm.setAvailableDigital()
-                          }
-                        }
-                      }),
-                      _vm._v(" "),
-                      _c(
-                        "label",
-                        {
-                          staticClass: "form-check-label",
-                          attrs: { for: "exampleCheck1" }
-                        },
-                        [_vm._v("Disponible")]
-                      )
-                    ])
-                  ])
-                ])
-              ]),
+              _vm._m(0),
               _vm._v(" "),
               _c(
                 "div",
@@ -107902,17 +107057,23 @@ var render = function() {
                   staticStyle: { border: "1px solid #ced4da" }
                 },
                 [
-                  _vm.article.digital_link &&
-                  this.digital_name != "Importer un fichier"
+                  _vm.article.audio_link
                     ? _c("div", { staticClass: "row" }, [
-                        _c("iframe", {
-                          staticClass: "mx-auto m-3",
-                          staticStyle: { width: "600px", height: "500px" },
-                          attrs: {
-                            src: _vm.article.digital_link,
-                            frameborder: "0"
-                          }
-                        })
+                        _c("div", { staticClass: "p-4 mx-auto" }, [
+                          _c("audio", { attrs: { controls: "" } }, [
+                            _c("source", {
+                              attrs: {
+                                src: _vm.$root.previewBinaryFile(
+                                  _vm.article.audio_link
+                                ),
+                                type: "audio/mpeg"
+                              }
+                            }),
+                            _vm._v(
+                              "\n                                    Your browser does not support the audio element.\n                                "
+                            )
+                          ])
+                        ])
                       ])
                     : _vm._e(),
                   _vm._v(" "),
@@ -107921,14 +107082,10 @@ var render = function() {
                       _c("div", { staticClass: "custom-file" }, [
                         _c("input", {
                           staticClass: "custom-file-input",
-                          attrs: {
-                            type: "file",
-                            id: "inputGroupFile02",
-                            disabled: !_vm.availableDigital
-                          },
+                          attrs: { type: "file", id: "inputGroupFile02" },
                           on: {
                             change: function($event) {
-                              return _vm.uploadFile($event, 1)
+                              return _vm.uploadBinary($event)
                             }
                           }
                         }),
@@ -107941,59 +107098,6 @@ var render = function() {
                           },
                           [_vm._v(_vm._s(_vm.digital_name))]
                         )
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "row mt-3" }, [
-                      _c("div", { staticClass: "col-md-6 mb-2" }, [
-                        _c("input", {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.article.digital_price,
-                              expression: "article.digital_price"
-                            }
-                          ],
-                          staticClass: "form-control",
-                          attrs: {
-                            type: "number",
-                            placeholder: "Prix..",
-                            disabled: _vm.freeDigital || !_vm.availableDigital
-                          },
-                          domProps: { value: _vm.article.digital_price },
-                          on: {
-                            input: function($event) {
-                              if ($event.target.composing) {
-                                return
-                              }
-                              _vm.$set(
-                                _vm.article,
-                                "digital_price",
-                                $event.target.value
-                              )
-                            }
-                          }
-                        })
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "col-md-6" }, [
-                        _c("div", { staticClass: "form-check mt-1" }, [
-                          _c("input", {
-                            staticClass: "form-check-input",
-                            attrs: {
-                              type: "checkbox",
-                              disabled: !_vm.availableDigital
-                            },
-                            on: {
-                              click: function($event) {
-                                return _vm.setFreeDigital()
-                              }
-                            }
-                          }),
-                          _vm._v(" "),
-                          _c("h5", [_vm._v("Gratuit à télécharger")])
-                        ])
                       ])
                     ])
                   ])
@@ -108016,17 +107120,12 @@ var render = function() {
               [
                 _c("div", { staticClass: "row" }, [
                   _c(
-                    "button",
+                    "a",
                     {
                       staticClass: "btn btn-danger ml-3",
-                      attrs: { type: "button" },
-                      on: {
-                        click: function($event) {
-                          return _vm.cancelArticle()
-                        }
-                      }
+                      attrs: { href: "/articles" }
                     },
-                    [_vm._v("Annuler")]
+                    [_vm._v("Annuler ")]
                   ),
                   _vm._v(" "),
                   _c(
@@ -108036,7 +107135,7 @@ var render = function() {
                       attrs: { type: "button", disabled: _vm.disabled },
                       on: {
                         click: function($event) {
-                          return _vm.submitAddArticle()
+                          return _vm.submitAddarticle()
                         }
                       }
                     },
@@ -108057,9 +107156,13 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "p-2 bd-highlight" }, [
-      _c("h3", { staticClass: "font-weight-normal" }, [
-        _vm._v("Vérsion Numérique")
+    return _c("div", { staticClass: "form-group mt-2 mb-2" }, [
+      _c("div", { staticClass: "d-flex flex-row bd-highlight" }, [
+        _c("div", { staticClass: "p-2 bd-highlight" }, [
+          _c("h3", { staticClass: "font-weight-normal" }, [
+            _vm._v("Import audio file")
+          ])
+        ])
       ])
     ])
   }
@@ -109416,12 +108519,10 @@ var render = function() {
                     _vm._v(" "),
                     _c("td", [_vm._v(_vm._s(book.categories.length))]),
                     _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(book.authors.length))]),
-                    _vm._v(" "),
                     _c("td", [_vm._v(_vm._s(book.published_year))]),
                     _vm._v(" "),
                     _c("td", [
-                      _vm._v(_vm._s(book.active == 1 ? "Actif" : "Inactif"))
+                      _vm._v(_vm._s(book.active == 1 ? "Active" : "Inactive"))
                     ]),
                     _vm._v(" "),
                     _c("td", [_vm._v(_vm._s(book.updated_at))]),
@@ -109445,7 +108546,7 @@ var render = function() {
                               },
                               [
                                 _vm._v(
-                                  "Voir\n                                        détails"
+                                  "Show\n                                        details"
                                 )
                               ]
                             ),
@@ -109456,7 +108557,7 @@ var render = function() {
                                 staticClass: "dropdown-item",
                                 attrs: { href: "/book/" + book.id + "/update" }
                               },
-                              [_vm._v("Modifier")]
+                              [_vm._v("Edit")]
                             ),
                             _vm._v(" "),
                             _c(
@@ -109474,7 +108575,7 @@ var render = function() {
                                   }
                                 }
                               },
-                              [_vm._v("Supprimer")]
+                              [_vm._v("Delete")]
                             )
                           ]
                         )
@@ -109570,31 +108671,6 @@ var render = function() {
   return _c("div", [
     _c("div", { staticClass: "card" }, [
       _c("div", { staticClass: "card-body" }, [
-        _c("div", { staticClass: "form-check" }, [
-          _c("input", {
-            staticClass: "form-check-input filterarticles",
-            attrs: { type: "checkbox", value: "", id: "defaultCheck1" },
-            on: {
-              click: function($event) {
-                return _vm.filterArticlesClick()
-              }
-            }
-          }),
-          _vm._v(" "),
-          _c(
-            "label",
-            {
-              staticClass: "form-check-label",
-              attrs: { for: "defaultCheck1" }
-            },
-            [
-              _vm._v(
-                "\n                        Afficher les élements desactivés\n                    "
-              )
-            ]
-          )
-        ]),
-        _vm._v(" "),
         _c(
           "table",
           {
@@ -109626,12 +108702,20 @@ var render = function() {
                     _vm._v(" "),
                     _c("td", [_vm._v(_vm._s(article.categories.length))]),
                     _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(article.authors.length))]),
-                    _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(article.published_year))]),
+                    _c("td", [
+                      _vm._v(
+                        _vm._s(
+                          _vm.$root.ucfirst(article.author.first_name) +
+                            " " +
+                            _vm.$root.ucfirst(article.author.last_name)
+                        ) + "\n                        "
+                      )
+                    ]),
                     _vm._v(" "),
                     _c("td", [
-                      _vm._v(_vm._s(article.active == 1 ? "Actif" : "Inactif"))
+                      _vm._v(
+                        _vm._s(article.active == 1 ? "Active" : "Inactive")
+                      )
                     ]),
                     _vm._v(" "),
                     _c("td", [_vm._v(_vm._s(article.updated_at))]),
@@ -109725,8 +108809,6 @@ var staticRenderFns = [
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Domaine(s)")]),
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Auteur(s)")]),
-        _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Année")]),
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Etat")]),
         _vm._v(" "),
@@ -111456,7 +110538,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container-fluid" }, [
     _c("div", { staticClass: "card card-primary" }, [
-      _c("h3", { staticClass: " p-4" }, [_vm._v("Modifier un article")]),
+      _c("h3", { staticClass: " p-4" }, [_vm._v("Update a article")]),
       _vm._v(" "),
       _c("form", { attrs: { role: "form" } }, [
         _c(
@@ -111496,7 +110578,7 @@ var render = function() {
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "form-group" }, [
-              _c("label", [_vm._v("Etat")]),
+              _c("label", [_vm._v("Status")]),
               _vm._v(" "),
               _c(
                 "select",
@@ -111531,9 +110613,9 @@ var render = function() {
                   }
                 },
                 [
-                  _c("option", { domProps: { value: 1 } }, [_vm._v("Actf")]),
+                  _c("option", { domProps: { value: 1 } }, [_vm._v("Active")]),
                   _vm._v(" "),
-                  _c("option", { domProps: { value: 0 } }, [_vm._v("Inactif")])
+                  _c("option", { domProps: { value: 0 } }, [_vm._v("Inactive")])
                 ]
               )
             ]),
@@ -111541,7 +110623,7 @@ var render = function() {
             _c("div", { staticClass: "row" }, [
               _c("div", { staticClass: "col-md-12" }, [
                 _c("label", { attrs: { for: "exampleInputEmail1" } }, [
-                  _vm._v("Titre")
+                  _vm._v("Title")
                 ]),
                 _vm._v(" "),
                 _c("input", {
@@ -111554,7 +110636,7 @@ var render = function() {
                     }
                   ],
                   staticClass: "form-control",
-                  attrs: { type: "text", placeholder: "Titre.." },
+                  attrs: { type: "text", placeholder: "article's title.." },
                   domProps: { value: _vm.article.title },
                   on: {
                     input: function($event) {
@@ -111571,7 +110653,7 @@ var render = function() {
             _c("div", { staticClass: "row mt-3" }, [
               _c(
                 "div",
-                { staticClass: "col-md-6" },
+                { staticClass: "col-md-12" },
                 [
                   _c(
                     "label",
@@ -111579,7 +110661,7 @@ var render = function() {
                       staticStyle: { display: "block" },
                       attrs: { for: "exampleInputEmail1" }
                     },
-                    [_vm._v("Catégories")]
+                    [_vm._v("Categories")]
                   ),
                   _vm._v(" "),
                   _c("div", { staticClass: "form-group" }, [
@@ -111606,7 +110688,7 @@ var render = function() {
                           },
                           [
                             _vm._v(
-                              "Selectionner une catégorie\n                                "
+                              "Select categories\n                                "
                             )
                           ]
                         ),
@@ -111620,7 +110702,7 @@ var render = function() {
                             },
                             [
                               _vm._v(
-                                "\n                                     " +
+                                "\n                                    " +
                                   _vm._s(_vm.$root.ucfirst(category.name))
                               )
                             ]
@@ -111644,7 +110726,7 @@ var render = function() {
                           },
                           [
                             _vm._v(
-                              " " +
+                              "\n                                " +
                                 _vm._s(_vm.$root.ucfirst(articleCategory.name))
                             )
                           ]
@@ -111672,123 +110754,18 @@ var render = function() {
                   })
                 ],
                 2
-              ),
-              _vm._v(" "),
-              _c(
-                "div",
-                { staticClass: "col-md-6" },
-                [
-                  _c(
-                    "label",
-                    {
-                      staticStyle: { display: "block" },
-                      attrs: { for: "exampleInputEmail1" }
-                    },
-                    [_vm._v("Langues")]
-                  ),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "form-group" }, [
-                    _c(
-                      "select",
-                      {
-                        staticClass: "form-control",
-                        on: {
-                          change: function($event) {
-                            return _vm.selectLanguage($event)
-                          }
-                        }
-                      },
-                      [
-                        _c(
-                          "option",
-                          {
-                            attrs: {
-                              disabled: _vm.article.languages.length > 0
-                            },
-                            domProps: {
-                              selected: _vm.article.languages.length == 0
-                            }
-                          },
-                          [
-                            _vm._v(
-                              "Selectionner une langue\n                                "
-                            )
-                          ]
-                        ),
-                        _vm._v(" "),
-                        _vm._l(_vm.languages, function(language) {
-                          return _c(
-                            "option",
-                            {
-                              attrs: { disabled: language.disabled },
-                              domProps: { value: language.id }
-                            },
-                            [
-                              _vm._v(
-                                "\n                                    " +
-                                  _vm._s(_vm.$root.ucfirst(language.name))
-                              )
-                            ]
-                          )
-                        })
-                      ],
-                      2
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _vm._l(_vm.article.languages, function(articleLanguage) {
-                    return _vm.article.languages.length > 0
-                      ? _c("div", { staticClass: "btn-group mb-3 m-1" }, [
-                          _c(
-                            "button",
-                            {
-                              staticClass: "btn btn-outline-secondary",
-                              attrs: { type: "button" }
-                            },
-                            [
-                              _vm._v(
-                                " " +
-                                  _vm._s(
-                                    _vm.$root.ucfirst(articleLanguage.name)
-                                  )
-                              )
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "button",
-                            {
-                              staticClass: "btn btn-outline-secondary",
-                              attrs: { type: "button" },
-                              on: {
-                                click: function($event) {
-                                  return _vm.resetLanguage(articleLanguage)
-                                }
-                              }
-                            },
-                            [
-                              _c("span", { attrs: { "aria-hidden": "true" } }, [
-                                _vm._v("×")
-                              ])
-                            ]
-                          )
-                        ])
-                      : _vm._e()
-                  })
-                ],
-                2
               )
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "row" }, [
-              _c("div", { staticClass: "col-md-6" }, [
+              _c("div", { staticClass: "col-md-12" }, [
                 _c(
                   "label",
                   {
                     staticClass: "mt-2 mb-2",
                     attrs: { for: "exampleInputEmail1" }
                   },
-                  [_vm._v("Année de publication")]
+                  [_vm._v("Published year")]
                 ),
                 _vm._v(" "),
                 _c("input", {
@@ -111801,10 +110778,7 @@ var render = function() {
                     }
                   ],
                   staticClass: "form-control",
-                  attrs: {
-                    type: "number",
-                    placeholder: "Année de publication.."
-                  },
+                  attrs: { type: "number", placeholder: "Published year.." },
                   domProps: { value: _vm.article.published_year },
                   on: {
                     input: function($event) {
@@ -111819,101 +110793,13 @@ var render = function() {
                     }
                   }
                 })
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "col-md-6" }, [
-                _c(
-                  "label",
-                  { staticClass: "mt-2", attrs: { for: "exampleInputEmail1" } },
-                  [_vm._v("Editeur")]
-                ),
-                _vm._v(" "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.article.editor,
-                      expression: "article.editor"
-                    }
-                  ],
-                  staticClass: "form-control",
-                  attrs: { type: "text", placeholder: "Editeur.." },
-                  domProps: { value: _vm.article.editor },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.$set(_vm.article, "editor", $event.target.value)
-                    }
-                  }
-                })
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "row mt-3" }, [
-              _c("div", { staticClass: "col-md-6" }, [
-                _c("label", { attrs: { for: "exampleInputEmail1" } }, [
-                  _vm._v("Nombre de pages")
-                ]),
-                _vm._v(" "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.article.count_pages,
-                      expression: "article.count_pages"
-                    }
-                  ],
-                  staticClass: "form-control",
-                  attrs: { type: "number", placeholder: "Nombre de pages.." },
-                  domProps: { value: _vm.article.count_pages },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.$set(_vm.article, "count_pages", $event.target.value)
-                    }
-                  }
-                })
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "col-md-6" }, [
-                _c("label", { attrs: { for: "exampleInputEmail1" } }, [
-                  _vm._v("ISBN")
-                ]),
-                _vm._v(" "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.article.isbn,
-                      expression: "article.isbn"
-                    }
-                  ],
-                  staticClass: "form-control",
-                  attrs: { type: "text", placeholder: "ISBN.." },
-                  domProps: { value: _vm.article.isbn },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.$set(_vm.article, "isbn", $event.target.value)
-                    }
-                  }
-                })
               ])
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "row mt-3" }, [
               _c("div", { staticClass: "col-md-12" }, [
                 _c("label", { attrs: { for: "exampleInputEmail1" } }, [
-                  _vm._v("Déscription")
+                  _vm._v("Description")
                 ]),
                 _vm._v(" "),
                 _c("textarea", {
@@ -111941,35 +110827,7 @@ var render = function() {
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "container mt-4" }, [
-              _c("div", { staticClass: "form-group mt-2 mb-2" }, [
-                _c("div", { staticClass: "d-flex flex-row bd-highlight" }, [
-                  _vm._m(0),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "p-2 ml-2 bd-highlight" }, [
-                    _c("div", { staticClass: "form-check mt-1" }, [
-                      _c("input", {
-                        staticClass: "form-check-input",
-                        attrs: { type: "checkbox" },
-                        domProps: { checked: _vm.availableDigital },
-                        on: {
-                          click: function($event) {
-                            return _vm.setAvailableDigital()
-                          }
-                        }
-                      }),
-                      _vm._v(" "),
-                      _c(
-                        "label",
-                        {
-                          staticClass: "form-check-label",
-                          attrs: { for: "exampleCheck1" }
-                        },
-                        [_vm._v("Disponible")]
-                      )
-                    ])
-                  ])
-                ])
-              ]),
+              _vm._m(0),
               _vm._v(" "),
               _c(
                 "div",
@@ -111978,16 +110836,19 @@ var render = function() {
                   staticStyle: { border: "1px solid #ced4da" }
                 },
                 [
-                  _vm.article.digital_link
+                  this.article.audio_link
                     ? _c("div", { staticClass: "row" }, [
-                        _c("iframe", {
-                          staticClass: "mx-auto m-3",
-                          staticStyle: { width: "600px", height: "500px" },
-                          attrs: {
-                            src: _vm.article.digital_link,
-                            frameborder: "0"
-                          }
-                        })
+                        _c("div", { staticClass: " p-4 mx-auto" }, [
+                          _c("audio", {
+                            attrs: {
+                              width: "450",
+                              controls: "",
+                              src: _vm.$root.previewBinaryFile(
+                                this.article.audio_link
+                              )
+                            }
+                          })
+                        ])
                       ])
                     : _vm._e(),
                   _vm._v(" "),
@@ -111996,14 +110857,10 @@ var render = function() {
                       _c("div", { staticClass: "custom-file" }, [
                         _c("input", {
                           staticClass: "custom-file-input",
-                          attrs: {
-                            type: "file",
-                            id: "inputGroupFile02",
-                            disabled: !_vm.availableDigital
-                          },
+                          attrs: { type: "file", id: "inputGroupFile02" },
                           on: {
                             change: function($event) {
-                              return _vm.uploadFile($event, 1)
+                              return _vm.uploadBinary($event)
                             }
                           }
                         }),
@@ -112014,62 +110871,8 @@ var render = function() {
                             staticClass: "custom-file-label",
                             attrs: { for: "inputGroupFile02" }
                           },
-                          [_vm._v(_vm._s(_vm.digital_name))]
+                          [_vm._v(_vm._s(this.digital_name))]
                         )
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "row mt-3" }, [
-                      _c("div", { staticClass: "col-md-6 mb-2" }, [
-                        _c("input", {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.article.digital_price,
-                              expression: "article.digital_price"
-                            }
-                          ],
-                          staticClass: "form-control",
-                          attrs: {
-                            type: "number",
-                            placeholder: "Prix..",
-                            disabled: this.freeDigital || !this.availableDigital
-                          },
-                          domProps: { value: _vm.article.digital_price },
-                          on: {
-                            input: function($event) {
-                              if ($event.target.composing) {
-                                return
-                              }
-                              _vm.$set(
-                                _vm.article,
-                                "digital_price",
-                                $event.target.value
-                              )
-                            }
-                          }
-                        })
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "col-md-6" }, [
-                        _c("div", { staticClass: "form-check mt-1" }, [
-                          _c("input", {
-                            staticClass: "form-check-input",
-                            attrs: {
-                              type: "checkbox",
-                              disabled: !_vm.availableDigital
-                            },
-                            domProps: { checked: _vm.freeDigital },
-                            on: {
-                              click: function($event) {
-                                return _vm.setFreeDigital()
-                              }
-                            }
-                          }),
-                          _vm._v(" "),
-                          _c("h5", [_vm._v("Gratuit à télécharger")])
-                        ])
                       ])
                     ])
                   ])
@@ -112081,7 +110884,6 @@ var render = function() {
               ? _c("show-authors", {
                   attrs: {
                     authors: this.authors,
-                    selectedAuthors: this.selectedAuthors,
                     oldSearchedAuthors: this.searchedAuthors
                   },
                   on: {
@@ -112098,17 +110900,12 @@ var render = function() {
               [
                 _c("div", { staticClass: "row" }, [
                   _c(
-                    "button",
+                    "a",
                     {
                       staticClass: "btn btn-danger ml-3",
-                      attrs: { type: "button" },
-                      on: {
-                        click: function($event) {
-                          return _vm.cancelArticle()
-                        }
-                      }
+                      attrs: { href: "/articles" }
                     },
-                    [_vm._v("Annuler")]
+                    [_vm._v("Annuler ")]
                   ),
                   _vm._v(" "),
                   _c(
@@ -112118,7 +110915,7 @@ var render = function() {
                       attrs: { type: "button", disabled: _vm.disabled },
                       on: {
                         click: function($event) {
-                          return _vm.submitUpdateArticle()
+                          return _vm.submitAddarticle()
                         }
                       }
                     },
@@ -112139,9 +110936,13 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "p-2 bd-highlight" }, [
-      _c("h3", { staticClass: "font-weight-normal" }, [
-        _vm._v("Vérsion Numérique")
+    return _c("div", { staticClass: "form-group mt-2 mb-2" }, [
+      _c("div", { staticClass: "d-flex flex-row bd-highlight" }, [
+        _c("div", { staticClass: "p-2 bd-highlight" }, [
+          _c("h3", { staticClass: "font-weight-normal" }, [
+            _vm._v("Import audio file")
+          ])
+        ])
       ])
     ])
   }
@@ -112355,7 +111156,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container-fluid" }, [
     _c("div", { staticClass: "card card-primary" }, [
-      _c("h3", { staticClass: " p-4" }, [_vm._v("Modifier un ouvrage")]),
+      _c("h3", { staticClass: " p-4" }, [_vm._v("Update a book")]),
       _vm._v(" "),
       _c("form", { attrs: { role: "form" } }, [
         _c(
@@ -112395,7 +111196,7 @@ var render = function() {
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "form-group" }, [
-              _c("label", [_vm._v("Etat")]),
+              _c("label", [_vm._v("Status")]),
               _vm._v(" "),
               _c(
                 "select",
@@ -112430,9 +111231,9 @@ var render = function() {
                   }
                 },
                 [
-                  _c("option", { domProps: { value: 1 } }, [_vm._v("Actf")]),
+                  _c("option", { domProps: { value: 1 } }, [_vm._v("Active")]),
                   _vm._v(" "),
-                  _c("option", { domProps: { value: 0 } }, [_vm._v("Inactif")])
+                  _c("option", { domProps: { value: 0 } }, [_vm._v("Inactive")])
                 ]
               )
             ]),
@@ -112440,7 +111241,7 @@ var render = function() {
             _c("div", { staticClass: "row" }, [
               _c("div", { staticClass: "col-md-12" }, [
                 _c("label", { attrs: { for: "exampleInputEmail1" } }, [
-                  _vm._v("Titre")
+                  _vm._v("Title")
                 ]),
                 _vm._v(" "),
                 _c("input", {
@@ -112453,7 +111254,7 @@ var render = function() {
                     }
                   ],
                   staticClass: "form-control",
-                  attrs: { type: "text", placeholder: "Titre.." },
+                  attrs: { type: "text", placeholder: "Book's title.." },
                   domProps: { value: _vm.book.title },
                   on: {
                     input: function($event) {
@@ -112468,9 +111269,39 @@ var render = function() {
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "row mt-3" }, [
+              _c("div", { staticClass: "col-md-12" }, [
+                _c("label", { attrs: { for: "exampleInputEmail1" } }, [
+                  _vm._v("ISBN")
+                ]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.book.isbn,
+                      expression: "book.isbn"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: { type: "text", placeholder: "Book's isbn.." },
+                  domProps: { value: _vm.book.isbn },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.book, "isbn", $event.target.value)
+                    }
+                  }
+                })
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "row mt-3" }, [
               _c(
                 "div",
-                { staticClass: "col-md-6" },
+                { staticClass: "col-md-12" },
                 [
                   _c(
                     "label",
@@ -112478,7 +111309,7 @@ var render = function() {
                       staticStyle: { display: "block" },
                       attrs: { for: "exampleInputEmail1" }
                     },
-                    [_vm._v("Catégories")]
+                    [_vm._v("Categories")]
                   ),
                   _vm._v(" "),
                   _c("div", { staticClass: "form-group" }, [
@@ -112503,7 +111334,7 @@ var render = function() {
                           },
                           [
                             _vm._v(
-                              "Selectionner une catégorie\n                                "
+                              "Select categories\n                                "
                             )
                           ]
                         ),
@@ -112517,7 +111348,7 @@ var render = function() {
                             },
                             [
                               _vm._v(
-                                "\n                                  " +
+                                "\n                                    " +
                                   _vm._s(_vm.$root.ucfirst(category.name))
                               )
                             ]
@@ -112541,7 +111372,8 @@ var render = function() {
                           },
                           [
                             _vm._v(
-                              " " + _vm._s(_vm.$root.ucfirst(bookCategory.name))
+                              "\n                                " +
+                                _vm._s(_vm.$root.ucfirst(bookCategory.name))
                             )
                           ]
                         ),
@@ -112568,119 +111400,18 @@ var render = function() {
                   })
                 ],
                 2
-              ),
-              _vm._v(" "),
-              _c(
-                "div",
-                { staticClass: "col-md-6" },
-                [
-                  _c(
-                    "label",
-                    {
-                      staticStyle: { display: "block" },
-                      attrs: { for: "exampleInputEmail1" }
-                    },
-                    [_vm._v("Langues")]
-                  ),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "form-group" }, [
-                    _c(
-                      "select",
-                      {
-                        staticClass: "form-control",
-                        on: {
-                          change: function($event) {
-                            return _vm.selectLanguage($event)
-                          }
-                        }
-                      },
-                      [
-                        _c(
-                          "option",
-                          {
-                            attrs: { disabled: _vm.book.languages.length > 0 },
-                            domProps: {
-                              selected: _vm.book.languages.length == 0
-                            }
-                          },
-                          [
-                            _vm._v(
-                              "Selectionner une langue\n                                "
-                            )
-                          ]
-                        ),
-                        _vm._v(" "),
-                        _vm._l(_vm.languages, function(language) {
-                          return _c(
-                            "option",
-                            {
-                              attrs: { disabled: language.disabled },
-                              domProps: { value: language.id }
-                            },
-                            [
-                              _vm._v(
-                                "\n                                   " +
-                                  _vm._s(_vm.$root.ucfirst(language.name))
-                              )
-                            ]
-                          )
-                        })
-                      ],
-                      2
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _vm._l(_vm.book.languages, function(bookLanguage) {
-                    return _vm.book.languages.length > 0
-                      ? _c("div", { staticClass: "btn-group mb-3 m-1" }, [
-                          _c(
-                            "button",
-                            {
-                              staticClass: "btn btn-outline-secondary",
-                              attrs: { type: "button" }
-                            },
-                            [
-                              _vm._v(
-                                " " +
-                                  _vm._s(_vm.$root.ucfirst(bookLanguage.name))
-                              )
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "button",
-                            {
-                              staticClass: "btn btn-outline-secondary",
-                              attrs: { type: "button" },
-                              on: {
-                                click: function($event) {
-                                  return _vm.resetLanguage(bookLanguage)
-                                }
-                              }
-                            },
-                            [
-                              _c("span", { attrs: { "aria-hidden": "true" } }, [
-                                _vm._v("×")
-                              ])
-                            ]
-                          )
-                        ])
-                      : _vm._e()
-                  })
-                ],
-                2
               )
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "row" }, [
-              _c("div", { staticClass: "col-md-6" }, [
+              _c("div", { staticClass: "col-md-12" }, [
                 _c(
                   "label",
                   {
                     staticClass: "mt-2 mb-2",
                     attrs: { for: "exampleInputEmail1" }
                   },
-                  [_vm._v("Année de publication")]
+                  [_vm._v("Published year")]
                 ),
                 _vm._v(" "),
                 _c("input", {
@@ -112693,10 +111424,7 @@ var render = function() {
                     }
                   ],
                   staticClass: "form-control",
-                  attrs: {
-                    type: "number",
-                    placeholder: "Année de publication.."
-                  },
+                  attrs: { type: "number", placeholder: "Published year.." },
                   domProps: { value: _vm.book.published_year },
                   on: {
                     input: function($event) {
@@ -112707,101 +111435,13 @@ var render = function() {
                     }
                   }
                 })
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "col-md-6" }, [
-                _c(
-                  "label",
-                  { staticClass: "mt-2", attrs: { for: "exampleInputEmail1" } },
-                  [_vm._v("Editeur")]
-                ),
-                _vm._v(" "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.book.editor,
-                      expression: "book.editor"
-                    }
-                  ],
-                  staticClass: "form-control",
-                  attrs: { type: "text", placeholder: "Editeur.." },
-                  domProps: { value: _vm.book.editor },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.$set(_vm.book, "editor", $event.target.value)
-                    }
-                  }
-                })
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "row mt-3" }, [
-              _c("div", { staticClass: "col-md-6" }, [
-                _c("label", { attrs: { for: "exampleInputEmail1" } }, [
-                  _vm._v("Nombre de pages")
-                ]),
-                _vm._v(" "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.book.count_pages,
-                      expression: "book.count_pages"
-                    }
-                  ],
-                  staticClass: "form-control",
-                  attrs: { type: "number", placeholder: "Nombre de pages.." },
-                  domProps: { value: _vm.book.count_pages },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.$set(_vm.book, "count_pages", $event.target.value)
-                    }
-                  }
-                })
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "col-md-6" }, [
-                _c("label", { attrs: { for: "exampleInputEmail1" } }, [
-                  _vm._v("ISBN")
-                ]),
-                _vm._v(" "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.book.isbn,
-                      expression: "book.isbn"
-                    }
-                  ],
-                  staticClass: "form-control",
-                  attrs: { type: "text", placeholder: "ISBN.." },
-                  domProps: { value: _vm.book.isbn },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.$set(_vm.book, "isbn", $event.target.value)
-                    }
-                  }
-                })
               ])
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "row mt-3" }, [
               _c("div", { staticClass: "col-md-12" }, [
                 _c("label", { attrs: { for: "exampleInputEmail1" } }, [
-                  _vm._v("Déscription")
+                  _vm._v("Description")
                 ]),
                 _vm._v(" "),
                 _c("textarea", {
@@ -112829,35 +111469,7 @@ var render = function() {
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "container mt-4" }, [
-              _c("div", { staticClass: "form-group mt-2 mb-2" }, [
-                _c("div", { staticClass: "d-flex flex-row bd-highlight" }, [
-                  _vm._m(0),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "p-2 ml-2 bd-highlight" }, [
-                    _c("div", { staticClass: "form-check mt-1" }, [
-                      _c("input", {
-                        staticClass: "form-check-input",
-                        attrs: { type: "checkbox" },
-                        domProps: { checked: _vm.availableDigital },
-                        on: {
-                          click: function($event) {
-                            return _vm.setAvailableDigital()
-                          }
-                        }
-                      }),
-                      _vm._v(" "),
-                      _c(
-                        "label",
-                        {
-                          staticClass: "form-check-label",
-                          attrs: { for: "exampleCheck1" }
-                        },
-                        [_vm._v("Disponible")]
-                      )
-                    ])
-                  ])
-                ])
-              ]),
+              _vm._m(0),
               _vm._v(" "),
               _c(
                 "div",
@@ -112866,16 +111478,19 @@ var render = function() {
                   staticStyle: { border: "1px solid #ced4da" }
                 },
                 [
-                  _vm.book.digital_link
+                  this.book.audio_link
                     ? _c("div", { staticClass: "row" }, [
-                        _c("iframe", {
-                          staticClass: "mx-auto m-3",
-                          staticStyle: { width: "600px", height: "500px" },
-                          attrs: {
-                            src: _vm.book.digital_link,
-                            frameborder: "0"
-                          }
-                        })
+                        _c("div", { staticClass: " p-4 mx-auto" }, [
+                          _c("audio", {
+                            attrs: {
+                              width: "450",
+                              controls: "",
+                              src: _vm.$root.previewBinaryFile(
+                                this.book.audio_link
+                              )
+                            }
+                          })
+                        ])
                       ])
                     : _vm._e(),
                   _vm._v(" "),
@@ -112884,14 +111499,10 @@ var render = function() {
                       _c("div", { staticClass: "custom-file" }, [
                         _c("input", {
                           staticClass: "custom-file-input",
-                          attrs: {
-                            type: "file",
-                            id: "inputGroupFile02",
-                            disabled: !_vm.availableDigital
-                          },
+                          attrs: { type: "file", id: "inputGroupFile02" },
                           on: {
                             change: function($event) {
-                              return _vm.uploadFile($event, 1)
+                              return _vm.uploadBinary($event)
                             }
                           }
                         }),
@@ -112902,299 +111513,19 @@ var render = function() {
                             staticClass: "custom-file-label",
                             attrs: { for: "inputGroupFile02" }
                           },
-                          [_vm._v(_vm._s(_vm.digital_name))]
+                          [_vm._v(_vm._s(this.digital_name))]
                         )
                       ])
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "row mt-3" }, [
-                      _c("div", { staticClass: "col-md-6 mb-2" }, [
-                        _c("input", {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.book.digital_price,
-                              expression: "book.digital_price"
-                            }
-                          ],
-                          staticClass: "form-control",
-                          attrs: {
-                            type: "number",
-                            placeholder: "Prix..",
-                            disabled: _vm.freeDigital || !_vm.availableDigital
-                          },
-                          domProps: { value: _vm.book.digital_price },
-                          on: {
-                            input: function($event) {
-                              if ($event.target.composing) {
-                                return
-                              }
-                              _vm.$set(
-                                _vm.book,
-                                "digital_price",
-                                $event.target.value
-                              )
-                            }
-                          }
-                        })
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "col-md-6" }, [
-                        _c("div", { staticClass: "form-check mt-1" }, [
-                          _c("input", {
-                            staticClass: "form-check-input",
-                            attrs: {
-                              type: "checkbox",
-                              disabled: !_vm.availableDigital
-                            },
-                            domProps: { checked: _vm.freeDigital },
-                            on: {
-                              click: function($event) {
-                                return _vm.setFreeDigital()
-                              }
-                            }
-                          }),
-                          _vm._v(" "),
-                          _c("h5", [_vm._v("Gratuit à télécharger")])
-                        ])
-                      ])
                     ])
                   ])
                 ]
               )
             ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "container mt-4" }, [
-              _c("div", { staticClass: "form-group mt-2 mb-2" }, [
-                _c("div", { staticClass: "d-flex flex-row bd-highlight" }, [
-                  _vm._m(1),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "p-2 ml-5 bd-highlight" }, [
-                    _c("div", { staticClass: "form-check mt-1" }, [
-                      _c("input", {
-                        staticClass: "form-check-input",
-                        attrs: { type: "checkbox" },
-                        domProps: { checked: _vm.availablePaper },
-                        on: {
-                          click: function($event) {
-                            return _vm.setAvailablePaper()
-                          }
-                        }
-                      }),
-                      _vm._v(" "),
-                      _c(
-                        "label",
-                        {
-                          staticClass: "form-check-label",
-                          attrs: { for: "exampleCheck1" }
-                        },
-                        [_vm._v("Disponible")]
-                      )
-                    ])
-                  ])
-                ])
-              ]),
-              _vm._v(" "),
-              _c(
-                "div",
-                {
-                  staticClass: "rounded-top",
-                  staticStyle: { border: "1px solid #ced4da" }
-                },
-                [
-                  _c("div", { staticClass: "p-4" }, [
-                    _c("div", { staticClass: "row" }, [
-                      _c("div", { staticClass: "col-md-3 mb-3" }, [
-                        _c("label", { attrs: { for: "" } }, [
-                          _vm._v("Hauteur")
-                        ]),
-                        _vm._v(" "),
-                        _c("input", {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.book.height,
-                              expression: "book.height"
-                            }
-                          ],
-                          staticClass: "form-control",
-                          attrs: {
-                            type: "number",
-                            placeholder: "Hauteur",
-                            disabled: !_vm.availablePaper
-                          },
-                          domProps: { value: _vm.book.height },
-                          on: {
-                            input: function($event) {
-                              if ($event.target.composing) {
-                                return
-                              }
-                              _vm.$set(_vm.book, "height", $event.target.value)
-                            }
-                          }
-                        })
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "col-md-3 mb-3" }, [
-                        _c("label", { attrs: { for: "" } }, [
-                          _vm._v("Largeur")
-                        ]),
-                        _vm._v(" "),
-                        _c("input", {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.book.width,
-                              expression: "book.width"
-                            }
-                          ],
-                          staticClass: "form-control",
-                          attrs: {
-                            type: "number",
-                            placeholder: "Largeur",
-                            disabled: !_vm.availablePaper
-                          },
-                          domProps: { value: _vm.book.width },
-                          on: {
-                            input: function($event) {
-                              if ($event.target.composing) {
-                                return
-                              }
-                              _vm.$set(_vm.book, "width", $event.target.value)
-                            }
-                          }
-                        })
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "col-md-3  mb-3" }, [
-                        _c("label", { attrs: { for: "" } }, [
-                          _vm._v("Epaisseur")
-                        ]),
-                        _vm._v(" "),
-                        _c("input", {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.book.thickness,
-                              expression: "book.thickness"
-                            }
-                          ],
-                          staticClass: "form-control",
-                          attrs: {
-                            type: "number",
-                            placeholder: "Epaisseur",
-                            disabled: !_vm.availablePaper
-                          },
-                          domProps: { value: _vm.book.thickness },
-                          on: {
-                            input: function($event) {
-                              if ($event.target.composing) {
-                                return
-                              }
-                              _vm.$set(
-                                _vm.book,
-                                "thickness",
-                                $event.target.value
-                              )
-                            }
-                          }
-                        })
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "col-md-3  mb-3" }, [
-                        _c("label", { attrs: { for: "" } }, [_vm._v("Poids")]),
-                        _vm._v(" "),
-                        _c("input", {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.book.weight,
-                              expression: "book.weight"
-                            }
-                          ],
-                          staticClass: "form-control",
-                          attrs: {
-                            type: "number",
-                            placeholder: "Poids",
-                            disabled: !_vm.availablePaper
-                          },
-                          domProps: { value: _vm.book.weight },
-                          on: {
-                            input: function($event) {
-                              if ($event.target.composing) {
-                                return
-                              }
-                              _vm.$set(_vm.book, "weight", $event.target.value)
-                            }
-                          }
-                        })
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "row mt-3" }, [
-                      _c("div", { staticClass: "col-md-12 mb-2" }, [
-                        _c("label", { attrs: { for: "" } }, [_vm._v("Prix")]),
-                        _vm._v(" "),
-                        _c("input", {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.book.paper_price,
-                              expression: "book.paper_price"
-                            }
-                          ],
-                          staticClass: "form-control",
-                          attrs: {
-                            type: "number",
-                            placeholder: "Prix..",
-                            disabled: !_vm.availablePaper
-                          },
-                          domProps: { value: _vm.book.paper_price },
-                          on: {
-                            input: function($event) {
-                              if ($event.target.composing) {
-                                return
-                              }
-                              _vm.$set(
-                                _vm.book,
-                                "paper_price",
-                                $event.target.value
-                              )
-                            }
-                          }
-                        })
-                      ])
-                    ])
-                  ])
-                ]
-              )
-            ]),
-            _vm._v(" "),
-            this.selected_articles.length > 0
-              ? _c("show-articles", {
-                  attrs: {
-                    articles: this.articles,
-                    oldSelectedArticles: this.selected_articles
-                  },
-                  on: {
-                    submitArticles: function($event) {
-                      return _vm.affectArticles($event)
-                    }
-                  }
-                })
-              : _vm._e(),
             _vm._v(" "),
             this.searchedAuthors.length > 0
               ? _c("show-authors", {
                   attrs: {
                     authors: this.authors,
-                    selectedAuthors: this.selectedAuthors,
                     oldSearchedAuthors: this.searchedAuthors
                   },
                   on: {
@@ -113211,17 +111542,12 @@ var render = function() {
               [
                 _c("div", { staticClass: "row" }, [
                   _c(
-                    "button",
+                    "a",
                     {
                       staticClass: "btn btn-danger ml-3",
-                      attrs: { type: "button" },
-                      on: {
-                        click: function($event) {
-                          return _vm.cancelBook()
-                        }
-                      }
+                      attrs: { href: "/books" }
                     },
-                    [_vm._v("Annuler")]
+                    [_vm._v("Annuler ")]
                   ),
                   _vm._v(" "),
                   _c(
@@ -113231,7 +111557,7 @@ var render = function() {
                       attrs: { type: "button", disabled: _vm.disabled },
                       on: {
                         click: function($event) {
-                          return _vm.submitUpdateBook()
+                          return _vm.submitAddBook()
                         }
                       }
                     },
@@ -113252,19 +111578,13 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "p-2 bd-highlight" }, [
-      _c("h3", { staticClass: "font-weight-normal" }, [
-        _vm._v("Vérsion Numérique")
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "p-2 bd-highlight" }, [
-      _c("h3", { staticClass: "font-weight-normal" }, [
-        _vm._v("Vérsion P/apier")
+    return _c("div", { staticClass: "form-group mt-2 mb-2" }, [
+      _c("div", { staticClass: "d-flex flex-row bd-highlight" }, [
+        _c("div", { staticClass: "p-2 bd-highlight" }, [
+          _c("h3", { staticClass: "font-weight-normal" }, [
+            _vm._v("Import audio file")
+          ])
+        ])
       ])
     ])
   }
@@ -126703,6 +125023,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var vue_progressbar__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-progressbar */ "./node_modules/vue-progressbar/dist/vue-progressbar.js");
 /* harmony import */ var vue_progressbar__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue_progressbar__WEBPACK_IMPORTED_MODULE_1__);
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js"); //Sweetalert
@@ -126792,7 +125114,11 @@ var app = new Vue({
       return event.target.files[0];
     },
     previewBinaryFile: function previewBinaryFile(file) {
-      return URL.createObjectURL(file);
+      if (_typeof(file) === 'object') {
+        return URL.createObjectURL(file);
+      }
+
+      return file;
     },
     destroyDataTable: function destroyDataTable() {
       $('.table').DataTable().destroy();

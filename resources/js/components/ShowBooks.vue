@@ -33,9 +33,9 @@
                             </td>
                             <td>{{book.title}}</td>
                             <td>{{book.categories.length}}</td>
-                            <td>{{book.authors.length}}</td>
+                  
                             <td>{{book.published_year}}</td>
-                            <td>{{book.active == 1 ? 'Actif' : 'Inactif'}}</td>
+                            <td>{{book.active == 1 ? 'Active' : 'Inactive'}}</td>
                             <td>{{book.updated_at}}</td>
                             <td>
                                 <div class="dropdown">
@@ -46,11 +46,11 @@
                                         <i class="fas fa-ellipsis-h"></i>
                                     </button>
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        <a class="dropdown-item" :href="`/book/${book.id}`">Voir
-                                            détails</a>
-                                        <a class="dropdown-item" :href="`/book/${book.id}/update`">Modifier</a>
+                                        <a class="dropdown-item" :href="`/book/${book.id}`">Show
+                                            details</a>
+                                        <a class="dropdown-item" :href="`/book/${book.id}/update`">Edit</a>
                                         <a class="dropdown-item" href="#" data-toggle="modal"
-                                            data-target="#exampleModal" @click="affectValue(book)">Supprimer</a>
+                                            data-target="#exampleModal" @click="affectValue(book)">Delete</a>
                                     </div>
                                 </div>
                             </td>
@@ -134,7 +134,7 @@
                             this.allBooks = this.books;
                             toast.fire({
                                 type: 'success',
-                                title: 'Livre supprimé'
+                                title: 'Book deleted'
                             })
 
                             this.isChecked = !this.isChecked
@@ -144,7 +144,7 @@
                         if (response.data.status == 404) {
                             swal2.fire({
                                 type: 'error',
-                                title: 'Livre introuvable..',
+                                title: 'Book not found..',
                                 allowOutsideClick: false,
                                 showConfirmButton: true,
                                 confirmButtonText: 'Fermer'

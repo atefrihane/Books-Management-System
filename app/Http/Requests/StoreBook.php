@@ -32,7 +32,7 @@ class StoreBook extends FormRequest
             'isbn' => 'required|max:90',
             'description' => 'required|max:500',
             'active' => 'required|in:0,1',
-             'audio_link' => 'required|mimes:mpga,wav',
+             'audio_link' => 'nullable|mimes:mpga,wav',
              'author_id' => 'required||exists:authors,id',
         ];
 

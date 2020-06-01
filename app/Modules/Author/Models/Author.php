@@ -18,7 +18,7 @@ class Author extends Model
     }
     public function books()
     {
-        return $this->belongsToMany(Book::class, 'book_authors');
+        return $this->hasMany(Book::class);
     }
 
     public function journals()
@@ -28,6 +28,6 @@ class Author extends Model
 
     public function articles()
     {
-        return $this->belongsToMany(Article::class, 'article_authors');
+        return $this->hasMany(Article::class);
     }
 }

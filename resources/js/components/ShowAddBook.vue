@@ -400,13 +400,6 @@
 
 
 
-                if (!this.book.audio_link) {
-                    this.disabled = false;
-                    this.errors.push('Please import an audio file');
-                    window.scrollTo(0, 0);
-                    return;
-                }
-
 
                 if (!this.book.author_id) {
                     this.disabled = false;

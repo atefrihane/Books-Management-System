@@ -26,16 +26,12 @@ class StoreArticle extends FormRequest
 
         $this->request->get('article');
         return [
-            '*.photo' => 'required',
-            '*.title' => 'required|max:200',
-            '*.published_year' => 'required|digits:4',
-            '*.editor' => 'required|max:90',
-            '*.count_pages' => 'required|integer|min:1',
-            '*.isbn' => 'required|max:90',
-            '*.description' => 'required|max:500',
-            '*.active' => 'required|in:0,1',
-            '*.digital_price' => 'nullable|between:0,99.9999',
-            '*.digital_link' => 'nullable',
+            'photo' => 'required',
+            'title' => 'required|max:200',
+            'description' => 'required|max:500',
+            'active' => 'required|in:0,1',
+             'audio_link' => 'nullable|mimes:mpga,wav',
+             'author_id' => 'required||exists:authors,id',
         ];
 
     }

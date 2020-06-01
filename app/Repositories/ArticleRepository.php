@@ -16,7 +16,7 @@ class ArticleRepository implements ArticleRepositoryInterface
     }
     public function all()
     {
-
+        
         return Article::all();
     }
 
@@ -30,39 +30,26 @@ class ArticleRepository implements ArticleRepositoryInterface
         return $this->getFirstarticle() ? $id = $this->all()->last()->id + 1 : 1;
 
     }
-    public function store($Article)
+    public function store($article)
     {
 
-        $ArticlePhoto = $this->image->uploadImage($Article['photo'], 'articles');
+        $articlePhoto = $this->image->uploadImage($article['photo'], 'articles');
 
-        $Article['digital_link'] ? $ArticlePdf = $this->image->uploadPdf($Article['digital_link'], 'articles/pdf') : $ArticlePdf = null;
-        $nextId = $this->getLastId();
+        isset($article['audio_link']) ? $audioarticle = $this->image->uploadAudio($article['audio_link'], '/img/articles/audio/') : $audioarticle = null;
 
-        $newArticle = Article::create([
-            'photo' => $ArticlePhoto,
-            'active' => $Article['active'],
-            'title' => $Article['title'],
-            'slug' => str_slug($Article['title'] . ' ' . $nextId, '-'),
-            'published_year' => $Article['published_year'],
-            'editor' => $Article['editor'],
-            'count_pages' => $Article['count_pages'],
-            'isbn' => $Article['isbn'],
-            'description' => $Article['description'],
-            'photo' => $ArticlePhoto,
-            'digital_link' => $ArticlePdf,
+        $articleCategories = json_decode($article['categories']);
+        $newarticle = article::create([
+            'photo' => $articlePhoto,
+            'active' => $article['active'],
+            'title' => $article['title'],
+            'slug' => str_slug($article['title'] . ' ' . time(), '-'),
+            'description' => $article['description'],
+            'audio_link' => $audioarticle,
+            'author_id' => $article['author_id'],
 
         ]);
 
-        $newArticle->categories()->attach(array_column($Article['categories'], 'id'));
-
-        $newArticle->languages()->attach(array_column($Article['languages'], 'id'));
-
-        $newArticle->authors()->attach($Article['authors']);
-
-        $newProduct = $this->products->create();
-        $newArticle->product()->save($newProduct);
-
-        return true;
+        $newarticle->categories()->attach(array_column($articleCategories, 'id'));
 
     }
     public function fetchById($id)
@@ -127,7 +114,7 @@ class ArticleRepository implements ArticleRepositoryInterface
     {
         $checkArticle = $this->fetchById($id);
         if ($checkArticle) {
-            $checkArticle->product()->delete();
+    
             $checkArticle->delete();
             return true;
         }

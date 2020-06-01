@@ -30,7 +30,7 @@ class BookController extends Controller
 
     public function showBooks()
     {
-
+      
         return view('Book::showBooks', ['books' => $this->books->all()]);
 
     }
@@ -48,6 +48,7 @@ class BookController extends Controller
 
     public function showBook($id)
     {
+        
         $checkBook = $this->books->fetchById($id);
 
         if ($checkBook) {

@@ -4,6 +4,7 @@ namespace App\Modules\Book\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreBook;
+use App\Http\Requests\UpdateBook;
 use App\Modules\Book\Models\Book;
 use App\Http\Requests\StoreAuthor;
 use App\Http\Controllers\Controller;
@@ -36,9 +37,10 @@ class BookControllerApi extends Controller
         $saveBook = $this->books->store($request->all());
         return response()->json(['status' => 200]);
     }
-    public function handleUpdateBook(StoreBook $request)
+    public function handleUpdateBook(UpdateBook $request)
     {
-        $saveBook = $this->books->update($request->input('book'));
+    
+        $saveBook = $this->books->update($request->all());
         return response()->json(['status' => 200]);
 
     }

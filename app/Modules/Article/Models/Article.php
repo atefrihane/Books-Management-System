@@ -13,14 +13,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Article extends Model
 {   protected $guarded = ['id'];
-    protected $with=['product' ,'authors','categories','languages'];
+    protected $with=['author','categories'];
 
     use SoftDeletes;
 
-    public function product()
-    {
-        return $this->morphOne(Product::class, 'content');
-    }
+  
 
     public function books()
     {
@@ -29,14 +26,14 @@ class Article extends Model
 
  
 
-    public function authors()
+    public function author()
     {
-        return $this->belongsToMany(Author::class, 'article_authors');
+        return $this->belongsTo(Author::class, 'author_id');
     }
 
     public function categories()
     {
-        return $this->belongsToMany(Category::class, 'article_categories');
+        return $this->belongsToMany(Category::class, 'article_category');
     }
 
     public function languages()

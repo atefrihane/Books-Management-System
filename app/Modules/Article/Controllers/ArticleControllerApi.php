@@ -31,8 +31,8 @@ class ArticleControllerApi extends Controller
 
     public function handleSaveArticle(StoreArticle $request)
     {
-
-        $saveArticle = $this->articles->store($request->input('article'));
+      
+        $saveArticle = $this->articles->store($request->all());
         return response()->json(['status' => 200]);
     }
 

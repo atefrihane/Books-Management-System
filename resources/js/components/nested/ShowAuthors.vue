@@ -76,8 +76,9 @@
         mounted() {
             this.formatAuthors()
             if (this.oldSearchedAuthors && this.oldSearchedAuthors.length > 0) {
+                
                 this.searchedAuthors = this.oldSearchedAuthors
-                this.selectedAuthors = _.map(this.oldSearchedAuthors, 'id');
+             
 
             }
 
@@ -157,7 +158,7 @@
                           author.selected = false
                     }
                 })
-              
+                   
                     toast.fire({
                         type: 'success',
                         title: 'Author selected'

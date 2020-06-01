@@ -6,14 +6,14 @@ use App\Modules\Article\Models\Article;
 use App\Modules\Author\Models\Author;
 use App\Modules\Category\Models\Category;
 use App\Modules\Language\Models\Language;
-use App\Modules\Product\Models\Product;
+
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Book extends Model
 {
     protected $guarded = ['id'];
-    public $with = ['product', 'author', 'articles', 'categories', 'languages'];
+    public $with = [ 'author','categories'];
 
     use SoftDeletes;
 
