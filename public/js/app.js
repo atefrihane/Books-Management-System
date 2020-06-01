@@ -3833,9 +3833,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         var config = {
           onUploadProgress: function onUploadProgress(progressEvent) {
             var progress = Math.round(progressEvent.loaded * 100 / progressEvent.total);
-            console.log(progress);
 
-            _this2.$Progress.start();
+            _this2.$Progress.increase(progress);
           }
         };
         axios.post('/api/book/save', body, config).then(function (response) {

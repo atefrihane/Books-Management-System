@@ -471,7 +471,7 @@
                 this.disabled = true;
 
                 if (validate) {
-           
+
                     let body = new FormData()
 
 
@@ -489,13 +489,13 @@
 
                     let config = {
                         onUploadProgress: progressEvent => {
-                                 let progress = Math.round( (progressEvent.loaded * 100) / progressEvent.total )
-                            console.log(progress)
-                            this.$Progress.start()
+                            let progress = Math.round((progressEvent.loaded * 100) / progressEvent.total)
+
+                            this.$Progress.increase(progress)
                         }
                     }
 
-                    axios.post('/api/book/save', body,config)
+                    axios.post('/api/book/save', body, config)
                         .then((response) => {
                             this.$Progress.finish()
 
