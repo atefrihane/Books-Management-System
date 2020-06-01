@@ -3347,7 +3347,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           if (response.data.status == 200) {
             swal2.fire({
               type: 'success',
-              title: 'Auteur ajouté avec succés',
+              title: 'Author added',
               allowOutsideClick: false,
               showConfirmButton: true,
               confirmButtonText: 'Fermer'
@@ -4723,7 +4723,7 @@ __webpack_require__.r(__webpack_exports__);
           _this2.allAuthors = _this2.authors;
           toast.fire({
             type: 'success',
-            title: 'Auteur supprimé'
+            title: 'Auteur deleted'
           });
           _this2.isChecked = !_this2.isChecked;
         }
@@ -4731,7 +4731,7 @@ __webpack_require__.r(__webpack_exports__);
         if (response.data.status == 404) {
           swal2.fire({
             type: 'error',
-            title: 'Livre introuvable..',
+            title: 'Author not found..',
             allowOutsideClick: false,
             showConfirmButton: true,
             confirmButtonText: 'Fermer'
@@ -7070,73 +7070,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {},
@@ -7351,13 +7284,6 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _nested_ShowModal_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./nested/ShowModal.vue */ "./resources/js/components/nested/ShowModal.vue");
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -107247,7 +107173,7 @@ var render = function() {
                   _vm._v("Description")
                 ]),
                 _vm._v(" "),
-                _c("input", {
+                _c("textarea", {
                   directives: [
                     {
                       name: "model",
@@ -107257,7 +107183,7 @@ var render = function() {
                     }
                   ],
                   staticClass: "form-control",
-                  attrs: { type: "text", placeholder: "quotes.." },
+                  attrs: { cols: "30", rows: "3", placeholder: "Description" },
                   domProps: { value: _vm.article.description },
                   on: {
                     input: function($event) {
@@ -112183,7 +112109,7 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "card card-primary" }, [
-    _c("h3", { staticClass: " p-4" }, [_vm._v("Modifier un utilisateur")]),
+    _c("h3", { staticClass: " p-4" }, [_vm._v("Update user")]),
     _vm._v(" "),
     _c("form", { attrs: { role: "form" } }, [
       _c(
@@ -112197,7 +112123,7 @@ var render = function() {
           _c("div", { staticClass: "row mt-2" }, [
             _c("div", { staticClass: "col-md-6" }, [
               _c("label", { attrs: { for: "exampleInputEmail1" } }, [
-                _vm._v("Nom *")
+                _vm._v("Last name *")
               ]),
               _vm._v(" "),
               _c("input", {
@@ -112225,7 +112151,7 @@ var render = function() {
             _vm._v(" "),
             _c("div", { staticClass: "col-md-6" }, [
               _c("label", { attrs: { for: "exampleInputEmail1" } }, [
-                _vm._v("Prénom *")
+                _vm._v("First name *")
               ]),
               _vm._v(" "),
               _c("input", {
@@ -112246,108 +112172,6 @@ var render = function() {
                       return
                     }
                     _vm.$set(_vm.user, "first_name", $event.target.value)
-                  }
-                }
-              })
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "row mt-2" }, [
-            _c("div", { staticClass: "col-md-6" }, [
-              _c(
-                "label",
-                {
-                  staticClass: "mt-2 mb-2",
-                  attrs: { for: "exampleInputEmail1" }
-                },
-                [_vm._v("Occupation")]
-              ),
-              _vm._v(" "),
-              _c(
-                "select",
-                {
-                  staticClass: "form-control",
-                  domProps: { value: _vm.user.occupation },
-                  on: {
-                    change: function($event) {
-                      return _vm.selectOccupation($event)
-                    }
-                  }
-                },
-                [
-                  _c(
-                    "option",
-                    { attrs: { value: "", selected: "", disabled: "" } },
-                    [_vm._v("Sélectionner une occupation")]
-                  ),
-                  _vm._v(" "),
-                  _c("option", { attrs: { value: "1" } }, [_vm._v("Etudiant")]),
-                  _vm._v(" "),
-                  _c("option", { attrs: { value: "2" } }, [_vm._v("Autre")])
-                ]
-              )
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "col-md-6" }, [
-              _c(
-                "label",
-                { staticClass: "mt-2", attrs: { for: "exampleInputEmail1" } },
-                [_vm._v("Université/Instutition")]
-              ),
-              _vm._v(" "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.user.institution,
-                    expression: "user.institution"
-                  }
-                ],
-                staticClass: "form-control",
-                attrs: { type: "text", placeholder: "Université/Instutition" },
-                domProps: { value: _vm.user.institution },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.$set(_vm.user, "institution", $event.target.value)
-                  }
-                }
-              })
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "row mt-2" }, [
-            _c("div", { staticClass: "col-md-6" }, [
-              _c(
-                "label",
-                {
-                  staticClass: "mt-2 mb-2",
-                  attrs: { for: "exampleInputEmail1" }
-                },
-                [_vm._v("Numéro de téléphone")]
-              ),
-              _vm._v(" "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.user.phone,
-                    expression: "user.phone"
-                  }
-                ],
-                staticClass: "form-control",
-                attrs: { type: "text", placeholder: "Numéro de téléphone..." },
-                domProps: { value: _vm.user.phone },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.$set(_vm.user, "phone", $event.target.value)
                   }
                 }
               })
@@ -112399,7 +112223,7 @@ var render = function() {
                   staticClass: "mt-2 mb-2",
                   attrs: { for: "exampleInputEmail1" }
                 },
-                [_vm._v("Type de compte *")]
+                [_vm._v("Account type *")]
               ),
               _vm._v(" "),
               _c(
@@ -112417,7 +112241,7 @@ var render = function() {
                   _c(
                     "option",
                     { attrs: { value: "", selected: "", disabled: "" } },
-                    [_vm._v("Séléctionner un type de compte")]
+                    [_vm._v("Select account type")]
                   ),
                   _vm._v(" "),
                   _vm._l(_vm.roles, function(role) {
@@ -112439,7 +112263,7 @@ var render = function() {
                   staticClass: "mt-2 mb-2",
                   attrs: { for: "exampleInputEmail1" }
                 },
-                [_vm._v("Status du compte*")]
+                [_vm._v("Account status*")]
               ),
               _vm._v(" "),
               _c(
@@ -112454,15 +112278,13 @@ var render = function() {
                   }
                 },
                 [
-                  _c("option", { attrs: { value: "0" } }, [_vm._v("Inactif")]),
+                  _c("option", { attrs: { value: "0" } }, [_vm._v("Active")]),
                   _vm._v(" "),
-                  _c("option", { attrs: { value: "1" } }, [_vm._v("Actif")])
+                  _c("option", { attrs: { value: "1" } }, [_vm._v("Inactive")])
                 ]
               )
             ])
           ]),
-          _vm._v(" "),
-          _vm._m(2),
           _vm._v(" "),
           _c("div", { staticClass: "row mt-2" }, [
             _c("div", { staticClass: "col-md-6" }, [
@@ -112472,187 +112294,13 @@ var render = function() {
                   staticClass: "mt-2 mb-2",
                   attrs: { for: "exampleInputEmail1" }
                 },
-                [_vm._v("Pays")]
+                [_vm._v("Country")]
               ),
               _vm._v(" "),
               _c("input", {
                 staticClass: "form-control",
                 attrs: { type: "text", placeholder: "Pays...", disabled: "" },
                 domProps: { value: _vm.$root.ucfirst(_vm.user.country) }
-              })
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "row mt-2" }, [
-            _c("div", { staticClass: "col-md-6" }, [
-              _c(
-                "label",
-                {
-                  staticClass: "mt-2 mb-2",
-                  attrs: { for: "exampleInputEmail1" }
-                },
-                [_vm._v("Ville")]
-              ),
-              _vm._v(" "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.user.city,
-                    expression: "user.city"
-                  }
-                ],
-                staticClass: "form-control",
-                attrs: { type: "text", placeholder: "Ville..." },
-                domProps: { value: _vm.user.city },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.$set(_vm.user, "city", $event.target.value)
-                  }
-                }
-              })
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "col-md-6" }, [
-              _c(
-                "label",
-                {
-                  staticClass: "mt-2 mb-2",
-                  attrs: { for: "exampleInputEmail1" }
-                },
-                [_vm._v("Code de postal")]
-              ),
-              _vm._v(" "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.user.zipcode,
-                    expression: "user.zipcode"
-                  }
-                ],
-                staticClass: "form-control",
-                attrs: { type: "text", placeholder: "Code de postal..." },
-                domProps: { value: _vm.user.zipcode },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.$set(_vm.user, "zipcode", $event.target.value)
-                  }
-                }
-              })
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "row mt-2" }, [
-            _c("div", { staticClass: "col-md-6" }, [
-              _c(
-                "label",
-                {
-                  staticClass: "mt-2 mb-2",
-                  attrs: { for: "exampleInputEmail1" }
-                },
-                [_vm._v("Addresse")]
-              ),
-              _vm._v(" "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.user.address,
-                    expression: "user.address"
-                  }
-                ],
-                staticClass: "form-control",
-                attrs: { type: "text", placeholder: "Addresse..." },
-                domProps: { value: _vm.user.address },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.$set(_vm.user, "address", $event.target.value)
-                  }
-                }
-              })
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "row mt-2" }, [
-            _c("div", { staticClass: "col-md-6" }, [
-              _c(
-                "label",
-                {
-                  staticClass: "mt-2 mb-2",
-                  attrs: { for: "exampleInputEmail1" }
-                },
-                [_vm._v("Nom du recipient")]
-              ),
-              _vm._v(" "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.user.recipient,
-                    expression: "user.recipient"
-                  }
-                ],
-                staticClass: "form-control",
-                attrs: { type: "text", placeholder: "Nom du recipient..." },
-                domProps: { value: _vm.user.recipient },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.$set(_vm.user, "recipient", $event.target.value)
-                  }
-                }
-              })
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "col-md-6" }, [
-              _c(
-                "label",
-                {
-                  staticClass: "mt-2 mb-2",
-                  attrs: { for: "exampleInputEmail1" }
-                },
-                [_vm._v("Téléphone du récipient")]
-              ),
-              _vm._v(" "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.user.recipient_phone,
-                    expression: "user.recipient_phone"
-                  }
-                ],
-                staticClass: "form-control",
-                attrs: {
-                  type: "text",
-                  placeholder: "Téléphone du récipient..."
-                },
-                domProps: { value: _vm.user.recipient_phone },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.$set(_vm.user, "recipient_phone", $event.target.value)
-                  }
-                }
               })
             ])
           ]),
@@ -112701,7 +112349,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "row" }, [
       _c("div", { staticClass: "col-md-6" }, [
-        _c("h5", [_c("strong", [_vm._v("Informations personnelles")])])
+        _c("h5", [_c("strong", [_vm._v("Personal informations")])])
       ])
     ])
   },
@@ -112711,17 +112359,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "row mt-4" }, [
       _c("div", { staticClass: "col-md-6" }, [
-        _c("h5", [_c("strong", [_vm._v("Informations de connexion")])])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "row mt-4" }, [
-      _c("div", { staticClass: "col-md-6" }, [
-        _c("h5", [_c("strong", [_vm._v("Informations de livraison")])])
+        _c("h5", [_c("strong", [_vm._v("Access informations")])])
       ])
     ])
   }
@@ -112750,31 +112388,6 @@ var render = function() {
   return _c("div", [
     _c("div", { staticClass: "card" }, [
       _c("div", { staticClass: "card-body" }, [
-        _c("div", { staticClass: "form-check" }, [
-          _c("input", {
-            staticClass: "form-check-input filterusers",
-            attrs: { type: "checkbox", value: "", id: "defaultCheck1" },
-            on: {
-              click: function($event) {
-                return _vm.filterUsersClick()
-              }
-            }
-          }),
-          _vm._v(" "),
-          _c(
-            "label",
-            {
-              staticClass: "form-check-label",
-              attrs: { for: "defaultCheck1" }
-            },
-            [
-              _vm._v(
-                "\n                    Afficher les élements desactivés\n                "
-              )
-            ]
-          )
-        ]),
-        _vm._v(" "),
         _c(
           "table",
           {
@@ -112833,25 +112446,6 @@ var render = function() {
                             attrs: { "aria-labelledby": "dropdownMenuButton" }
                           },
                           [
-                            user.active == 2
-                              ? _c(
-                                  "a",
-                                  {
-                                    staticClass: "dropdown-item",
-                                    attrs: {
-                                      "data-toggle": "modal",
-                                      "data-target": "#unblockUser"
-                                    },
-                                    on: {
-                                      click: function($event) {
-                                        return _vm.affectUser(user, index)
-                                      }
-                                    }
-                                  },
-                                  [_vm._v("Débloquer")]
-                                )
-                              : _vm._e(),
-                            _vm._v(" "),
                             _c(
                               "a",
                               {
@@ -112860,18 +112454,9 @@ var render = function() {
                               },
                               [
                                 _vm._v(
-                                  "Voir\n                                        détails"
+                                  "Show\n                                        details"
                                 )
                               ]
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "a",
-                              {
-                                staticClass: "dropdown-item",
-                                attrs: { href: "/user/" + user.id + "/update" }
-                              },
-                              [_vm._v("Modifier")]
                             ),
                             _vm._v(" "),
                             _c(
@@ -112888,7 +112473,7 @@ var render = function() {
                                   }
                                 }
                               },
-                              [_vm._v("Supprimer")]
+                              [_vm._v("Delete")]
                             )
                           ]
                         )
@@ -112974,15 +112559,15 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("thead", [
       _c("tr", [
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Nom et prénom")]),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Full name")]),
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Email")]),
         _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Etat du compte")]),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Account type")]),
         _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Type")]),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Role")]),
         _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Modifié le")]),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Last modification")]),
         _vm._v(" "),
         _c("th")
       ])

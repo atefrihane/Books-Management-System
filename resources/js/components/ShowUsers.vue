@@ -4,13 +4,7 @@
         <div class="card">
 
             <div class="card-body">
-                <div class="form-check">
-                    <input class="form-check-input filterusers" type="checkbox" value="" id="defaultCheck1"
-                        @click="filterUsersClick()">
-                    <label class="form-check-label" for="defaultCheck1">
-                        Afficher les élements desactivés
-                    </label>
-                </div>
+            
 
 
 
@@ -18,11 +12,11 @@
                 <table class="table table-bordered table-hover  table-responsive-sm">
                     <thead>
                         <tr>
-                            <th scope="col">Nom et prénom</th>
+                            <th scope="col">Full name</th>
                             <th scope="col">Email</th>
-                            <th scope="col">Etat du compte</th>
-                            <th scope="col">Type</th>
-                            <th scope="col">Modifié le</th>
+                            <th scope="col">Account type</th>
+                            <th scope="col">Role</th>
+                            <th scope="col">Last modification</th>
                             <th></th>
 
                         </tr>
@@ -47,14 +41,13 @@
                                         <i class="fas fa-ellipsis-h"></i>
                                     </button>
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        <a class="dropdown-item" data-toggle="modal" data-target="#unblockUser"
-                                            @click="affectUser(user,index)" v-if="user.active == 2">Débloquer</a>
-                                        <a class="dropdown-item" :href="`/user/${user.id}`">Voir
-                                            détails</a>
+                                  
+                                        <a class="dropdown-item" :href="`/user/${user.id}`">Show
+                                            details</a>
 
-                                        <a class="dropdown-item" :href="`/user/${user.id}/update`">Modifier</a>
+                                 
                                         <a class="dropdown-item" data-toggle="modal" data-target="#exampleModal"
-                                            @click="affectValue(user)">Supprimer</a>
+                                            @click="affectValue(user)">Delete</a>
                                     </div>
                                 </div>
                             </td>

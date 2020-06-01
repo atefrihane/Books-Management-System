@@ -20,16 +20,7 @@ class CreateUsersTable extends Migration
             $table->string('first_name');
             $table->string('last_name');
             $table->integer('active')->default(0);
-            $table->integer('occupation')->nullable(); // 1 -student
-            $table->string('institution')->nullable();
-            $table->string('country')->default('tunisie');
-            $table->string('city')->nullable();
-            $table->string('zipcode')->nullable();
-            $table->string('address')->nullable();
-            $table->string('phone')->nullable();
-            $table->string('recipient')->nullable();
-            $table->string('recipient_phone')->nullable();
-            $table->string('remember_token')->nullable();
+            $table->string('country');
             $table->timestamp('email_verified_at')->nullable();
             $table->unsignedBigInteger('role_id');
             $table->foreign('role_id')->references('id')->on('roles');

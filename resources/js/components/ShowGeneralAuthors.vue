@@ -155,7 +155,7 @@
                             this.allAuthors = this.authors;
                             toast.fire({
                                 type: 'success',
-                                title: 'Auteur supprimé'
+                                title: 'Auteur deleted'
                             })
 
                             this.isChecked = !this.isChecked
@@ -165,7 +165,7 @@
                         if (response.data.status == 404) {
                             swal2.fire({
                                 type: 'error',
-                                title: 'Livre introuvable..',
+                                title: 'Author not found..',
                                 allowOutsideClick: false,
                                 showConfirmButton: true,
                                 confirmButtonText: 'Fermer'

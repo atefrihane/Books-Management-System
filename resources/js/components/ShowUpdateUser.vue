@@ -1,65 +1,39 @@
 <template>
     <div class="card card-primary">
-        <h3 class=" p-4">Modifier un utilisateur</h3>
+        <h3 class=" p-4">Update user</h3>
 
         <form role="form">
             <div class="card-body">
                 <show-errors :errors="errors"> </show-errors>
                 <div class="row">
                     <div class="col-md-6">
-
-                        <h5><strong>Informations personnelles</strong></h5>
+                        <h5><strong>Personal informations</strong></h5>
                     </div>
 
                 </div>
 
                 <div class="row mt-2">
                     <div class="col-md-6">
-                        <label for="exampleInputEmail1">Nom *</label>
+                        <label for="exampleInputEmail1">Last name *</label>
                         <input type="text" class="form-control" placeholder="Nom.." v-model="user.last_name">
                     </div>
                     <div class="col-md-6">
-                        <label for="exampleInputEmail1">Prénom *</label>
+                        <label for="exampleInputEmail1">First name *</label>
                         <input type="text" class="form-control" placeholder="Prénom.." v-model="user.first_name">
                     </div>
 
                 </div>
 
 
-                <div class="row mt-2">
-                    <div class="col-md-6">
-                        <label for="exampleInputEmail1" class="mt-2 mb-2">Occupation</label>
-                        <select class="form-control" @change="selectOccupation($event)" :value="user.occupation">
-                            <option value="" selected disabled>Sélectionner une occupation</option>
-                            <option value="1">Etudiant</option>
-                            <option value="2">Autre</option>
-                        </select>
-
-                    </div>
-                    <div class="col-md-6">
-                        <label for="exampleInputEmail1" class="mt-2">Université/Instutition</label>
-                        <input type="text" class="form-control" placeholder="Université/Instutition"
-                            v-model="user.institution">
-
-                    </div>
-
-                </div>
 
 
-                <div class="row mt-2">
-                    <div class="col-md-6">
-                        <label for="exampleInputEmail1" class="mt-2 mb-2">Numéro de téléphone</label>
-                        <input type="text" class="form-control" placeholder="Numéro de téléphone..."
-                            v-model="user.phone">
-                    </div>
 
 
-                </div>
 
                 <div class="row mt-4">
                     <div class="col-md-6">
 
-                        <h5><strong>Informations de connexion</strong></h5>
+                        <h5><strong>Access informations</strong></h5>
                     </div>
 
                 </div>
@@ -77,9 +51,9 @@
 
                 <div class="row mt-2">
                     <div class="col-md-6">
-                        <label for="exampleInputEmail1" class="mt-2 mb-2">Type de compte *</label>
+                        <label for="exampleInputEmail1" class="mt-2 mb-2">Account type *</label>
                         <select class="form-control" @change="selectRole($event)" :value="user.role_id">
-                            <option value="" selected disabled>Séléctionner un type de compte</option>
+                            <option value="" selected disabled>Select account type</option>
                             <option :value="role.id" v-for="role in roles">{{formatRole(role)}}</option>
                         </select>
 
@@ -92,10 +66,10 @@
 
                 <div class="row mt-2">
                     <div class="col-md-6">
-                        <label for="exampleInputEmail1" class="mt-2 mb-2">Status du compte*</label>
+                        <label for="exampleInputEmail1" class="mt-2 mb-2">Account status*</label>
                         <select class="form-control" @change="selectStatus($event)" :value="user.active">
-                            <option value="0">Inactif</option>
-                            <option value="1">Actif</option>
+                            <option value="0">Active</option>
+                            <option value="1">Inactive</option>
                         </select>
 
                     </div>
@@ -103,54 +77,13 @@
                 </div>
 
 
-                <div class="row mt-4">
-                    <div class="col-md-6">
-
-                        <h5><strong>Informations de livraison</strong></h5>
-                    </div>
-
-                </div>
+          
 
                 <div class="row mt-2">
                     <div class="col-md-6">
-                        <label for="exampleInputEmail1" class="mt-2 mb-2">Pays</label>
+                        <label for="exampleInputEmail1" class="mt-2 mb-2">Country</label>
                         <input type="text" class="form-control" placeholder="Pays..."
                             :value="$root.ucfirst(user.country)" disabled>
-                    </div>
-
-                </div>
-
-                <div class="row mt-2">
-                    <div class="col-md-6">
-                        <label for="exampleInputEmail1" class="mt-2 mb-2">Ville</label>
-                        <input type="text" class="form-control" placeholder="Ville..." v-model="user.city">
-                    </div>
-
-                    <div class="col-md-6">
-                        <label for="exampleInputEmail1" class="mt-2 mb-2">Code de postal</label>
-                        <input type="text" class="form-control" placeholder="Code de postal..." v-model="user.zipcode">
-                    </div>
-
-                </div>
-
-                <div class="row mt-2">
-                    <div class="col-md-6">
-                        <label for="exampleInputEmail1" class="mt-2 mb-2">Addresse</label>
-                        <input type="text" class="form-control" placeholder="Addresse..." v-model="user.address">
-                    </div>
-
-                </div>
-                <div class="row mt-2">
-                    <div class="col-md-6">
-                        <label for="exampleInputEmail1" class="mt-2 mb-2">Nom du recipient</label>
-                        <input type="text" class="form-control" placeholder="Nom du recipient..."
-                            v-model="user.recipient">
-                    </div>
-
-                    <div class="col-md-6">
-                        <label for="exampleInputEmail1" class="mt-2 mb-2">Téléphone du récipient</label>
-                        <input type="text" class="form-control" placeholder="Téléphone du récipient..."
-                            v-model="user.recipient_phone">
                     </div>
 
                 </div>
@@ -186,8 +119,8 @@
     import ShowErrors from './nested/ShowErrors.vue'
     export default {
         mounted() {
-         
-        
+
+
         },
         props: ['roles', 'old_user'],
         data() {
@@ -208,8 +141,8 @@
                     role_id: this.old_user.role_id,
                     type: this.old_user.type,
                     active: this.old_user.active,
-                    email_verified_at:this.old_user.email_verified_at
-                  
+                    email_verified_at: this.old_user.email_verified_at
+
                 },
                 errors: [],
                 disabled: false,

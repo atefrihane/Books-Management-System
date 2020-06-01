@@ -11,9 +11,7 @@
                 {{ Breadcrumbs::render('users') }}
             </div>
 
-            <div class="col-sm-6  text-md-right">
-            <a href="{{route('showAddUser')}}" class="btn btn-primary">Ajouter un utilisateur</a>
-            </div>
+       
         </div>
     </div>
 </div>

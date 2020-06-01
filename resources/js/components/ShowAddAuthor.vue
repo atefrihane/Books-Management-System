@@ -181,7 +181,7 @@
                             if (response.data.status == 200) {
                                 swal2.fire({
                                     type: 'success',
-                                    title: 'Auteur ajouté avec succés',
+                                    title: 'Author added',
                                     allowOutsideClick: false,
                                     showConfirmButton: true,
                                     confirmButtonText: 'Fermer'
