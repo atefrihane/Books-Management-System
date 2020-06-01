@@ -3832,6 +3832,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         body.append('author_id', this.book.author_id);
         var config = {
           onUploadProgress: function onUploadProgress(progressEvent) {
+            console.log(progressEvent);
+
             _this2.$Progress.start();
           }
         };

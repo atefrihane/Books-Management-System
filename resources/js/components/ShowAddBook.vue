@@ -489,6 +489,7 @@
 
                     let config = {
                         onUploadProgress: progressEvent => {
+                            console.log(progressEvent)
                             this.$Progress.start()
                         }
                     }
