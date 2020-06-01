@@ -67,15 +67,7 @@
 
 
 
-                    <div class="row">
-                        <div class="col-md-12">
-                            <label for="exampleInputEmail1" class="mt-2 mb-2">Published year</label>
-                            <input type="number" class="form-control" placeholder="Published year.."
-                                v-model="article.published_year">
-                        </div>
-
-
-                    </div>
+                   
 
 
 
@@ -184,7 +176,7 @@
                     author_id: '',
                     published_year: '',
 
-                    isbn: '',
+ 
                     description: '',
 
 
@@ -208,7 +200,7 @@
                 this.article.title = this.article_details.title
                 this.article.categories = this.article_details.categories
                 this.article.published_year = this.article_details.published_year
-                this.article.isbn = this.article_details.isbn
+        
                 this.article.description = this.article_details.description
                 this.article.photo = this.article_details.photo
                 this.article.author_id = this.article_details.author_id
@@ -261,7 +253,7 @@
 
                 swal2.fire({
                     type: 'error',
-                    title: 'Format fichier non supporté',
+                    title: 'File not supported',
                     allowOutsideClick: false,
                     showConfirmButton: true,
                     confirmButtonText: 'Fermer'
@@ -296,7 +288,7 @@
 
                 swal2.fire({
                     type: 'error',
-                    title: 'Format fichier non supporté',
+                    title: 'File not supported',
                     allowOutsideClick: false,
                     showConfirmButton: true,
                     confirmButtonText: 'Fermer'
@@ -394,12 +386,7 @@
                 }
 
 
-                if (!this.article.isbn) {
-                    this.disabled = false;
-                    this.errors.push('ISBN is required');
-                    window.scrollTo(0, 0);
-                    return;
-                }
+             
                 if (this.article.categories.length == 0) {
                     this.disabled = false;
                     this.errors.push('Please select a category');
@@ -407,12 +394,7 @@
                     return;
                 }
 
-                if (!this.article.published_year) {
-                    this.disabled = false;
-                    this.errors.push('Published year is required');
-                    window.scrollTo(0, 0);
-                    return;
-                }
+           
 
 
 
@@ -468,7 +450,7 @@
                     body.append('title', this.article.title)
                     body.append('active', this.article.active)
                     body.append('description', this.article.description)
-                    body.append('isbn', this.article.isbn)
+    
                     body.append('published_year', this.article.published_year)
                     body.append('author_id', this.article.author_id)
 
@@ -481,7 +463,7 @@
                             if (response.data.status == 200) {
                                 swal2.fire({
                                     type: 'success',
-                                    title: 'article updated',
+                                    title: 'Article updated',
                                     allowOutsideClick: false,
                                     showConfirmButton: true,
                                     confirmButtonText: 'Fermer'

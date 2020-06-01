@@ -16,7 +16,7 @@ class ArticleRepository implements ArticleRepositoryInterface
     }
     public function all()
     {
-        
+
         return Article::all();
     }
 
@@ -64,46 +64,33 @@ class ArticleRepository implements ArticleRepositoryInterface
 
         if ($checkArticle) {
             $articlePhoto = $checkArticle->photo;
-            $articlePdf = $checkArticle->digital_link;
+            $articleAudio = $checkArticle->audio_link;
 
             if ($checkArticle->photo != $article['photo']) {
                 $this->image->deleteFile($checkArticle->photo);
                 $articlePhoto = $this->image->uploadImage($article['photo'], 'articles');
 
             }
-            if (!$article['digital_link'] && $checkArticle->digital_link) {
-                $this->image->deleteFile($checkArticle->digital_link);
-                $articlePdf = null;
 
+            if (isset($article['audio_link'])) {
+                $this->image->deleteFile($checkArticle->audio_link);
+                $articleAudio = $this->image->uploadAudio($article['audio_link'], '/img/articles/audio/');
             }
-
-            if ($article['digital_link'] && $article['digital_link'] != $checkArticle->digital_link) {
-                $this->image->deleteFile($checkArticle->digital_link);
-                $articlePdf = $this->image->uploadPdf($article['digital_link'], 'articles/pdf');
-
-            }
-
+            $articleCategories = json_decode($article['categories']);
             $checkArticle->update([
                 'photo' => $articlePhoto,
                 'active' => $article['active'],
                 'title' => $article['title'],
-                'slug' => str_slug($article['title'] . ' ' . $article['id'], '-'),
-                'published_year' => $article['published_year'],
-                'editor' => $article['editor'],
-                'count_pages' => $article['count_pages'],
-                'isbn' => $article['isbn'],
+                'slug' => str_slug($article['title'] . ' ' . time(), '-'),
+
                 'description' => $article['description'],
-                'digital_price' => $article['digital_price'],
-                'photo' => $articlePhoto,
-                'digital_link' => $articlePdf,
+                'audio_link' => $articleAudio,
+                'author_id' => $article['author_id'],
 
             ]);
 
-            $checkArticle->categories()->sync(array_column($article['categories'], 'id'));
+            $checkArticle->categories()->sync(array_column($articleCategories, 'id'));
 
-            $checkArticle->languages()->sync(array_column($article['languages'], 'id'));
-
-            $checkArticle->authors()->sync($article['authors']);
             return true;
 
         }
@@ -114,7 +101,7 @@ class ArticleRepository implements ArticleRepositoryInterface
     {
         $checkArticle = $this->fetchById($id);
         if ($checkArticle) {
-    
+
             $checkArticle->delete();
             return true;
         }

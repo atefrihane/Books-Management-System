@@ -38,7 +38,8 @@ class ArticleControllerApi extends Controller
 
     public function handleUpdateArticle(StoreArticle $request)
     {
-        $updateArticle = $this->articles->update($request->input('article'));
+
+        $updateArticle = $this->articles->update($request->all());
         if ($updateArticle) {
             return response()->json(['status' => 200]);
         }

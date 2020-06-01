@@ -18,7 +18,7 @@
 
     <div class="container-fluid">
         <div class="card card-primary">
-        <h3 class=" p-4">Détails  <small>{{$author->fullName()}}</small></h3>
+        <h3 class=" p-4">Details  <small>{{$author->fullName()}}</small></h3>
 
             <form role="form">
                 <div class="card-body">
@@ -35,14 +35,14 @@
 
                 
                             <div class="form-group">
-                                <label>Nom</label>
+                                <label>Last name</label>
                                 <input type="text" class="form-control" placeholder="Nom.."
                                     value="{{ucfirst($author->last_name)}}" disabled>
                             </div>
                    
 
                             <div class="form-group">
-                                <label>Prénom</label>
+                                <label>First name</label>
                                 <input type="text" class="form-control" placeholder="Prénom.."
                                 value="{{ucfirst($author->first_name)}}"disabled>
                             </div>
@@ -50,7 +50,7 @@
                 
                     <div class="row">
                         <div class="col-md-12">
-                            <label for="exampleInputEmail1">Biographie</label>
+                            <label for="exampleInputEmail1">Biography</label>
                            <textarea  cols="10" rows="5" class="form-control" disabled>{{ucfirst($author->biography)}}</textarea>
                         </div>
 
@@ -68,7 +68,7 @@
             <div class="mx-auto mt-4 p-3" style="width: 200px;">
                 <div class="row">
               
-                    <a href="{{route('showAuthors')}}" class="btn btn-danger ml-3">Annuler</a>
+                    <a href="{{route('showAuthors')}}" class="btn btn-danger ml-3">Cancel</a>
                 
             
                   

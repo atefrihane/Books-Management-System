@@ -2896,7 +2896,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 12:
                 swal2.fire({
                   type: 'error',
-                  title: 'Format fichier non supporté',
+                  title: 'File not supported',
                   allowOutsideClick: false,
                   showConfirmButton: true,
                   confirmButtonText: 'Fermer'
@@ -2922,7 +2922,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
       swal2.fire({
         type: 'error',
-        title: 'Format fichier non supporté',
+        title: 'File not supported',
         allowOutsideClick: false,
         showConfirmButton: true,
         confirmButtonText: 'Fermer'
@@ -3211,7 +3211,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 12:
                 swal2.fire({
                   type: 'error',
-                  title: 'Format fichier non supporté',
+                  title: 'File not supported',
                   allowOutsideClick: false,
                   showConfirmButton: true,
                   confirmButtonText: 'Fermer'
@@ -3231,28 +3231,28 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
       if (this.author.photo == '/img/placeholder.jpg') {
         this.disabled = false;
-        this.errors.push('Veuillez importer une photo pour l\'auteur');
+        this.errors.push('Photo required');
         window.scrollTo(0, 0);
         return;
       }
 
       if (!this.author.last_name) {
         this.disabled = false;
-        this.errors.push('Le Nom est requis');
+        this.errors.push('Last name required');
         window.scrollTo(0, 0);
         return;
       }
 
       if (!this.author.first_name) {
         this.disabled = false;
-        this.errors.push('Le Prénom est requis');
+        this.errors.push('First name required');
         window.scrollTo(0, 0);
         return;
       }
 
       if (!this.author.biography) {
         this.disabled = false;
-        this.errors.push('La biographie est requise');
+        this.errors.push('Biography required');
         window.scrollTo(0, 0);
         return;
       }
@@ -3555,7 +3555,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 12:
                 swal2.fire({
                   type: 'error',
-                  title: 'Format fichier non supporté',
+                  title: 'File not supported',
                   allowOutsideClick: false,
                   showConfirmButton: true,
                   confirmButtonText: 'Fermer'
@@ -3581,7 +3581,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
       swal2.fire({
         type: 'error',
-        title: 'Format fichier non supporté',
+        title: 'File not supported',
         allowOutsideClick: false,
         showConfirmButton: true,
         confirmButtonText: 'Fermer'
@@ -4425,7 +4425,7 @@ __webpack_require__.r(__webpack_exports__);
           _this.allArticles = _this.articles;
           toast.fire({
             type: 'success',
-            title: 'Article supprimée'
+            title: 'Article deleted'
           });
           _this.isChecked = !_this.isChecked;
 
@@ -4435,7 +4435,7 @@ __webpack_require__.r(__webpack_exports__);
         if (response.data.status == 404) {
           swal2.fire({
             type: 'error',
-            title: 'Revue introuvable..',
+            title: 'Article not found..',
             allowOutsideClick: false,
             showConfirmButton: true,
             confirmButtonText: 'Fermer'
@@ -5702,14 +5702,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -5730,7 +5722,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         categories: [],
         author_id: '',
         published_year: '',
-        isbn: '',
         description: '',
         photo: '',
         audio_link: ''
@@ -5749,7 +5740,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.article.title = this.article_details.title;
       this.article.categories = this.article_details.categories;
       this.article.published_year = this.article_details.published_year;
-      this.article.isbn = this.article_details.isbn;
       this.article.description = this.article_details.description;
       this.article.photo = this.article_details.photo;
       this.article.author_id = this.article_details.author_id;
@@ -5806,7 +5796,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 12:
                 swal2.fire({
                   type: 'error',
-                  title: 'Format fichier non supporté',
+                  title: 'File not supported',
                   allowOutsideClick: false,
                   showConfirmButton: true,
                   confirmButtonText: 'Fermer'
@@ -5832,7 +5822,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
       swal2.fire({
         type: 'error',
-        title: 'Format fichier non supporté',
+        title: 'File not supported',
         allowOutsideClick: false,
         showConfirmButton: true,
         confirmButtonText: 'Fermer'
@@ -5899,23 +5889,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         return;
       }
 
-      if (!this.article.isbn) {
-        this.disabled = false;
-        this.errors.push('ISBN is required');
-        window.scrollTo(0, 0);
-        return;
-      }
-
       if (this.article.categories.length == 0) {
         this.disabled = false;
         this.errors.push('Please select a category');
-        window.scrollTo(0, 0);
-        return;
-      }
-
-      if (!this.article.published_year) {
-        this.disabled = false;
-        this.errors.push('Published year is required');
         window.scrollTo(0, 0);
         return;
       }
@@ -5963,7 +5939,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         body.append('title', this.article.title);
         body.append('active', this.article.active);
         body.append('description', this.article.description);
-        body.append('isbn', this.article.isbn);
         body.append('published_year', this.article.published_year);
         body.append('author_id', this.article.author_id);
         axios.post("/api/article/".concat(this.article.id, "/update"), body).then(function (response) {
@@ -5972,7 +5947,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           if (response.data.status == 200) {
             swal2.fire({
               type: 'success',
-              title: 'article updated',
+              title: 'Article updated',
               allowOutsideClick: false,
               showConfirmButton: true,
               confirmButtonText: 'Fermer'
@@ -6146,7 +6121,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 12:
                 swal2.fire({
                   type: 'error',
-                  title: 'Format fichier non supporté',
+                  title: 'File not supported',
                   allowOutsideClick: false,
                   showConfirmButton: true,
                   confirmButtonText: 'Fermer'
@@ -6166,28 +6141,28 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
       if (this.author.photo == '/img/placeholder.jpg') {
         this.disabled = false;
-        this.errors.push('Veuillez importer une photo pour l\'auteur');
+        this.errors.push('Photo required');
         window.scrollTo(0, 0);
         return;
       }
 
       if (!this.author.last_name) {
         this.disabled = false;
-        this.errors.push('Le Nom est requis');
+        this.errors.push('Last name required');
         window.scrollTo(0, 0);
         return;
       }
 
       if (!this.author.first_name) {
         this.disabled = false;
-        this.errors.push('Le Prénom est requis');
+        this.errors.push('First name required');
         window.scrollTo(0, 0);
         return;
       }
 
       if (!this.author.biography) {
         this.disabled = false;
-        this.errors.push('La biographie est requise');
+        this.errors.push('Biography required');
         window.scrollTo(0, 0);
         return;
       }
@@ -6210,7 +6185,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           if (response.data.status == 200) {
             swal2.fire({
               type: 'success',
-              title: 'Auteur modifié avec succés',
+              title: 'Author updated',
               allowOutsideClick: false,
               showConfirmButton: true,
               confirmButtonText: 'Fermer'
@@ -6523,7 +6498,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 12:
                 swal2.fire({
                   type: 'error',
-                  title: 'Format fichier non supporté',
+                  title: 'File not supported',
                   allowOutsideClick: false,
                   showConfirmButton: true,
                   confirmButtonText: 'Fermer'
@@ -6549,7 +6524,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
       swal2.fire({
         type: 'error',
-        title: 'Format fichier non supporté',
+        title: 'File not supported',
         allowOutsideClick: false,
         showConfirmButton: true,
         confirmButtonText: 'Fermer'
@@ -107190,7 +107165,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container-fluid" }, [
     _c("div", { staticClass: "card card-primary" }, [
-      _c("h3", { staticClass: " p-4" }, [_vm._v("Ajouter un auteur")]),
+      _c("h3", { staticClass: " p-4" }, [_vm._v("Add an auteur")]),
       _vm._v(" "),
       _c("form", { attrs: { role: "form" } }, [
         _c(
@@ -107228,7 +107203,7 @@ var render = function() {
             _c("div", { staticClass: "row" }, [
               _c("div", { staticClass: "col-md-12" }, [
                 _c("label", { attrs: { for: "exampleInputEmail1" } }, [
-                  _vm._v("Nom")
+                  _vm._v("Last name")
                 ]),
                 _vm._v(" "),
                 _c("input", {
@@ -107241,7 +107216,7 @@ var render = function() {
                     }
                   ],
                   staticClass: "form-control",
-                  attrs: { type: "text", placeholder: "Nom.." },
+                  attrs: { type: "text", placeholder: "Last name.." },
                   domProps: { value: _vm.author.last_name },
                   on: {
                     input: function($event) {
@@ -107258,7 +107233,7 @@ var render = function() {
             _c("div", { staticClass: "row mt-3" }, [
               _c("div", { staticClass: "col-md-12" }, [
                 _c("label", { attrs: { for: "exampleInputEmail1" } }, [
-                  _vm._v("Prénom")
+                  _vm._v("First name")
                 ]),
                 _vm._v(" "),
                 _c("input", {
@@ -107271,7 +107246,7 @@ var render = function() {
                     }
                   ],
                   staticClass: "form-control",
-                  attrs: { type: "text", placeholder: "Prénom.." },
+                  attrs: { type: "text", placeholder: "First name.." },
                   domProps: { value: _vm.author.first_name },
                   on: {
                     input: function($event) {
@@ -107288,7 +107263,7 @@ var render = function() {
             _c("div", { staticClass: "row mt-3" }, [
               _c("div", { staticClass: "col-md-12" }, [
                 _c("label", { attrs: { for: "exampleInputEmail1" } }, [
-                  _vm._v("Déscription")
+                  _vm._v("Description")
                 ]),
                 _vm._v(" "),
                 _c("textarea", {
@@ -107326,7 +107301,7 @@ var render = function() {
                       staticClass: "btn btn-danger ml-3",
                       attrs: { type: "button" }
                     },
-                    [_vm._v("Annuler")]
+                    [_vm._v("Cancel")]
                   ),
                   _vm._v(" "),
                   _c(
@@ -107340,7 +107315,7 @@ var render = function() {
                         }
                       }
                     },
-                    [_vm._v("Confirmer")]
+                    [_vm._v("Confirme")]
                   )
                 ])
               ]
@@ -108737,7 +108712,7 @@ var render = function() {
                                 staticClass: "dropdown-item",
                                 attrs: { href: "/article/" + article.id }
                               },
-                              [_vm._v("Voir détails")]
+                              [_vm._v("Show details")]
                             ),
                             _vm._v(" "),
                             _c(
@@ -108748,7 +108723,7 @@ var render = function() {
                                   href: "/article/" + article.id + "/update"
                                 }
                               },
-                              [_vm._v("Modifier")]
+                              [_vm._v("Edit")]
                             ),
                             _vm._v(" "),
                             _c(
@@ -108766,7 +108741,7 @@ var render = function() {
                                   }
                                 }
                               },
-                              [_vm._v("Supprimer")]
+                              [_vm._v("Delete")]
                             )
                           ]
                         )
@@ -108804,17 +108779,15 @@ var staticRenderFns = [
       _c("tr", [
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Photo")]),
         _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Titre")]),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Title")]),
         _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Domaine(s)")]),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Categories")]),
         _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Auteur(s)")]),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Author")]),
         _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Etat")]),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Status")]),
         _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [
-          _vm._v("Dérniere modification")
-        ]),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Last modification")]),
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } })
       ])
@@ -108922,7 +108895,7 @@ var render = function() {
                               },
                               [
                                 _vm._v(
-                                  "Voir\n                                        détails"
+                                  "Show\n                                        details"
                                 )
                               ]
                             ),
@@ -108935,7 +108908,7 @@ var render = function() {
                                   href: "/author/" + author.id + "/update"
                                 }
                               },
-                              [_vm._v("Modifier")]
+                              [_vm._v("Edit")]
                             ),
                             _vm._v(" "),
                             _c(
@@ -108953,7 +108926,7 @@ var render = function() {
                                   }
                                 }
                               },
-                              [_vm._v("Supprimer")]
+                              [_vm._v("Delete")]
                             )
                           ]
                         )
@@ -108991,10 +108964,10 @@ var staticRenderFns = [
       _c("tr", [
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Photo")]),
         _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Nom & Prénom")]),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Full name")]),
         _vm._v(" "),
         _c("th", { staticClass: "is-wrapped", attrs: { scope: "col " } }, [
-          _vm._v("Biographie")
+          _vm._v("Biography")
         ]),
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } })
@@ -110757,45 +110730,6 @@ var render = function() {
               )
             ]),
             _vm._v(" "),
-            _c("div", { staticClass: "row" }, [
-              _c("div", { staticClass: "col-md-12" }, [
-                _c(
-                  "label",
-                  {
-                    staticClass: "mt-2 mb-2",
-                    attrs: { for: "exampleInputEmail1" }
-                  },
-                  [_vm._v("Published year")]
-                ),
-                _vm._v(" "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.article.published_year,
-                      expression: "article.published_year"
-                    }
-                  ],
-                  staticClass: "form-control",
-                  attrs: { type: "number", placeholder: "Published year.." },
-                  domProps: { value: _vm.article.published_year },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.$set(
-                        _vm.article,
-                        "published_year",
-                        $event.target.value
-                      )
-                    }
-                  }
-                })
-              ])
-            ]),
-            _vm._v(" "),
             _c("div", { staticClass: "row mt-3" }, [
               _c("div", { staticClass: "col-md-12" }, [
                 _c("label", { attrs: { for: "exampleInputEmail1" } }, [
@@ -110970,7 +110904,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container-fluid" }, [
     _c("div", { staticClass: "card card-primary" }, [
-      _c("h3", { staticClass: " p-4" }, [_vm._v("Ajouter un auteur")]),
+      _c("h3", { staticClass: " p-4" }, [_vm._v("Edit an author")]),
       _vm._v(" "),
       _c("form", { attrs: { role: "form" } }, [
         _c(
@@ -111008,7 +110942,7 @@ var render = function() {
             _c("div", { staticClass: "row" }, [
               _c("div", { staticClass: "col-md-12" }, [
                 _c("label", { attrs: { for: "exampleInputEmail1" } }, [
-                  _vm._v("Nom")
+                  _vm._v("Last name")
                 ]),
                 _vm._v(" "),
                 _c("input", {
@@ -111038,7 +110972,7 @@ var render = function() {
             _c("div", { staticClass: "row mt-3" }, [
               _c("div", { staticClass: "col-md-12" }, [
                 _c("label", { attrs: { for: "exampleInputEmail1" } }, [
-                  _vm._v("Prénom")
+                  _vm._v("First name")
                 ]),
                 _vm._v(" "),
                 _c("input", {
@@ -111068,7 +111002,7 @@ var render = function() {
             _c("div", { staticClass: "row mt-3" }, [
               _c("div", { staticClass: "col-md-12" }, [
                 _c("label", { attrs: { for: "exampleInputEmail1" } }, [
-                  _vm._v("Déscription")
+                  _vm._v("Description")
                 ]),
                 _vm._v(" "),
                 _c("textarea", {

@@ -10,12 +10,12 @@
                     <thead>
                         <tr>
                             <th scope="col">Photo</th>
-                            <th scope="col">Titre</th>
-                            <th scope="col">Domaine(s)</th>
-                            <th scope="col">Auteur(s)</th>
+                            <th scope="col">Title</th>
+                            <th scope="col">Categories</th>
+                            <th scope="col">Author</th>
 
-                            <th scope="col">Etat</th>
-                            <th scope="col">Dérniere modification</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Last modification</th>
                             <th scope="col"></th>
                         </tr>
                     </thead>
@@ -44,10 +44,10 @@
                                         <i class="fas fa-ellipsis-h"></i>
                                     </button>
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        <a class="dropdown-item" :href="`/article/${article.id}`">Voir détails</a>
-                                        <a class="dropdown-item" :href="`/article/${article.id}/update`">Modifier</a>
+                                        <a class="dropdown-item" :href="`/article/${article.id}`">Show details</a>
+                                        <a class="dropdown-item" :href="`/article/${article.id}/update`">Edit</a>
                                         <a class="dropdown-item" href="#" data-toggle="modal"
-                                            data-target="#exampleModal" @click="affectValue(article)">Supprimer</a>
+                                            data-target="#exampleModal" @click="affectValue(article)">Delete</a>
                                     </div>
                                 </div>
                             </td>
@@ -133,7 +133,7 @@
                             this.allArticles = this.articles
                             toast.fire({
                                 type: 'success',
-                                title: 'Article supprimée'
+                                title: 'Article deleted'
                             })
 
                             this.isChecked = !this.isChecked
@@ -144,7 +144,7 @@
                         if (response.data.status == 404) {
                             swal2.fire({
                                 type: 'error',
-                                title: 'Revue introuvable..',
+                                title: 'Article not found..',
                                 allowOutsideClick: false,
                                 showConfirmButton: true,
                                 confirmButtonText: 'Fermer'

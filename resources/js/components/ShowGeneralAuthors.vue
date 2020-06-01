@@ -10,8 +10,8 @@
                     <thead>
                         <tr>
                             <th scope="col">Photo</th>
-                            <th scope="col">Nom & Prénom</th>
-                             <th scope="col " class="is-wrapped">Biographie</th>
+                            <th scope="col">Full name</th>
+                             <th scope="col " class="is-wrapped">Biography</th>
                           
                             <th scope="col"></th>
                         </tr>
@@ -38,11 +38,11 @@
                                         <i class="fas fa-ellipsis-h"></i>
                                     </button>
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        <a class="dropdown-item" :href="`/author/${author.id}`">Voir
-                                            détails</a>
-                                        <a class="dropdown-item" :href="`/author/${author.id}/update`">Modifier</a>
+                                        <a class="dropdown-item" :href="`/author/${author.id}`">Show
+                                            details</a>
+                                        <a class="dropdown-item" :href="`/author/${author.id}/update`">Edit</a>
                                         <a class="dropdown-item" href="#" data-toggle="modal"
-                                            data-target="#exampleModal" @click="affectValue(author)">Supprimer</a>
+                                            data-target="#exampleModal" @click="affectValue(author)">Delete</a>
                                     </div>
                                 </div>
                             </td>

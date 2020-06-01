@@ -413,7 +413,7 @@
 
                 swal2.fire({
                     type: 'error',
-                    title: 'Format fichier non supporté',
+                    title: 'File not supported',
                     allowOutsideClick: false,
                     showConfirmButton: true,
                     confirmButtonText: 'Fermer'
