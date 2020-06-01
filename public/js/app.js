@@ -3819,7 +3819,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.disabled = true;
 
       if (validate) {
-        this.$Progress.start();
         var body = new FormData();
         body.append('photo', this.book.photo);
         body.append('audio_link', this.book.audio_link);
@@ -3831,7 +3830,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         body.append('subject', this.book.subject);
         body.append('quotes', this.book.quotes);
         body.append('author_id', this.book.author_id);
-        axios.post('/api/book/save', body).then(function (response) {
+        var config = {
+          onUploadProgress: function onUploadProgress(progressEvent) {
+            _this2.$Progress.start();
+          }
+        };
+        axios.post('/api/book/save', body, config).then(function (response) {
           _this2.$Progress.finish();
 
           if (response.data.status == 200) {

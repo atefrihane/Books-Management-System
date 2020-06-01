@@ -471,7 +471,7 @@
                 this.disabled = true;
 
                 if (validate) {
-                    this.$Progress.start()
+           
                     let body = new FormData()
 
 
@@ -487,9 +487,13 @@
                     body.append('author_id', this.book.author_id)
 
 
+                    let config = {
+                        onUploadProgress: progressEvent => {
+                            this.$Progress.start()
+                        }
+                    }
 
-
-                    axios.post('/api/book/save', body)
+                    axios.post('/api/book/save', body,config)
                         .then((response) => {
                             this.$Progress.finish()
 
