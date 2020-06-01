@@ -471,7 +471,7 @@
                 this.disabled = true;
 
                 if (validate) {
-                    this.$Progress.start()
+
                     let body = new FormData()
 
 
@@ -485,14 +485,13 @@
                     body.append('subject', this.book.subject)
                     body.append('quotes', this.book.quotes)
                     body.append('author_id', this.book.author_id)
-
+            
 
                     let config = {
                         onUploadProgress: progressEvent => {
                             let progress = Math.round((progressEvent.loaded * 100) / progressEvent.total)
 
-
-                            this.$Progress.increase(progress)
+                           this.$Progress.start(progress)
                         }
                     }
 
