@@ -81,7 +81,8 @@
                     <div class="row mt-3">
                         <div class="col-md-12">
                             <label for="exampleInputEmail1">Quotes</label>
-                            <input class="form-control" placeholder="Quotes.." v-model="article.quotes"></input>
+                
+                             <textarea class="form-control" cols="30" rows="3"  v-model="article.quotes" placeholder="Quotes"></textarea>
                         </div>
 
                     </div>

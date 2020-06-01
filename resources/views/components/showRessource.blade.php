@@ -34,13 +34,13 @@
                     </div>
 
                     <div class="form-group">
-                        <label>Etat</label>
+                        <label>Status</label>
                         <input type="text" class="form-control" placeholder="Titre.."
                             value="{{$ressource->active == 0 ? 'Inactif' : 'Actif'}}" disabled>
                     </div>
                     <div class="row">
                         <div class="col-md-12">
-                            <label for="exampleInputEmail1">Titre</label>
+                            <label for="exampleInputEmail1">Title</label>
                             <input type="text" class="form-control" placeholder="Titre.." value="{{$ressource->title}}"
                                 disabled>
                         </div>
@@ -50,7 +50,7 @@
 
                     <div class="row mt-3">
                         <div class="col-md-6">
-                            <label for="exampleInputEmail1" style="display: block;">Catégories</label>
+                            <label for="exampleInputEmail1" style="display: block;">Categories</label>
                             @foreach ($ressource->categories as $category)
                             <div class="btn-group mb-3 mt-1 ml-2">
                                 <button type="button"
@@ -71,66 +71,47 @@
 
 
                     <div class="row">
-                        <div class="col-md-6">
-                            <label for="exampleInputEmail1" class="mt-2 mb-2">Année de publication</label>
-                            <input type="text" class="form-control" placeholder="Année de publication.."
-                                value="{{$ressource->published_year}}" disabled>
+                        <div class="col-md-12">
+                            <label for="exampleInputEmail1" class="mt-2 mb-2">Subject</label>
+                            <textarea class="form-control" cols="50" row="3"
+                                 disabled>{{$ressource->subject}} </textarea>
                         </div>
-                        <div class="col-md-6">
-                            <label for="exampleInputEmail1" class="mt-2">Editeur</label>
-                            <input type="text" class="form-control" placeholder="Editeur.."
-                                value="{{$ressource->editor}}" disabled>
-
-                        </div>
+                      
 
                     </div>
 
 
 
 
-                    <div class="row mt-3">
-                        <div class="col-md-6">
-                            <label for="exampleInputEmail1">Nombre de pages</label>
-                            <input type="text" class="form-control" placeholder="Nombre de pages.."
-                                value="{{$ressource->count_pages}}" disabled>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="exampleInputEmail1">ISBN</label>
-                            <input type="text" class="form-control" placeholder="ISBN.." value="{{$ressource->isbn}}"
-                                disabled>
-
-                        </div>
-
-                    </div>
-
+                 
 
 
                     <div class="row mt-3">
                         <div class="col-md-12">
-                            <label for="exampleInputEmail1">Déscription</label>
-                            <textarea class="form-control" rows="3" placeholder="Déscription.."
-                                disabled> {{$ressource->description}}</textarea>
+                            <label for="exampleInputEmail1">Why to read</label>
+                            <textarea class="form-control" cols="50" row="3" 
+                            disabled>{{$ressource->why_to_read}} </textarea>
                         </div>
 
                     </div>
-                    @if($ressource->digital_link)
+
+                    <div class="row mt-3">
+                        <div class="col-md-12">
+                            <label for="exampleInputEmail1">Quotes</label>
+                            <textarea class="form-control" cols="50" row="3" 
+                            disabled>{{$ressource->quotes}} </textarea>
+                        </div>
+
+                    </div>
+                    @if($ressource->pdf_link)
                     <div class="container mt-4">
                         <div class="form-group mt-2 mb-2">
                             <div class="d-flex flex-row bd-highlight">
                                 <div class="p-2 bd-highlight">
-                                    <h3 class="font-weight-normal">Vérsion Numérique</h3>
+                                    <h3 class="font-weight-normal">PDF version</h3>
                                 </div>
 
 
-                                <div class="p-2 ml-2 bd-highlight">
-                                    <div class="form-check mt-1">
-                                        <input class="form-check-input" type="checkbox"
-                                            {{$ressource->digital_link ? 'checked' : ''}} disabled>
-                                        <label class="form-check-label" for="exampleCheck1">Disponible</label>
-
-
-                                    </div>
-                                </div>
 
 
                             </div>
@@ -138,95 +119,45 @@
                         <div class="rounded-top" style="border: 1px solid #ced4da;">
 
                             <div class="row">
-                                <iframe src="{{asset($ressource->digital_link)}}" class="mx-auto m-3"
+                                <iframe src="{{asset($ressource->pdf_link)}}" class="mx-auto m-3"
                                     style="width:600px; height:500px;" frameborder="0">
                                 </iframe>
                             </div>
 
-                            <div class="p-4">
-
-                                <div class="row mt-3">
-                                    <div class="col-md-6 mb-2"> <input type="number" class="form-control"
-                                            placeholder="Prix.."
-                                            value="{{$ressource->digital_price ? $ressource->digital_price : '' }}"
-                                            disabled>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-check mt-1">
-                                            <input class="form-check-input" type="checkbox"
-                                                {{!$ressource->digital_price ? 'checked' :  ''}} disabled>
-                                            <h5>Gratuit à télécharger</h5>
-                                        </div>
-                                    </div>
-
-                                </div>
-
-
-                            </div>
+                        
 
                         </div>
 
                     </div>
                     @endif
-                    @if($ressource->paper_price)
-
+               
+                    @if($ressource->audio_link)
                     <div class="container mt-4">
                         <div class="form-group mt-2 mb-2">
                             <div class="d-flex flex-row bd-highlight">
                                 <div class="p-2 bd-highlight">
-                                    <h3 class="font-weight-normal">Vérsion Papier</h3>
+                                    <h3 class="font-weight-normal">Audio version</h3>
                                 </div>
-                                <div class="p-2 ml-5 bd-highlight">
-                                    <div class="form-check mt-1">
-                                        <input class="form-check-input" type="checkbox" checked disabled>
-                                        <label class="form-check-label" for="exampleCheck1">Disponible</label>
-                                    </div>
-                                </div>
+
+
+                        
 
 
                             </div>
                         </div>
                         <div class="rounded-top" style="border: 1px solid #ced4da;">
-                            <div class="p-4">
-                                <div class="row">
 
-                                    <div class="col-md-3 mb-3">
-                                        <label for="">Hauteur </label>
-                                        <input type="number" class="form-control" placeholder="Hauteur"
-                                            value="{{$ressource->height}}" disabled>
-                                    </div>
-                                    <div class="col-md-3 mb-3">
-                                        <label for="">Largeur </label>
-                                        <input type="number" class="form-control" placeholder="Largeur"
-                                            value="{{$ressource->height}}" disabled>
-                                    </div>
-                                    <div class="col-md-3  mb-3">
-                                        <label for="">Epaisseur </label>
-                                        <input type="number" class="form-control" placeholder="Epaisseur"
-                                            value="{{$ressource->thickness}}" disabled></div>
-                                    <div class="col-md-3  mb-3">
-                                        <label for="">Poids </label>
-                                        <input type="number" class="form-control" placeholder="Poids"
-                                            value="{{$ressource->weight}}" disabled>
-                                    </div>
-                                </div>
-                                <div class="row mt-3">
-                                    <div class="col-md-12 mb-2">
-                                        <label for="">Prix </label>
-                                        <input type="number" class="form-control" placeholder="Prix.."
-                                            value="{{$ressource->paper_price}}" disabled>
-                                    </div>
+                            <div class="p-4 mx-auto">
 
-                                </div>
-
-
+                                <audio width="450" controls
+                                src="{{asset($ressource->audio_link)}}"></audio>
                             </div>
+                         
+
                         </div>
 
                     </div>
                     @endif
-
-
 
 
 
@@ -237,7 +168,7 @@
                 <div class="form-group mt-2">
                     <div class="d-flex flex-row bd-highlight">
                         <div class="p-2 bd-highlight">
-                            <h3 class="font-weight-normal">Auteur(s)</h3>
+                            <h3 class="font-weight-normal">Author</h3>
                         </div>
 
 

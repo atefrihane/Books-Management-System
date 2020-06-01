@@ -3,7 +3,7 @@
         <div class="card card-primary">
             <h3 class=" p-4">Update a book</h3>
 
-            <form role="form">
+          <form role="form">
                 <div class="card-body">
                     <show-errors :errors="errors"> </show-errors>
                     <div class="row">
@@ -36,7 +36,7 @@
                     <div class="row mt-3">
                         <div class="col-md-12">
                             <label for="exampleInputEmail1">Subject</label>
-                            <input type="text" class="form-control" placeholder="Subject.." v-model="book.subject">
+                            <textarea type="text"   cols="30" rows="3" class="form-control" placeholder="Subject.." v-model="book.subject"> </textarea>
                         </div>
 
                     </div>
@@ -44,8 +44,8 @@
                     <div class="row mt-3">
                         <div class="col-md-12">
                             <label for="exampleInputEmail1">Why to read</label>
-                            <input type="text" class="form-control" placeholder="Why to read..."
-                                v-model="book.why_to_read">
+                            <textarea type="text"  cols="30" rows="3" class="form-control" placeholder="Why to read..."
+                                v-model="book.why_to_read"></textarea>
 
 
 
@@ -58,7 +58,8 @@
                     <div class="row mt-3">
                         <div class="col-md-12">
                             <label for="exampleInputEmail1">Quotes</label>
-                            <input type="text" class="form-control" placeholder="Quotes.." v-model="book.quotes">
+                                  <textarea type="text"  cols="30" rows="3" class="form-control" placeholder="Why to read..."
+                                v-model="book.quotes"></textarea>
 
 
 
@@ -121,7 +122,7 @@
 
                                 <div class="p-4 mx-auto">
 
-                                    <embed :src="$root.previewBinaryFile(this.book.pdf_link)" width="500" height="375"
+                                    <embed :src="$root.previewBinaryFile(this.book.pdf_link,1)" width="500" height="375"
                                         type="application/pdf">
                                 </div>
 
@@ -185,9 +186,7 @@
 
 
 
-                    <show-authors v-if="this.searchedAuthors.length > 0" :authors="this.authors"
-                        :oldSearchedAuthors="this.searchedAuthors" v-on:matchAuthors="matchAuthors($event)">
-                    </show-authors>
+                    <show-authors :authors="this.authors" v-on:matchAuthors="matchAuthors($event)"> </show-authors>
                     <div class="mx-auto mt-4" style="width: 200px;">
                         <div class="row">
                             <a href="/books" class="btn btn-danger ml-3">Annuler </a>
@@ -198,7 +197,6 @@
 
                 </div>
             </form>
-
 
 
 

@@ -84,7 +84,61 @@
          
                  
 
+                    @if($article->pdf_link)
+                    <div class="container mt-4">
+                        <div class="form-group mt-2 mb-2">
+                            <div class="d-flex flex-row bd-highlight">
+                                <div class="p-2 bd-highlight">
+                                    <h3 class="font-weight-normal">PDF version</h3>
+                                </div>
 
+
+
+
+                            </div>
+                        </div>
+                        <div class="rounded-top" style="border: 1px solid #ced4da;">
+
+                            <div class="row">
+                                <iframe src="{{asset($article->pdf_link)}}" class="mx-auto m-3"
+                                    style="width:600px; height:500px;" frameborder="0">
+                                </iframe>
+                            </div>
+
+                        
+
+                        </div>
+
+                    </div>
+                    @endif
+               
+                    @if($article->audio_link)
+                    <div class="container mt-4">
+                        <div class="form-group mt-2 mb-2">
+                            <div class="d-flex flex-row bd-highlight">
+                                <div class="p-2 bd-highlight">
+                                    <h3 class="font-weight-normal">Audio version</h3>
+                                </div>
+
+
+                        
+
+
+                            </div>
+                        </div>
+                        <div class="rounded-top" style="border: 1px solid #ced4da;">
+
+                            <div class="p-4 mx-auto">
+
+                                <audio width="450" controls
+                                src="{{asset($article->audio_link)}}"></audio>
+                            </div>
+                         
+
+                        </div>
+
+                    </div>
+                    @endif
 
 
 

@@ -2884,6 +2884,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -3604,6 +3605,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -3812,11 +3814,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     submitAddBook: function submitAddBook() {
       var _this2 = this;
 
+      this.$Progress.start();
       this.disabled = true;
       var validate = this.validateData();
 
       if (validate) {
-        this.$Progress.start();
         var body = new FormData();
         body.append('photo', this.book.photo);
         body.append('audio_link', this.book.audio_link);
@@ -3829,8 +3831,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         body.append('quotes', this.book.quotes);
         body.append('author_id', this.book.author_id);
         axios.post('/api/book/save', body).then(function (response) {
-          _this2.$Progress.finish();
-
           if (response.data.status == 200) {
             swal2.fire({
               type: 'success',
@@ -3844,6 +3844,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               }
             });
           }
+
+          _this2.$Progress.finish();
         })["catch"](function (error) {
           _this2.$Progress.fail();
 
@@ -6436,8 +6438,6 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-//
-//
 //
 //
 //
@@ -107203,7 +107203,7 @@ var render = function() {
                   _vm._v("Quotes")
                 ]),
                 _vm._v(" "),
-                _c("input", {
+                _c("textarea", {
                   directives: [
                     {
                       name: "model",
@@ -107213,7 +107213,7 @@ var render = function() {
                     }
                   ],
                   staticClass: "form-control",
-                  attrs: { placeholder: "Quotes.." },
+                  attrs: { cols: "30", rows: "3", placeholder: "Quotes" },
                   domProps: { value: _vm.article.quotes },
                   on: {
                     input: function($event) {
@@ -107775,7 +107775,7 @@ var render = function() {
                   _vm._v("Subject")
                 ]),
                 _vm._v(" "),
-                _c("input", {
+                _c("textarea", {
                   directives: [
                     {
                       name: "model",
@@ -107785,7 +107785,12 @@ var render = function() {
                     }
                   ],
                   staticClass: "form-control",
-                  attrs: { type: "text", placeholder: "Subject.." },
+                  attrs: {
+                    type: "text",
+                    cols: "30",
+                    rows: "3",
+                    placeholder: "Subject.."
+                  },
                   domProps: { value: _vm.book.subject },
                   on: {
                     input: function($event) {
@@ -107805,7 +107810,7 @@ var render = function() {
                   _vm._v("Why to read")
                 ]),
                 _vm._v(" "),
-                _c("input", {
+                _c("textarea", {
                   directives: [
                     {
                       name: "model",
@@ -107815,7 +107820,12 @@ var render = function() {
                     }
                   ],
                   staticClass: "form-control",
-                  attrs: { type: "text", placeholder: "Why to read..." },
+                  attrs: {
+                    type: "text",
+                    cols: "30",
+                    rows: "3",
+                    placeholder: "Why to read..."
+                  },
                   domProps: { value: _vm.book.why_to_read },
                   on: {
                     input: function($event) {
@@ -107835,7 +107845,7 @@ var render = function() {
                   _vm._v("Quotes")
                 ]),
                 _vm._v(" "),
-                _c("input", {
+                _c("textarea", {
                   directives: [
                     {
                       name: "model",
@@ -107845,7 +107855,12 @@ var render = function() {
                     }
                   ],
                   staticClass: "form-control",
-                  attrs: { type: "text", placeholder: "Quotes.." },
+                  attrs: {
+                    type: "text",
+                    cols: "30",
+                    rows: "3",
+                    placeholder: "Why to read..."
+                  },
                   domProps: { value: _vm.book.quotes },
                   on: {
                     input: function($event) {
@@ -111100,7 +111115,7 @@ var render = function() {
                   _vm._v("Description")
                 ]),
                 _vm._v(" "),
-                _c("input", {
+                _c("textarea", {
                   directives: [
                     {
                       name: "model",
@@ -111110,7 +111125,7 @@ var render = function() {
                     }
                   ],
                   staticClass: "form-control",
-                  attrs: { type: "text", placeholder: "quotes.." },
+                  attrs: { cols: "30", rows: "3", placeholder: "Description" },
                   domProps: { value: _vm.article.description },
                   on: {
                     input: function($event) {
@@ -111130,7 +111145,7 @@ var render = function() {
                   _vm._v("Quotes")
                 ]),
                 _vm._v(" "),
-                _c("input", {
+                _c("textarea", {
                   directives: [
                     {
                       name: "model",
@@ -111140,7 +111155,7 @@ var render = function() {
                     }
                   ],
                   staticClass: "form-control",
-                  attrs: { placeholder: "Quotes.." },
+                  attrs: { cols: "30", rows: "3", placeholder: "Quotes" },
                   domProps: { value: _vm.article.quotes },
                   on: {
                     input: function($event) {
@@ -111299,19 +111314,14 @@ var render = function() {
               )
             ]),
             _vm._v(" "),
-            this.searchedAuthors.length > 0
-              ? _c("show-authors", {
-                  attrs: {
-                    authors: this.authors,
-                    oldSearchedAuthors: this.searchedAuthors
-                  },
-                  on: {
-                    matchAuthors: function($event) {
-                      return _vm.matchAuthors($event)
-                    }
-                  }
-                })
-              : _vm._e(),
+            _c("show-authors", {
+              attrs: { authors: this.authors },
+              on: {
+                matchAuthors: function($event) {
+                  return _vm.matchAuthors($event)
+                }
+              }
+            }),
             _vm._v(" "),
             _c(
               "div",
@@ -111707,7 +111717,7 @@ var render = function() {
                   _vm._v("Subject")
                 ]),
                 _vm._v(" "),
-                _c("input", {
+                _c("textarea", {
                   directives: [
                     {
                       name: "model",
@@ -111717,7 +111727,12 @@ var render = function() {
                     }
                   ],
                   staticClass: "form-control",
-                  attrs: { type: "text", placeholder: "Subject.." },
+                  attrs: {
+                    type: "text",
+                    cols: "30",
+                    rows: "3",
+                    placeholder: "Subject.."
+                  },
                   domProps: { value: _vm.book.subject },
                   on: {
                     input: function($event) {
@@ -111737,7 +111752,7 @@ var render = function() {
                   _vm._v("Why to read")
                 ]),
                 _vm._v(" "),
-                _c("input", {
+                _c("textarea", {
                   directives: [
                     {
                       name: "model",
@@ -111747,7 +111762,12 @@ var render = function() {
                     }
                   ],
                   staticClass: "form-control",
-                  attrs: { type: "text", placeholder: "Why to read..." },
+                  attrs: {
+                    type: "text",
+                    cols: "30",
+                    rows: "3",
+                    placeholder: "Why to read..."
+                  },
                   domProps: { value: _vm.book.why_to_read },
                   on: {
                     input: function($event) {
@@ -111767,7 +111787,7 @@ var render = function() {
                   _vm._v("Quotes")
                 ]),
                 _vm._v(" "),
-                _c("input", {
+                _c("textarea", {
                   directives: [
                     {
                       name: "model",
@@ -111777,7 +111797,12 @@ var render = function() {
                     }
                   ],
                   staticClass: "form-control",
-                  attrs: { type: "text", placeholder: "Quotes.." },
+                  attrs: {
+                    type: "text",
+                    cols: "30",
+                    rows: "3",
+                    placeholder: "Why to read..."
+                  },
                   domProps: { value: _vm.book.quotes },
                   on: {
                     input: function($event) {
@@ -111912,7 +111937,8 @@ var render = function() {
                           _c("embed", {
                             attrs: {
                               src: _vm.$root.previewBinaryFile(
-                                this.book.pdf_link
+                                this.book.pdf_link,
+                                1
                               ),
                               width: "500",
                               height: "375",
@@ -112006,19 +112032,14 @@ var render = function() {
               )
             ]),
             _vm._v(" "),
-            this.searchedAuthors.length > 0
-              ? _c("show-authors", {
-                  attrs: {
-                    authors: this.authors,
-                    oldSearchedAuthors: this.searchedAuthors
-                  },
-                  on: {
-                    matchAuthors: function($event) {
-                      return _vm.matchAuthors($event)
-                    }
-                  }
-                })
-              : _vm._e(),
+            _c("show-authors", {
+              attrs: { authors: this.authors },
+              on: {
+                matchAuthors: function($event) {
+                  return _vm.matchAuthors($event)
+                }
+              }
+            }),
             _vm._v(" "),
             _c(
               "div",

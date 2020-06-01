@@ -71,8 +71,8 @@
                     <div class="row mt-3">
                         <div class="col-md-12">
                             <label for="exampleInputEmail1">Description</label>
-                            <input type="text" class="form-control" placeholder="quotes.."
-                                v-model="article.description">
+                            <textarea class="form-control" cols="30" rows="3"  v-model="article.description" placeholder="Description"></textarea>
+                        
 
                         </div>
 
@@ -81,7 +81,8 @@
                     <div class="row mt-3">
                         <div class="col-md-12">
                             <label for="exampleInputEmail1">Quotes</label>
-                            <input class="form-control" placeholder="Quotes.." v-model="article.quotes"></input>
+                
+                             <textarea class="form-control" cols="30" rows="3"  v-model="article.quotes" placeholder="Quotes"></textarea>
                         </div>
 
                     </div>
@@ -179,9 +180,7 @@
 
 
 
-                    <show-authors v-if="this.searchedAuthors.length > 0" :authors="this.authors"
-                        :oldSearchedAuthors="this.searchedAuthors" v-on:matchAuthors="matchAuthors($event)">
-                    </show-authors>
+                    <show-authors :authors="this.authors" v-on:matchAuthors="matchAuthors($event)"> </show-authors>
                     <div class="mx-auto mt-4" style="width: 200px;">
                         <div class="row">
                             <a href="/articles" class="btn btn-danger ml-3">Cancel </a>
@@ -192,6 +191,7 @@
 
                 </div>
             </form>
+
 
 
 

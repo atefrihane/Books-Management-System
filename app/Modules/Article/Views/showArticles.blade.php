@@ -10,7 +10,7 @@
             </div>
 
             <div class="col-sm-6 text-md-right">
-            <a href="{{route('showAddArticle')}}" class="btn btn-primary">Ajouter un article</a>
+            <a href="{{route('showAddArticle')}}" class="btn btn-primary">Add  article</a>
                
                 </div>
         </div>
