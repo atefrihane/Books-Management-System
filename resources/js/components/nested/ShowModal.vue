@@ -6,15 +6,15 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Voulez vous supprimer cet element  ?
+                    <h5 class="modal-title" id="exampleModalLabel">Would you like to delete this element  ?
                     </h5>
 
                 </div>
 
                 <div class="modal-footer">
-                    <a href="#" data-dismiss="modal" class="btn btn-danger">Annuler</a>
+                    <a href="#" data-dismiss="modal" class="btn btn-danger">Cancel</a>
                     <a href="#" data-dismiss="modal" class="btn btn-primary"
-                        @click="deleteElement()">Confirmer</a>
+                        @click="deleteElement()">Confirm</a>
 
                 </div>
             </div>

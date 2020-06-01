@@ -112977,7 +112977,7 @@ var render = function() {
                 staticClass: "btn btn-danger",
                 attrs: { href: "#", "data-dismiss": "modal" }
               },
-              [_vm._v("Annuler")]
+              [_vm._v("Cancel")]
             ),
             _vm._v(" "),
             _c(
@@ -112991,7 +112991,7 @@ var render = function() {
                   }
                 }
               },
-              [_vm._v("Confirmer")]
+              [_vm._v("Confirm")]
             )
           ])
         ])
@@ -113008,7 +113008,7 @@ var staticRenderFns = [
       _c(
         "h5",
         { staticClass: "modal-title", attrs: { id: "exampleModalLabel" } },
-        [_vm._v("Voulez vous supprimer cet element  ?\n                ")]
+        [_vm._v("Would you like to delete this element  ?\n                ")]
       )
     ])
   }
