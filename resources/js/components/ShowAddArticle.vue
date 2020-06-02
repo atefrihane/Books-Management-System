@@ -1,6 +1,16 @@
 <template>
     <div class="container-fluid">
         <div class="card card-primary">
+        <vue-element-loading 
+        :active="isActive"
+         spinner="bar-fade-scale" 
+         color="#FF6700" 
+         size="100"
+         :text="'Uploading '+percentage+' %'" 
+         :is-full-screen="true"
+
+         
+         />
             <h3 class=" p-4">Add an article</h3>
 
             <form role="form">
@@ -105,6 +115,7 @@
 
                     </div>
 
+              
 
                     <div class="container mt-4">
                         <div class="form-group mt-2 mb-2">
@@ -213,12 +224,17 @@
 <script>
     import ShowAuthors from './nested/ShowAuthors.vue'
     import ShowErrors from './nested/ShowErrors.vue'
+    //    import VueElementLoading from 'vue-element-loading'
+
     // Basic Use - Covers most scenarios
     import {
         VueEditor
     } from "vue2-editor";
 
     export default {
+    //      components: {
+    //     VueElementLoading
+    //   },
         mounted() {
             this.formatCategories()
 
@@ -230,6 +246,8 @@
                 digital_name: 'Upload an audio file',
                 pdf_name: 'Upload a pdf file',
                 disabled: false,
+                isActive:false,
+                percentage : 0,
 
                 errors: [],
                 article: {
@@ -465,9 +483,10 @@
             },
             submitAddarticle() {
                 this.disabled = true;
+                 this.isActive = true;
                 let validate = this.validateData()
                 if (validate) {
-                    this.$Progress.start()
+            
                     let body = new FormData()
 
 
@@ -485,11 +504,18 @@
                     body.append('author_id', this.article.author_id)
 
 
+                    let config = {
+                        onUploadProgress: progressEvent => {
+                            let progress = Math.round((progressEvent.loaded * 100) / progressEvent.total)
+
+                            this.percentage = progress
+                        }
+                    }
 
 
-                    axios.post('/api/article/save', body)
+                    axios.post('/api/article/save', body,config)
                         .then((response) => {
-                            this.$Progress.finish()
+                         this.isActive = false;
                             if (response.data.status == 200) {
                                 swal2.fire({
                                     type: 'success',
@@ -507,7 +533,7 @@
                             }
                         })
                         .catch((error) => {
-                            this.$Progress.fail()
+                          this.isActive = false;
                             this.disabled = false;
                             if (error.response.status == 422) {
                                 this.errors = []

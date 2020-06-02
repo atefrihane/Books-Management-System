@@ -1,6 +1,7 @@
 require('./bootstrap');
 
 window.Vue = require('vue');
+
 //Sweetalert
 import swal2 from 'sweetalert2'
 window.swal2 = swal2;
@@ -25,6 +26,10 @@ const toast = swal2.mixin({
     }
 })
 window.toast = toast;
+import VueElementLoading from 'vue-element-loading'
+
+Vue.component('VueElementLoading', VueElementLoading)
+
 
 // books
 Vue.component('show-books', require('./components/ShowBooks.vue').default);

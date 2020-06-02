@@ -63,7 +63,7 @@ class ArticleRepository implements ArticleRepositoryInterface
     }
     public function update($article)
     {
-
+      
         $checkArticle = $this->fetchById($article['id']);
 
         if ($checkArticle) {

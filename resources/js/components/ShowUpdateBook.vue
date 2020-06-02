@@ -1,6 +1,16 @@
 <template>
     <div class="container-fluid">
         <div class="card card-primary">
+          <vue-element-loading 
+        :active="isActive"
+         spinner="bar-fade-scale" 
+         color="#FF6700" 
+         size="100"
+         :text="'Uploading '+percentage+' %'" 
+         :is-full-screen="true"
+
+         
+         />
             <h3 class=" p-4">Update a book</h3>
 
             <form role="form">
@@ -223,7 +233,8 @@
                 pdf_name: 'Upload a pdf file',
                 disabled: false,
                 searchedAuthors: [],
-
+                isActive:false,
+                percentage : 0,
                 errors: [],
                 book: {
                     active: 1,
@@ -502,7 +513,7 @@
                 this.disabled = true;
                 let validate = this.validateData()
                 if (validate) {
-
+                    this.isActive = true;
                     let body = new FormData()
 
                     body.append('id', this.book.id)
@@ -523,18 +534,17 @@
                     body.append('author_id', this.book.author_id)
 
 
-                    let config = {
+                        let config = {
                         onUploadProgress: progressEvent => {
-                            let progress = Math.round( (progressEvent.loaded * 100) / progressEvent.total )
-                            
-                    this.$Progress.start()
-                            this.$Progress.increment(progress)
+                            let progress = Math.round((progressEvent.loaded * 100) / progressEvent.total)
+
+                            this.percentage = progress
                         }
                     }
 
                     axios.post(`/api/book/${this.book.id}/update`, body, config)
                         .then((response) => {
-                            this.$Progress.finish()
+                            this.isActive = false;
                             if (response.data.status == 200) {
 
                                 swal2.fire({
@@ -553,7 +563,7 @@
                             }
                         })
                         .catch((error) => {
-                            this.$Progress.fail()
+                    this.isActive = false;
                             this.disabled = false;
                             if (error.response.status == 422) {
                                 this.errors = []

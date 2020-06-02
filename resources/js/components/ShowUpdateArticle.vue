@@ -1,6 +1,16 @@
 <template>
     <div class="container-fluid">
         <div class="card card-primary">
+          <vue-element-loading 
+        :active="isActive"
+         spinner="bar-fade-scale" 
+         color="#FF6700" 
+         size="100"
+         :text="'Uploading '+percentage+' %'" 
+         :is-full-screen="true"
+
+         
+         />
             <h3 class=" p-4">Update an article</h3>
 
             <form role="form">
@@ -229,6 +239,8 @@
                 digital_name: 'Upload an audio file',
                 pdf_name: 'Upload a pdf file',
                 disabled: false,
+                    isActive:false,
+                percentage : 0,
                 searchedAuthors: [],
 
                 errors: [],
@@ -492,9 +504,10 @@
             },
             submitAddarticle() {
                 this.disabled = true;
+                    this.isActive = true;
                 let validate = this.validateData()
                 if (validate) {
-                    this.$Progress.start()
+              
                     let body = new FormData()
 
                     body.append('id', this.article.id)
@@ -517,11 +530,18 @@
                     body.append('author_id', this.article.author_id)
 
 
+                    let config = {
+                        onUploadProgress: progressEvent => {
+                            let progress = Math.round((progressEvent.loaded * 100) / progressEvent.total)
+
+                            this.percentage = progress
+                        }
+                    }
 
 
-                    axios.post(`/api/article/${this.article.id}/update`, body)
+                    axios.post(`/api/article/${this.article.id}/update`, body,config)
                         .then((response) => {
-                            this.$Progress.finish()
+                                  this.isActive = false;
                             if (response.data.status == 200) {
                                 swal2.fire({
                                     type: 'success',
@@ -539,7 +559,7 @@
                             }
                         })
                         .catch((error) => {
-                            this.$Progress.fail()
+                          this.isActive = false;
                             this.disabled = false;
                             if (error.response.status == 422) {
                                 this.errors = []

@@ -31,6 +31,7 @@
         "chart.js": "^2.9.3",
         "datatables.net-bs4": "^1.10.20",
         "summernote": "^0.8.16",
+        "vue-element-loading": "^1.1.5",
         "vue-progressbar": "^0.7.5",
         "vue2-editor": "^2.10.2",
         "vuejs-datatable": "^2.0.0-alpha.7"
