@@ -98,12 +98,6 @@
 
 
 
-
-
-
-
-
-
                     <div class="container mt-4">
                         <div class="form-group mt-2 mb-2">
                             <div class="d-flex flex-row bd-highlight">
@@ -211,6 +205,7 @@
 <script>
     import ShowAuthors from './nested/ShowAuthors.vue'
     import ShowErrors from './nested/ShowErrors.vue'
+
     export default {
         mounted() {
             this.formatCategories()
@@ -223,6 +218,7 @@
                 digital_name: 'Upload an audio file',
                 pdf_name: 'Upload a pdf file',
                 disabled: false,
+                content  :'',
 
                 errors: [],
                 book: {

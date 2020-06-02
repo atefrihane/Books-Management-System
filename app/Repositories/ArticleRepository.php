@@ -32,7 +32,7 @@ class ArticleRepository implements ArticleRepositoryInterface
     }
     public function store($article)
     {
-     
+ 
         $articlePhoto = $this->image->uploadImage($article['photo'], 'articles');
 
         isset($article['audio_link']) ? $audioArticle = $this->image->uploadAudio($article['audio_link'], '/img/articles/audio/') : $audioArticle = null;
@@ -45,6 +45,7 @@ class ArticleRepository implements ArticleRepositoryInterface
             'description' => $article['description'],
             'quotes' => $article['quotes'],
             'writing_date' => $article['writing_date'],
+            'content' => $article['content'],
             'audio_link' => $audioArticle,
             'pdf_link' => $pdfArticle,
             'author_id' => $article['author_id'],
@@ -93,6 +94,7 @@ class ArticleRepository implements ArticleRepositoryInterface
                 'description' => $article['description'],
                 'quotes' => $article['quotes'],
                 'writing_date' => $article['writing_date'],
+                'content' => $article['content'],
                 'audio_link' => $audioArticle,
                 'pdf_link' => $pdfArticle,
                 'author_id' => $article['author_id'],

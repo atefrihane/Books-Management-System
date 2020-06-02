@@ -19,6 +19,7 @@ class CreateArticlesTable extends Migration
             $table->text('description');
             $table->text('quotes');
             $table->date('writing_date');
+            $table->longText('content');
             $table->integer('active');
             $table->string('photo')->nullable();
             $table->string('audio_link')->nullable();

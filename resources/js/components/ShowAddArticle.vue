@@ -71,8 +71,9 @@
                     <div class="row mt-3">
                         <div class="col-md-12">
                             <label for="exampleInputEmail1">Description</label>
-                            <textarea class="form-control" cols="30" rows="3"  v-model="article.description" placeholder="Description"></textarea>
-                        
+                            <textarea class="form-control" cols="30" rows="3" v-model="article.description"
+                                placeholder="Description"></textarea>
+
 
                         </div>
 
@@ -81,8 +82,9 @@
                     <div class="row mt-3">
                         <div class="col-md-12">
                             <label for="exampleInputEmail1">Quotes</label>
-                
-                             <textarea class="form-control" cols="30" rows="3"  v-model="article.quotes" placeholder="Quotes"></textarea>
+
+                            <textarea class="form-control" cols="30" rows="3" v-model="article.quotes"
+                                placeholder="Quotes"></textarea>
                         </div>
 
                     </div>
@@ -95,6 +97,13 @@
 
                     </div>
 
+                    <div class="row mt-3">
+                        <div class="col-md-12">
+                            <label for="exampleInputEmail1">Content</label>
+                         <vue-editor v-model="article.content"></vue-editor>
+                        </div>
+
+                    </div>
 
 
                     <div class="container mt-4">
@@ -204,6 +213,11 @@
 <script>
     import ShowAuthors from './nested/ShowAuthors.vue'
     import ShowErrors from './nested/ShowErrors.vue'
+    // Basic Use - Covers most scenarios
+    import {
+        VueEditor
+    } from "vue2-editor";
+
     export default {
         mounted() {
             this.formatCategories()
@@ -228,6 +242,7 @@
                     photo: '',
                     audio_link: '',
                     pdf_link: '',
+                    content: ''
 
                 }
 
@@ -427,6 +442,12 @@
                     return;
                 }
 
+                if (!this.article.content) {
+                    this.disabled = false;
+                    this.errors.push('Content date required');
+                    window.scrollTo(0, 0);
+                    return;
+                }
 
                 if (!this.article.author_id) {
                     this.disabled = false;
@@ -460,6 +481,7 @@
 
                     body.append('quotes', this.article.quotes)
                     body.append('writing_date', this.article.writing_date)
+                    body.append('content', this.article.content)
                     body.append('author_id', this.article.author_id)
 
 
