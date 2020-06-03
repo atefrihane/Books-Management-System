@@ -483,10 +483,10 @@
             },
             submitAddarticle() {
                 this.disabled = true;
-                 this.isActive = true;
+        
                 let validate = this.validateData()
                 if (validate) {
-            
+                     this.isActive = true;
                     let body = new FormData()
 
 
