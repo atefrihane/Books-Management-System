@@ -29,5 +29,14 @@ class CategoryController extends Controller
         return view('General::showNotFound');
 
     }
+    public function showCategory($id)
+    {
+        $checkCategory = $this->categories->fetchById($id);
+        if ($checkCategory) {
+            return view('Category::showCategory', ['category' => $checkCategory]);
+        }
+        return view('General::showNotFound');
+
+    }
 
 }
