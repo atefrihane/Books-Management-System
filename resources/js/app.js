@@ -159,9 +159,7 @@ const app = new Vue({
             this.$nextTick(() => {
                 $('.table').DataTable({
 
-                    "language": {
-                        "url": "http://cdn.datatables.net/plug-ins/a5734b29083/i18n/French.json"
-                    },
+
                     "bLengthChange": false,
                     "pageLength": 10,
                     "columnDefs": [{

@@ -86,38 +86,7 @@
 
         },
         methods: {
-            filterActiveArticles() {
-
-                this.allArticles = _.filter(this.allArticles, function (o) {
-                    return o.active;
-                });
-            },
-            filterArticlesClick() {
-                this
-                    .$root
-                    .destroyDataTable()
-                this.isChecked = !this.isChecked;
-
-                // show all articles
-                if (this.isChecked) {
-
-                    this.allArticles = this.articles
-                    this
-                        .$root
-                        .updateDataTable()
-
-                    return;
-
-                }
-                //show only active
-
-                this.filterActiveArticles()
-                this
-                    .$root
-                    .updateDataTable()
-                return;
-
-            },
+           
 
             removeItem(event) {
                 let articleStatus = event.active;
@@ -136,9 +105,9 @@
                                 title: 'Article deleted'
                             })
 
-                            this.isChecked = !this.isChecked
-
-                            this.filterArticlesClick()
+                            this.article = ''
+                            this.$root.destroyDataTable()
+                            this.$root.updateDataTable()
                         }
 
                         if (response.data.status == 404) {
@@ -155,8 +124,7 @@
             },
             affectValue(article) {
                 this.article = article
-                let element = this.$refs.modal
-                $(element).modal('show')
+  
             }
 
         }

@@ -4,7 +4,7 @@
         <div class="card">
 
             <div class="card-body">
-             
+
 
 
 
@@ -15,7 +15,7 @@
                             <th scope="col">Photo</th>
                             <th scope="col">Title</th>
                             <th scope="col">Categories</th>
-     
+
                             <th scope="col">Status</th>
                             <th scope="col">Last edit</th>
                             <th scope="col"></th>
@@ -26,15 +26,16 @@
 
                             <td class="style-image">
                                 <div class="container">
-                                    <img :src="book.photo ? book.photo : '/img/placeholder.jpg'" alt="" class="img-fluid">
+                                    <img :src="book.photo ? book.photo : '/img/placeholder.jpg'" alt=""
+                                        class="img-fluid">
                                 </div>
 
 
                             </td>
                             <td>{{book.title}}</td>
                             <td>{{book.categories.length}}</td>
-                  
-                   
+
+
                             <td>{{book.active == 1 ? 'Active' : 'Inactive'}}</td>
                             <td>{{book.updated_at}}</td>
                             <td>
@@ -95,31 +96,7 @@
 
         },
         methods: {
-            filterActiveBooks() {
-        
-                this.allBooks = _.filter(this.allBooks, function (o) {
-                    return o.active;
-                });
-            },
-            filterBooksClick() {
-                this.$root.destroyDataTable()
-                this.isChecked = !this.isChecked;
 
-                // show all books
-                if (this.isChecked) {
-                    this.allBooks = this.books
-                    this.$root.updateDataTable()
-
-                    return;
-
-                }
-                //show only active
-
-                this.filterActiveBooks()
-                this.$root.updateDataTable()
-                return;
-
-            },
 
             removeItem(event) {
                 let bookStatus = event.active;
@@ -129,7 +106,7 @@
                     })
                     .then((response) => {
                         if (response.data.status == 200) {
-        
+
                             this.books.splice(this.books.indexOf(event), 1);
                             this.allBooks = this.books;
                             toast.fire({
@@ -137,8 +114,9 @@
                                 title: 'Book deleted'
                             })
 
-                            this.isChecked = !this.isChecked
-                            this.filterBooksClick()
+                            this.book = ''
+                            this.$root.destroyDataTable()
+                            this.$root.updateDataTable()
                         }
 
                         if (response.data.status == 404) {
@@ -158,8 +136,7 @@
             },
             affectValue(book) {
                 this.book = book
-                let element = this.$refs.modal
-                $(element).modal('show')
+
             }
 
         }

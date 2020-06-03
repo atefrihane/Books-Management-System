@@ -100,8 +100,7 @@
 
                 affectValue(author) {
                 this.author = author
-                let element = this.$refs.modal
-                $(element).modal('show')
+        
             },
           
 
@@ -158,7 +157,9 @@
                                 title: 'Auteur deleted'
                             })
 
-                            this.isChecked = !this.isChecked
+                             this.author = ''
+                            this.$root.destroyDataTable()
+                            this.$root.updateDataTable()
                         
                         }
 
