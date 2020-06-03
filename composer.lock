@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fb7216892442e6fea509af6ba25b3818",
+    "content-hash": "89e9720610f00ace698d89ecf853f496",
     "packages": [
         {
             "name": "artem-schander/l5-modular",
@@ -63,6 +63,92 @@
                 "structure"
             ],
             "time": "2020-02-16T18:31:22+00:00"
+        },
+        {
+            "name": "askedio/laravel-soft-cascade",
+            "version": "6.0.x-dev",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Askedio/laravel-soft-cascade.git",
+                "reference": "84e0d3e6d88e0193f6095453b7c7430fab79b847"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Askedio/laravel-soft-cascade/zipball/84e0d3e6d88e0193f6095453b7c7430fab79b847",
+                "reference": "84e0d3e6d88e0193f6095453b7c7430fab79b847",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/container": "^6.0",
+                "illuminate/database": "^6.0",
+                "illuminate/events": "^6.0",
+                "illuminate/support": "^6.0",
+                "php": "^7.2"
+            },
+            "require-dev": {
+                "codacy/coverage": "dev-master",
+                "orchestra/testbench": "~4.0",
+                "phpunit/phpunit": "~8.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Askedio\\SoftCascade\\Providers\\GenericServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Askedio\\SoftCascade\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "description": "Laravel Cascade Soft Delete & Restore",
+            "time": "2019-09-14T14:52:20+00:00"
+        },
+        {
+            "name": "askedio/laravel5-soft-cascade",
+            "version": "6.0.x-dev",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Askedio/laravel-soft-cascade.git",
+                "reference": "84e0d3e6d88e0193f6095453b7c7430fab79b847"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Askedio/laravel-soft-cascade/zipball/84e0d3e6d88e0193f6095453b7c7430fab79b847",
+                "reference": "84e0d3e6d88e0193f6095453b7c7430fab79b847",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/container": "^6.0",
+                "illuminate/database": "^6.0",
+                "illuminate/events": "^6.0",
+                "illuminate/support": "^6.0",
+                "php": "^7.2"
+            },
+            "require-dev": {
+                "codacy/coverage": "dev-master",
+                "orchestra/testbench": "~4.0",
+                "phpunit/phpunit": "~8.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Askedio\\SoftCascade\\Providers\\GenericServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Askedio\\SoftCascade\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "description": "Laravel Cascade Soft Delete & Restore",
+            "time": "2019-09-14T14:52:20+00:00"
         },
         {
             "name": "asm89/stack-cors",
@@ -6796,7 +6882,10 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "askedio/laravel-soft-cascade": 20,
+        "askedio/laravel5-soft-cascade": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
