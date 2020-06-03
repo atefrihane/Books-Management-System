@@ -1,16 +1,8 @@
 <template>
     <div class="container-fluid">
         <div class="card card-primary">
-          <vue-element-loading 
-        :active="isActive"
-         spinner="bar-fade-scale" 
-         color="#FF6700" 
-         size="100"
-         :text="'Uploading '+percentage+' %'" 
-         :is-full-screen="true"
-
-         
-         />
+            <vue-element-loading :active="isActive" spinner="bar-fade-scale" color="#FF6700" size="100"
+                :text="'Uploading '+percentage+' %'" :is-full-screen="true" />
             <h3 class=" p-4">Update an article</h3>
 
             <form role="form">
@@ -110,7 +102,7 @@
                     <div class="row mt-3">
                         <div class="col-md-12">
                             <label for="exampleInputEmail1">Content</label>
-                            <vue-editor v-model="article.content"></vue-editor>
+                            <vue-editor ref="vue-editor-quill" v-model="article.content"></vue-editor>
                         </div>
 
                     </div>
@@ -231,6 +223,9 @@
         mounted() {
             this.formatCategories()
             this.formatAuthors()
+            this.$refs['vue-editor-quill'].quill.format('direction', 'rtl');
+            this.$refs['vue-editor-quill'].quill.format('align', 'right');
+
 
         },
         props: ['categories', 'authors', 'article_details'],
@@ -239,8 +234,8 @@
                 digital_name: 'Upload an audio file',
                 pdf_name: 'Upload a pdf file',
                 disabled: false,
-                    isActive:false,
-                percentage : 0,
+                isActive: false,
+                percentage: 0,
                 searchedAuthors: [],
 
                 errors: [],
@@ -278,7 +273,7 @@
                 this.article.author_id = this.article_details.author_id
                 this.article.audio_link = this.article_details.audio_link
                 this.article.pdf_link = this.article_details.pdf_link
-                    this.article.content = this.article_details.content
+                this.article.content = this.article_details.content
             },
             formatAuthors() {
                 if (this.authors && this.authors.length > 0) {
@@ -504,10 +499,10 @@
             },
             submitAddarticle() {
                 this.disabled = true;
-                    this.isActive = true;
+                this.isActive = true;
                 let validate = this.validateData()
                 if (validate) {
-              
+
                     let body = new FormData()
 
                     body.append('id', this.article.id)
@@ -526,7 +521,7 @@
 
                     body.append('quotes', this.article.quotes)
                     body.append('writing_date', this.article.writing_date)
-                        body.append('content', this.article.content)
+                    body.append('content', this.article.content)
                     body.append('author_id', this.article.author_id)
 
 
@@ -539,9 +534,9 @@
                     }
 
 
-                    axios.post(`/api/article/${this.article.id}/update`, body,config)
+                    axios.post(`/api/article/${this.article.id}/update`, body, config)
                         .then((response) => {
-                                  this.isActive = false;
+                            this.isActive = false;
                             if (response.data.status == 200) {
                                 swal2.fire({
                                     type: 'success',
@@ -559,7 +554,7 @@
                             }
                         })
                         .catch((error) => {
-                          this.isActive = false;
+                            this.isActive = false;
                             this.disabled = false;
                             if (error.response.status == 422) {
                                 this.errors = []

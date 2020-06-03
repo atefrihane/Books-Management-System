@@ -5,6 +5,25 @@ Breadcrumbs::for('home', function ($trail) {
     $trail->push('Statistics', route('showHome'));
 });
 
+// Categories
+Breadcrumbs::for('categories', function ($trail) {
+    $trail->push('List of categories', route('showCategories'));
+});
+Breadcrumbs::for('addCategory', function ($trail) {
+    $trail->parent('categories');
+    $trail->push('Add a category', route('showAddCategory'));
+});
+
+Breadcrumbs::for('showCategory', function ($trail, $category) {
+    $trail->parent('categories');
+    $trail->push($category->name);
+});
+Breadcrumbs::for('updateCategory', function ($trail, $category) {
+    $trail->parent('categories');
+    $trail->push('Update a a category');
+    $trail->push($category->name);
+});
+
 // Books
 Breadcrumbs::for('books', function ($trail) {
     $trail->push('List of books', route('showBooks'));
@@ -23,9 +42,6 @@ Breadcrumbs::for('updateBook', function ($trail, $book) {
     $trail->push('Update a book');
     $trail->push($book->title);
 });
-
-
-
 
 //Articles
 
@@ -71,12 +87,12 @@ Breadcrumbs::for('updateUser', function ($trail, $user) {
     $trail->push($user->formatName());
 });
 
-// 
+//
 
 //Authors
 
 Breadcrumbs::for('authors', function ($trail) {
- 
+
     $trail->push('Liste of authors', route('showAuthors'));
 });
 Breadcrumbs::for('showAddAuthor', function ($trail) {
@@ -94,12 +110,10 @@ Breadcrumbs::for('showUpdateAuthor', function ($trail, $author) {
     $trail->push($author->fullName());
 });
 
-
-
 //Orders
 
 // Breadcrumbs::for('orders', function ($trail) {
- 
+
 //     $trail->push('Liste des achats', route('showOrders'));
 // });
 

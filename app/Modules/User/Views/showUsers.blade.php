@@ -1,7 +1,7 @@
 
 
 @extends('partials.layout')
-@section('pageTitle', 'Liste des utilisateurs')
+@section('pageTitle', 'List of users')
 @section('content')
 <div class="content-header">
     <div class="container-fluid">

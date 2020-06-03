@@ -31,10 +31,16 @@ import VueElementLoading from 'vue-element-loading'
 Vue.component('VueElementLoading', VueElementLoading)
 
 
-// books
+
+// categories
 Vue.component('show-books', require('./components/ShowBooks.vue').default);
 Vue.component('add-book', require('./components/ShowAddBook.vue').default);
 Vue.component('update-book', require('./components/ShowUpdateBook.vue').default);
+// books
+Vue.component('show-categories', require('./components/ShowCategories.vue').default);
+Vue.component('add-category', require('./components/ShowAddCategory.vue').default);
+Vue.component('update-category', require('./components/ShowUpdateCategory.vue').default);
+
 
 
 

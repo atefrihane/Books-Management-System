@@ -111,6 +111,15 @@
 
 
                 </li>
+
+                <li class="nav-item">
+                    <a href="{{route('showCategories')}}" class="nav-link {{ Route::is('showCategories') ? 'active' : '' }}">
+                        <i class="fa fa-list-alt"></i> &nbsp;
+                        <p>Categories</p>
+                    </a>
+
+
+                </li>
                 <li class="nav-item">
                     <a href="{{route('showBooks')}}" class="nav-link {{ Route::is('showBooks') ? 'active' : '' }}">
                         <i class="fas fa-book"></i> &nbsp;

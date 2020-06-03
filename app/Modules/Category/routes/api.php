@@ -1,7 +1,8 @@
 <?php
 
-Route::group(['module' => 'Category', 'middleware' => ['api'], 'namespace' => 'App\Modules\Category\Controllers'], function() {
-
-    Route::resource('Category', 'CategoryController');
+Route::group(['module' => 'Category', 'middleware' => ['auth:api'], 'namespace' => 'App\Modules\Category\Controllers'], function() {
+    Route::post('api/category/add', 'CategoryControllerApi@handleAddCategory');
+    Route::post('api/category/{id}/update', 'CategoryControllerApi@handleUpdateCategory');
+    Route::post('api/category/{id}/delete', 'CategoryControllerApi@handleDeleteCategory');
 
 });

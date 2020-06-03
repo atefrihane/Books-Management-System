@@ -110,7 +110,7 @@
                     <div class="row mt-3">
                         <div class="col-md-12">
                             <label for="exampleInputEmail1">Content</label>
-                         <vue-editor v-model="article.content"></vue-editor>
+                         <vue-editor ref="vue-editor-quill" v-model="article.content"></vue-editor>
                         </div>
 
                     </div>
@@ -232,11 +232,11 @@
     } from "vue2-editor";
 
     export default {
-    //      components: {
-    //     VueElementLoading
-    //   },
+  
         mounted() {
             this.formatCategories()
+             this.$refs['vue-editor-quill'].quill.format('direction', 'rtl');
+               this.$refs['vue-editor-quill'].quill.format('align', 'right');
 
 
         },
