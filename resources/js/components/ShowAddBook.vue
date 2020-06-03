@@ -1,16 +1,8 @@
 <template>
     <div class="container-fluid">
         <div class="card card-primary">
-        <vue-element-loading 
-        :active="isActive"
-         spinner="bar-fade-scale" 
-         color="#FF6700" 
-         size="100"
-         :text="'Uploading '+percentage+' %'" 
-         :is-full-screen="true"
-
-         
-         />
+            <vue-element-loading :active="isActive" spinner="bar-fade-scale" color="#FF6700" size="100"
+                :text="'Uploading '+percentage+' %'" :is-full-screen="true" />
             <h3 class=" p-4">Add a book</h3>
 
             <form role="form">
@@ -228,8 +220,8 @@
                 digital_name: 'Upload an audio file',
                 pdf_name: 'Upload a pdf file',
                 disabled: false,
-                isActive:false,
-                percentage : 0,
+                isActive: false,
+                percentage: 0,
 
                 errors: [],
                 book: {
@@ -411,11 +403,13 @@
 
 
             validateData() {
+                this.disabled = true;
                 this.errors = []
                 if (!this.book.photo) {
-                    this.disabled = false;
+                  
                     this.errors.push('Photo is required');
                     window.scrollTo(0, 0);
+                       this.disabled = false;
                     return;
                 }
                 if (!this.book.title) {
@@ -475,10 +469,9 @@
             submitAddBook() {
                 let validate = this.validateData()
 
-                this.disabled = true;
 
                 if (validate) {
-                     this.isActive = true;
+                    this.isActive = true;
                     let body = new FormData()
 
 
@@ -494,7 +487,7 @@
                     body.append('author_id', this.book.author_id)
 
 
-                
+
                     let config = {
                         onUploadProgress: progressEvent => {
                             let progress = Math.round((progressEvent.loaded * 100) / progressEvent.total)
@@ -505,7 +498,7 @@
 
                     axios.post('/api/book/save', body, config)
                         .then((response) => {
-                           this.isActive = false;
+                            this.isActive = false;
 
                             if (response.data.status == 200) {
 
@@ -529,7 +522,7 @@
 
                         })
                         .catch((error) => {
-                           this.isActive = false;
+                            this.isActive = false;
                             this.disabled = false;
                             if (error.response.status == 422) {
                                 this.errors = []
