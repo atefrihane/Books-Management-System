@@ -89,7 +89,7 @@
                 categoryIndex: '',
                 successMail: 'far fa-check-circle text-green',
                 failedMail: 'fas fa-exclamation-triangle text-red',
-                allCategories : []
+                allCategories: []
 
 
             }
@@ -103,24 +103,27 @@
 
 
             removeItem(event) {
-     
 
+           
 
                 axios.post(`/api/category/${event.id}/delete`, {
 
                     })
                     .then((response) => {
                         if (response.data.status == 200) {
-
+                         console.log(event) 
                             this.allCategories.splice(this.allCategories.indexOf(event), 1);
-                  
+                            this.category  =''
                             toast.fire({
                                 type: 'success',
                                 title: 'Category deleted'
                             })
-                             this.$root.destroyDataTable()
-                            this.$root.updateDataTable()
-                      
+
+                               this.$root.destroyDataTable()
+                                this.$root.updateDataTable()
+                         
+
+
                         }
 
                         if (response.data.status == 400) {
@@ -140,9 +143,9 @@
 
             },
             affectValue(category) {
+             
                 this.category = category
-                let element = this.$refs.modal
-                $(element).modal('show')
+     
             }
 
         }

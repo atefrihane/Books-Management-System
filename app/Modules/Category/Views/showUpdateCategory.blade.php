@@ -1,5 +1,5 @@
 @extends('partials.layout')
-@section('pageTitle', 'Add a category')
+@section('pageTitle', 'Update a category')
 @section('content')
 <div class="content-header">
     <div class="container-fluid">

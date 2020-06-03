@@ -21,7 +21,7 @@
 
                     <div class="mx-auto mt-4" style="width: 200px;">
                         <div class="row">
-                            <a href="/Categorys" class="btn btn-danger ml-3">Cancel </a>
+                            <a href="/categories" class="btn btn-danger ml-3">Cancel </a>
                             <button type="button" class="btn btn-primary ml-4" @click="submitAddCategory()"
                                 :disabled="disabled">Confirm</button>
                         </div>
