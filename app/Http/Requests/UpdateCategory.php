@@ -29,7 +29,7 @@ class UpdateCategory extends FormRequest
    
         return [
             'id' => 'required||exists:categories,id',
-            'name' => 'unique:categories,name,{$this->id},id,deleted_at,NULL'
+            'name' => 'unique:categories,name,' . $this->id . ',id,deleted_at,NULL',
         
         
           
