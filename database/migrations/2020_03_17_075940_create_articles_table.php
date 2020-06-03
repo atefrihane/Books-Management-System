@@ -17,7 +17,7 @@ class CreateArticlesTable extends Migration
             $table->bigIncrements('id');
             $table->string('title');
             $table->text('description');
-            $table->text('quotes');
+            $table->longText('quotes');
             $table->date('writing_date');
             $table->longText('content');
             $table->integer('active');

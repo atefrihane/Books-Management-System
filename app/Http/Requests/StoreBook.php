@@ -30,7 +30,7 @@ class StoreBook extends FormRequest
             'title' => 'required|max:200',
             'subject' => 'required|max:200',
             'why_to_read' => 'required|max:200',
-            'quotes' => 'required|max:200',
+            'quotes' => 'required|max:2000',
             'active' => 'required|in:0,1',
              'audio_link' => 'nullable|mimes:mpga,wav',
              'pdf_link' => 'nullable|mimes:pdf',

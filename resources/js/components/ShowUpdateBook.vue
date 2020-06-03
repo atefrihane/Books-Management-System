@@ -1,16 +1,8 @@
 <template>
     <div class="container-fluid">
         <div class="card card-primary">
-          <vue-element-loading 
-        :active="isActive"
-         spinner="bar-fade-scale" 
-         color="#FF6700" 
-         size="100"
-         :text="'Uploading '+percentage+' %'" 
-         :is-full-screen="true"
-
-         
-         />
+            <vue-element-loading :active="isActive" spinner="bar-fade-scale" color="#FF6700" size="100"
+                :text="'Uploading '+percentage+' %'" :is-full-screen="true" />
             <h3 class=" p-4">Update a book</h3>
 
             <form role="form">
@@ -69,8 +61,7 @@
                     <div class="row mt-3">
                         <div class="col-md-12">
                             <label for="exampleInputEmail1">Quotes</label>
-                            <textarea type="text" cols="30" rows="3" class="form-control" placeholder="Why to read..."
-                                v-model="book.quotes"></textarea>
+                            <vue-editor ref="vue-editor-quill" v-model="book.quotes"></vue-editor>
 
 
 
@@ -220,11 +211,14 @@
 <script>
     import ShowAuthors from './nested/ShowAuthors.vue'
     import ShowErrors from './nested/ShowErrors.vue'
+    import {
+        VueEditor
+    } from "vue2-editor";
     export default {
         mounted() {
             this.formatCategories()
             this.formatAuthors()
-
+           
         },
         props: ['categories', 'authors', 'book_details'],
         data() {
@@ -233,8 +227,8 @@
                 pdf_name: 'Upload a pdf file',
                 disabled: false,
                 searchedAuthors: [],
-                isActive:false,
-                percentage : 0,
+                isActive: false,
+                percentage: 0,
                 errors: [],
                 book: {
                     active: 1,
@@ -518,10 +512,10 @@
 
                     body.append('id', this.book.id)
                     body.append('photo', this.book.photo)
-                    if (typeof this.book.audio_link === 'object') {
+                    if (typeof this.book.audio_link === 'object' && this.book.audio_link != null) {
                         body.append('audio_link', this.book.audio_link)
                     }
-                    if (typeof this.book.pdf_link === 'object') {
+                    if (typeof this.book.pdf_link === 'object' && this.book.pdf_link) {
                         body.append('pdf_link', this.book.pdf_link)
                     }
 
@@ -534,7 +528,7 @@
                     body.append('author_id', this.book.author_id)
 
 
-                        let config = {
+                    let config = {
                         onUploadProgress: progressEvent => {
                             let progress = Math.round((progressEvent.loaded * 100) / progressEvent.total)
 
@@ -563,7 +557,7 @@
                             }
                         })
                         .catch((error) => {
-                    this.isActive = false;
+                            this.isActive = false;
                             this.disabled = false;
                             if (error.response.status == 422) {
                                 this.errors = []

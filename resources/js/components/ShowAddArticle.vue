@@ -93,8 +93,7 @@
                         <div class="col-md-12">
                             <label for="exampleInputEmail1">Quotes</label>
 
-                            <textarea class="form-control" cols="30" rows="3" v-model="article.quotes"
-                                placeholder="Quotes"></textarea>
+                            <vue-editor ref="quotes" v-model="article.quotes"></vue-editor>
                         </div>
 
                     </div>
@@ -110,7 +109,7 @@
                     <div class="row mt-3">
                         <div class="col-md-12">
                             <label for="exampleInputEmail1">Content</label>
-                         <vue-editor ref="vue-editor-quill" v-model="article.content"></vue-editor>
+                         <vue-editor ref="content" v-model="article.content"></vue-editor>
                         </div>
 
                     </div>
@@ -235,9 +234,10 @@
   
         mounted() {
             this.formatCategories()
-             this.$refs['vue-editor-quill'].quill.format('direction', 'rtl');
-               this.$refs['vue-editor-quill'].quill.format('align', 'right');
-
+               this.$refs['quotes'].quill.format('direction', 'rtl');
+               this.$refs['quotes'].quill.format('align', 'right');
+               this.$refs['content'].quill.format('direction', 'rtl');
+               this.$refs['content'].quill.format('align', 'right');
 
         },
         props: ['categories', 'authors'],

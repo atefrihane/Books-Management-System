@@ -18,7 +18,7 @@ class CreateBooksTable extends Migration
             $table->string('title');
             $table->string('subject');
             $table->text('why_to_read');
-            $table->text('quotes');
+            $table->longText('quotes');
             $table->integer('active');
             $table->string('photo')->nullable();
             $table->string('audio_link')->nullable();

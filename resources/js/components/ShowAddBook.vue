@@ -61,8 +61,8 @@
                     <div class="row mt-3">
                         <div class="col-md-12">
                             <label for="exampleInputEmail1">Quotes</label>
-                            <textarea type="text" cols="30" rows="3" class="form-control" placeholder="Why to read..."
-                                v-model="book.quotes"></textarea>
+
+                            <vue-editor ref="vue-editor-quill" v-model="book.quotes"></vue-editor>
 
 
 
@@ -207,10 +207,16 @@
 <script>
     import ShowAuthors from './nested/ShowAuthors.vue'
     import ShowErrors from './nested/ShowErrors.vue'
+    // Basic Use - Covers most scenarios
+    import {
+        VueEditor
+    } from "vue2-editor";
 
     export default {
         mounted() {
             this.formatCategories()
+            this.$refs['vue-editor-quill'].quill.format('direction', 'rtl');
+            this.$refs['vue-editor-quill'].quill.format('align', 'right');
 
 
         },
@@ -406,10 +412,10 @@
                 this.disabled = true;
                 this.errors = []
                 if (!this.book.photo) {
-                  
+
                     this.errors.push('Photo is required');
                     window.scrollTo(0, 0);
-                       this.disabled = false;
+                    this.disabled = false;
                     return;
                 }
                 if (!this.book.title) {

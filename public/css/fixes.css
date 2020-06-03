@@ -72,3 +72,12 @@ body {
 td>div>.dropdown-menu.show {
     left: -30px !important;
 }
+
+.ql-snow .ql-editor blockquote {
+    border-left: transparent !important;
+    border-right: 4px solid #ccc !important;
+    margin-bottom: 5px;
+    margin-top: 5px;
+    padding-right: 16px;
+    padding-left: transparent;
+}
