@@ -222,11 +222,7 @@
         mounted() {
             this.formatCategories()
             this.formatAuthors()
-            // this.$refs['quotes'].quill.format('direction', 'rtl');
-            // this.$refs['quotes'].quill.format('align', 'right');
-            // this.$refs['content'].quill.format('direction', 'rtl');
-            // this.$refs['content'].quill.format('align', 'right');
-
+          
 
 
         },
