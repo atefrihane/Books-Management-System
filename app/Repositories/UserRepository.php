@@ -4,12 +4,9 @@ namespace App\Repositories;
 use App\Contracts\ImageRepositoryInterface;
 use App\Contracts\RoleRepositoryInterface;
 use App\Contracts\UserRepositoryInterface;
-use App\Jobs\SendEmail;
-use App\Mail\ActivationEmail;
 use App\Modules\User\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 
 class UserRepository implements UserRepositoryInterface
 {
@@ -128,42 +125,16 @@ class UserRepository implements UserRepositoryInterface
         $checkUser = $this->fetchById($user['user_id']);
 
         if ($checkUser) {
-            $sendEmail = false;
-            if (isset($user['password']) && !(Hash::check($user['password'], $checkUser->password))) {
-                $response = ['status' => 0, 'user' => null];
-                return $response;
-
-            }
-            if ((isset($user['active']) && $checkUser->active != $user['active'] && $user['active'] == 1 && !$checkUser->isAdmin())) {
-                $sendEmail = true;
-
-            }
 
             $checkUser->update([
-                'first_name' => isset($user['first_name']) ? $user['first_name'] : $checkUser->first_name,
-                'last_name' => isset($user['last_name']) ? $user['last_name'] : $checkUser->last_name,
-                'occupation' => isset($user['occupation']) ? $user['occupation'] : $checkUser->occupation,
-                'active' => isset($user['active']) ? $user['active'] : $checkUser->active,
-                'institution' => isset($user['institution']) ? $user['institution'] : $checkUser->institution,
-                'country' => isset($user['country']) ? $user['country'] : $checkUser->country,
-                'zipcode' => isset($user['zipcode']) ? $user['zipcode'] : $checkUser->zipcode,
-                'city' => isset($user['city']) ? $user['city'] : $checkUser->city,
-                'address' => isset($user['address']) ? $user['address'] : $checkUser->address,
-                'phone' => isset($user['phone']) ? $user['phone'] : $checkUser->phone,
-                'email' => isset($user['email']) ? $user['email'] : $checkUser->email,
-                'password' => isset($user['new_password']) ? bcrypt($user['new_password']) : $checkUser->password,
-                'role_id' => isset($user['role_id']) ? $user['role_id'] : $checkUser->role_id,
+                'active' => $user['active'],
+                'role_id' => $user['role_id'],
             ]);
-            if ($sendEmail) {
-                SendEmail::dispatch($checkUser, new ActivationEmail($checkUser));
 
-            }
-            $response = ['status' => 1, 'user' => $checkUser];
-            return $response;
+            return true;
 
         }
-        $response = ['status' => -1, 'user' => null];
-        return $response;
+        return false;
 
     }
 

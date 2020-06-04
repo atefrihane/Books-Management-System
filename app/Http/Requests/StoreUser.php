@@ -25,7 +25,7 @@ class StoreUser extends FormRequest
     {
 
         return [
-            'email' => 'bail|required|email:rfc,dns|unique:users,email',
+            'email' => 'bail|required|email:rfc,dns|unique:users,email,NULL,id,deleted_at,NULL',
             'first_name' => 'bail|required|max:90',
             'last_name' => 'bail|required|max:90',
             'password' => 'bail|required|confirmed|max:100',

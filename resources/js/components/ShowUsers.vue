@@ -4,7 +4,7 @@
         <div class="card">
 
             <div class="card-body">
-            
+
 
 
 
@@ -29,7 +29,7 @@
                             <td>{{user.email}} &nbsp;&nbsp; <i
                                     :class="[user.email_verified_at ? successMail : failedMail]" data-toggle="tooltip"
                                     data-placement="top" :title="statusEmail(user)"></i> </td>
-                            <td>{{user.active == 0 ? 'Inactif' : user.active == 1  ? 'Actif' : 'Bloqué'}}</td>
+                            <td>{{user.active == 0 ? 'Inactive' : user.active == 1  ? 'Active' : 'Blocked'}}</td>
                             <td>{{formatType(user)}}</td>
                             <td>{{user.updated_at}}</td>
                             <td>
@@ -41,13 +41,16 @@
                                         <i class="fas fa-ellipsis-h"></i>
                                     </button>
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                  
+
                                         <a class="dropdown-item" :href="`/user/${user.id}`">Show
                                             details</a>
+                                        <a class="dropdown-item" :href="`/user/${user.id}/update`"
+                                            v-if="user.role.name != 'superadmin'">Edit
+                                            user</a>
 
-                                 
+
                                         <a class="dropdown-item" data-toggle="modal" data-target="#exampleModal"
-                                            @click="affectValue(user)">Delete</a>
+                                            @click="affectValue(user)" v-if="user.role.name != 'superadmin'">Delete</a>
                                     </div>
                                 </div>
                             </td>
@@ -64,7 +67,7 @@
                     </tbody>
                 </table>
 
-        
+
 
                 <!-- Modal Unblock Status -->
                 <div class="modal fade" id="unblockUser" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -103,7 +106,7 @@
     import ShowModal from './nested/ShowModal.vue'
     export default {
         mounted() {
-            this.filterActiveUsers();
+
 
         },
         props: ['users'],
@@ -128,43 +131,13 @@
                 this.userId = user.id
                 this.userIndex = index
             },
-            updateStatus() {
 
-                axios.get(`/api/user/${this.userId}/unblock`)
-                    .then((response) => {
-
-                        if (response.data.status == 200)
-
-                        {
-
-                            this.allUsers[this.userIndex].active = 1
-                            toast.fire({
-                                type: 'success',
-                                title: 'Utilisateur débloqué'
-                            })
-
-                        }
-
-                        if (response.data.status == 404)
-
-                        {
-                            toast.fire({
-                                type: 'success',
-                                title: 'Utilisateur introuvable'
-                            })
-
-                        }
-                    })
-                    .catch(function (error) {
-                        console.log(error);
-                    });
-            },
 
             statusEmail(user) {
                 if (user.email_verified_at) {
-                    return 'Email validé'
+                    return 'Email valid'
                 }
-                return 'Email non validé'
+                return 'Email not valid'
             },
             formatName(user) {
                 return user.first_name + ' ' + user.last_name
@@ -178,38 +151,10 @@
                 return this.$root.ucfirst(user.role.name)
 
             },
-            filterActiveUsers() {
-
-
-                this.allUsers = _.filter(this.allUsers, function (o) {
-                    return o.active;
-                });
-
-
-
-            },
-            filterUsersClick() {
-                this.$root.destroyDataTable()
-                this.isChecked = !this.isChecked;
-
-                // show all users
-                if (this.isChecked) {
-                    this.allUsers = this.users
-                    this.$root.updateDataTable()
-
-                    return;
-
-                }
-                //show only active
-
-                this.filterActiveUsers()
-                this.$root.updateDataTable()
-                return;
-
-            },
+       
 
             removeItem(event) {
-                let userstatus = event.active;
+               
 
 
 
@@ -220,20 +165,21 @@
                         if (response.data.status == 200) {
 
                             this.users.splice(this.users.indexOf(event), 1);
-                            this.allUsers = this.users
+                            this.user = ''
+
                             toast.fire({
                                 type: 'success',
-                                title: 'Utilisateur supprimée'
+                                title: 'User deleted'
                             })
+                            this.$root.destroyDataTable()
+                            this.$root.updateDataTable()
 
-                            this.isChecked = !this.isChecked
-                            this.filterUsersClick()
                         }
 
                         if (response.data.status == 404) {
                             swal2.fire({
                                 type: 'error',
-                                title: 'Utilisateur  introuvable..',
+                                title: 'User  not found..',
                                 allowOutsideClick: false,
                                 showConfirmButton: true,
                                 confirmButtonText: 'Fermer'
@@ -247,8 +193,7 @@
             },
             affectValue(user) {
                 this.user = user
-                let element = this.$refs.modal
-                $(element).modal('show')
+
             }
 
         }
