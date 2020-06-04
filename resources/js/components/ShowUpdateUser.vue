@@ -1,5 +1,7 @@
 <template>
     <div class="card card-primary">
+        <vue-element-loading :active="isActive" spinner="bar-fade-scale" color="#FF6700" size="100"
+            :text="'Uploading '+percentage+' %'" :is-full-screen="true" />
         <h3 class=" p-4">Update user</h3>
 
         <form role="form">
@@ -34,7 +36,7 @@
                 </div>
 
 
-                       <div class="row mt-2">
+                <div class="row mt-2">
                     <div class="col-md-6">
                         <label for="exampleInputEmail1" class="mt-2 mb-2">Email </label>
                         <input type="text" class="form-control" :value="$root.ucfirst(email)" disabled>
@@ -62,8 +64,8 @@
                     <div class="col-md-6">
                         <label for="exampleInputEmail1" class="mt-2 mb-2">Account status*</label>
                         <select class="form-control" @change="selectStatus($event)" :value="active">
-                            <option value="0">Active</option>
-                            <option value="1">Inactive</option>
+                            <option :value="1">Active</option>
+                            <option :value="0">Inactive</option>
                         </select>
 
                     </div>
@@ -117,6 +119,8 @@
                 last_name: this.old_user.last_name,
                 role_id: this.old_user.role_id,
                 active: this.old_user.active,
+                isActive: false,
+                percentage: false,
 
 
                 errors: [],
@@ -129,11 +133,11 @@
         methods: {
 
             formatRole(role) {
-             return this.$root.ucfirst(role.name)
+                return this.$root.ucfirst(role.name)
             },
             selectRole(event) {
 
-                this.user.role_id = event.target.value
+                this.role_id = event.target.value
                 // update type user
                 this.roles.forEach(role => {
                     if (role.id == event.target.value) {
@@ -173,7 +177,7 @@
 
 
 
-        
+
 
                 if (!this.role_id) {
 
@@ -187,14 +191,14 @@
 
             },
             apiCall() {
-
+            
                 axios.post(`/api/admin/user/${this.user_id}/update`, {
                         user_id: this.user_id,
                         active: this.active,
                         role_id: this.role_id
                     })
                     .then((response) => {
-                        this.$Progress.finish()
+                        this.isActive = false;
                         if (response.data.status == 200) {
                             swal2.fire({
                                 type: 'success',
@@ -231,7 +235,8 @@
                 this.disabled = true;
                 let validate = this.validateData()
                 if (validate) {
-                    this.$Progress.start()
+                        this.isActive = true;
+           
 
 
                     this.apiCall()

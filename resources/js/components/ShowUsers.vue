@@ -45,7 +45,7 @@
                                         <a class="dropdown-item" :href="`/user/${user.id}`">Show
                                             details</a>
                                         <a class="dropdown-item" :href="`/user/${user.id}/update`"
-                                            v-if="user.role.name != 'superadmin'">Edit
+                                          >Edit
                                             user</a>
 
 
@@ -69,29 +69,7 @@
 
 
 
-                <!-- Modal Unblock Status -->
-                <div class="modal fade" id="unblockUser" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-                    aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">
-                                    Voulez vous vraiment débloquer cet utilisateur ?
-                                </h5>
-
-                            </div>
-
-
-                            <div class="modal-footer">
-                                <a href="#" data-dismiss="modal" class="btn btn-danger">Annuler</a>
-                                <a href="#" data-dismiss="modal" class="btn btn-primary"
-                                    @click="updateStatus()">Confirmer</a>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
+            
 
             </div><!-- /.card-body -->
 
@@ -140,14 +118,11 @@
                 return 'Email not valid'
             },
             formatName(user) {
-                return user.first_name + ' ' + user.last_name
+                return this.$root.ucfirst(user.first_name) + ' ' + this.$root.ucfirst(user.last_name)
 
             },
             formatType(user) {
-                if (user.role.name == 'user') {
-                    return 'Internaute';
-                }
-
+           
                 return this.$root.ucfirst(user.role.name)
 
             },

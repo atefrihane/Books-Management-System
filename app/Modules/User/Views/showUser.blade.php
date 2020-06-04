@@ -94,7 +94,7 @@
 
                     <div class="mx-auto mt-4" style="width: 200px;">
                         <div class="row">
-                            <a href="{{route('showUsers')}}" class="btn btn-danger ml-3">Quitter</a>
+                            <a href="{{route('showUsers')}}" class="btn btn-danger ml-3">Cancel</a>
 
 
                         </div>
