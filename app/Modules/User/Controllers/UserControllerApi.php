@@ -2,68 +2,63 @@
 
 namespace App\Modules\User\Controllers;
 
-use App\Http\Requests\BlockUser;
-use App\Http\Requests\LoginUser;
-use App\Http\Requests\StoreUser;
-use App\Http\Requests\StoreAdmin;
-use App\Http\Controllers\Controller;
-use App\Http\Requests\UpdateProfile;
-use App\Http\Requests\UpdateAdminProfile;
-use App\Contracts\BookRepositoryInterface;
-use App\Contracts\UserRepositoryInterface;
-use App\Contracts\OrderRepositoryInterface;
-use App\Contracts\ReviewRepositoryInterface;
-use App\Http\Resources\Book as BookResource;
-use App\Http\Resources\User as UserResource;
 use App\Contracts\ArticleRepositoryInterface;
-use App\Contracts\JournalRepositoryInterface;
-use App\Contracts\ProductRepositoryInterface;
+use App\Contracts\BookRepositoryInterface;
 use App\Contracts\CategoryRepositoryInterface;
+use App\Contracts\UserRepositoryInterface;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\LoginUser;
+use App\Http\Requests\StoreAdmin;
+use App\Http\Requests\StoreUser;
+use App\Http\Requests\UpdateAdminProfile;
+use App\Http\Requests\UpdateProfile;
 use App\Http\Resources\Article as ArticleResource;
-use App\Http\Resources\Journal as JournalResource;
+use App\Http\Resources\Book as BookResource;
 use App\Http\Resources\Category as CategoryResource;
+use App\Http\Resources\Journal as JournalResource;
+use App\Http\Resources\User as UserResource;
 
 class UserControllerApi extends Controller
 {
-    private $users, $books, $journals, $articles, $categories, $products, $reviews, $orders;
+    private $users, $books, $journals, $articles, $categories;
     public function __construct(UserRepositoryInterface $users,
         BookRepositoryInterface $books,
-        JournalRepositoryInterface $journals,
+
         ArticleRepositoryInterface $articles,
-        CategoryRepositoryInterface $categories,
-        ProductRepositoryInterface $products,
-        ReviewRepositoryInterface $reviews,
-        OrderRepositoryInterface $orders
+        CategoryRepositoryInterface $categories
     ) {
         $this->users = $users;
         $this->books = $books;
-        $this->journals = $journals;
+
         $this->articles = $articles;
         $this->categories = $categories;
-        $this->products = $products;
-        $this->reviews = $reviews;
-        $this->orders = $orders;
+
     }
 
     public function handleLogin(LoginUser $request)
     {
 
         $response = $this->users->login($request->all());
-        if (is_array($response)) {
+        switch ($response['status']) {
+            case 200:
+                return response()->json([
+                    'token' => $response['token'],
+                    'user' => new UserResource($response['user']),
+                    'books' => BookResource::collection($this->books->all()),
+                    'articles' => ArticleResource::collection($this->articles->all()),
+                    'status' => $response['status'],
+                ]);
+                break;
+            case 404:
+                return response()->json(['status' => $response['status']]);
 
-            return response()->json([
-                'status' => 200,
-                'token' => $response['token'],
-                'user' => new UserResource($response['user']),
-
-            ]);
         }
-        return response()->json(['status' => $response]);
 
     }
 
     public function handleRegister(StoreUser $request)
     {
+
         $this->users->register($request->except(['password_confirmation']));
         return response()->json(['status' => 200]);
 
@@ -100,10 +95,9 @@ class UserControllerApi extends Controller
 
     }
 
-
     public function handleUpdateAdminProfile(UpdateAdminProfile $request)
     {
-        
+
         $response = $this->users->update($request->user);
 
         switch (isset($response['user'])) {

@@ -2,10 +2,8 @@
 
 namespace App\Http\Resources;
 
-use App\Http\Resources\Review as ReviewResource;
-use App\Http\Resources\Category as CategoryResource;
-use App\Http\Resources\Language as LanguageResource;
 use App\Http\Resources\Author as AuthorResource;
+use App\Http\Resources\Category as CategoryResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class Article extends JsonResource
@@ -21,19 +19,16 @@ class Article extends JsonResource
         return [
             'id' => $this->id,
             'title' => $this->title,
-            'slug' => $this->slug,
-            'description' => $this->description,
-            'editor' => $this->editor,
-            'count_pages' => $this->count_pages,
-            'published_year' => $this->published_year,
+            'description' => $this->subject,
+            'quotes' => $this->quotes,
+            'writing_date' => $this->writing_date,
+            'content' => $this->content,
+            'active' => $this->active,
             'photo' => $this->photo,
-            'digital_price' => $this->digital_price,
-            'product_id' => $this->product->id,
-            'authors' => AuthorResource::collection($this->authors),
+            'audio_link' => $this->audio_link,
+            'pdf_link' => $this->pdf_link,
+            'author' => new AuthorResource($this->author),
             'categories' => CategoryResource::collection($this->categories),
-            'languages' => LanguageResource::collection($this->languages),
-            'aggregate' => $this->product->avgRating() ?  $this->product->avgRating()->aggregate  :  NULL ,
-            'reviews' => ReviewResource::collection($this->product->activeReviews()),
 
         ];
     }

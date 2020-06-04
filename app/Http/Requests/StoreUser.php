@@ -25,13 +25,12 @@ class StoreUser extends FormRequest
     {
 
         return [
-            'email' => 'bail|required|email:rfc,dns|required|unique:users,email',
+            'email' => 'bail|required|email:rfc,dns|unique:users,email',
             'first_name' => 'bail|required|max:90',
             'last_name' => 'bail|required|max:90',
-            'phone' => 'bail|nullable|digits:8|unique:users,phone',
-            'password' => 'bail|required|max:90|confirmed',
-            'active' => 'bail|required|in:0',
-            'type' => 'bail|required|in:0',
+            'password' => 'bail|required|confirmed|max:100',
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg|max:7168',
+            
         ];
 
     }

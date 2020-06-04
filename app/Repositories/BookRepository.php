@@ -32,9 +32,9 @@ class BookRepository implements BookRepositoryInterface
     {
 
         $bookPhoto = $this->image->uploadImage($book['photo'], 'books');
-        isset($book['pdf_link']) ? $pdfBook = $this->image->uploadAudio($book['pdf_link'], '/img/books/pdf') : $pdfBook = null;
+        isset($book['pdf_link']) ? $pdfBook = $this->image->uploadFile($book['pdf_link'], '/img/books/pdf') : $pdfBook = null;
 
-        isset($book['audio_link']) ? $audioBook = $this->image->uploadAudio($book['audio_link'], '/img/books/audio') : $audioBook = null;
+        isset($book['audio_link']) ? $audioBook = $this->image->uploadFile($book['audio_link'], '/img/books/audio') : $audioBook = null;
 
         $bookCategories = json_decode($book['categories']);
         $newBook = Book::create([
@@ -78,12 +78,12 @@ class BookRepository implements BookRepositoryInterface
 
             if (isset($book['audio_link'])) {
                 $this->image->deleteFile($checkBook->audio_link);
-                $bookAudio = $this->image->uploadAudio($book['audio_link'], '/img/books/audio/');
+                $bookAudio = $this->image->uploadFile($book['audio_link'], '/img/books/audio/');
             }
 
             if (isset($book['pdf_link'])) {
                 $this->image->deleteFile($checkBook->pdf_link);
-                $bookPdf = $this->image->uploadAudio($book['pdf_link'], '/img/books/pdf/');
+                $bookPdf = $this->image->uploadFile($book['pdf_link'], '/img/books/pdf/');
             }
             $bookCategories = json_decode($book['categories']);
 

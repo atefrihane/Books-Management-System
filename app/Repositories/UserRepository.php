@@ -1,6 +1,7 @@
 <?php
 namespace App\Repositories;
 
+use App\Contracts\ImageRepositoryInterface;
 use App\Contracts\RoleRepositoryInterface;
 use App\Contracts\UserRepositoryInterface;
 use App\Jobs\SendEmail;
@@ -12,85 +13,57 @@ use Illuminate\Support\Facades\Hash;
 
 class UserRepository implements UserRepositoryInterface
 {
-    private $roles;
-    public function __construct(RoleRepositoryInterface $roles)
+    private $roles, $image;
+    public function __construct(RoleRepositoryInterface $roles, ImageRepositoryInterface $image)
     {
         $this->roles = $roles;
+        $this->image = $image;
     }
 
     public function register($user)
     {
 
-        $checkRole = $this->roles->getRole($user['type']);
+        isset($user['photo']) ? $photo = $this->image->uploadFile($user['photo'], '/img/users') : '';
 
-        if ($checkRole) {
-            unset($user['type']);
-
-            $user['role_id'] = $checkRole;
-            $user['password'] = bcrypt($user['password']);
-            $createUser = User::create($user);
-            if (!$createUser->active && !$createUser->isAdmin()) {
-                $createUser->sendApiEmailVerificationNotification();
-            }
-
-            if ($createUser->active) {
-                $createUser->update(['email_verified_at' => Carbon::now()]);
-                SendEmail::dispatch($createUser, new ActivationEmail($createUser));
-            }
-
-            return true;
-        }
-
-        return false;
+        return User::create([
+            'first_name' => $user['first_name'],
+            'last_name' => $user['last_name'],
+            'email' => $user['email'],
+            'password' => bcrypt($user['password']),
+            'photo' => isset($photo) ? $photo : null,
+            'role_id' => USER::ROLE_USER,
+        ]);
 
     }
 
-    public function login($credentials)
+    public function login($user)
     {
-        $credentialsAuth = $credentials;
-        unset($credentialsAuth['type']);
 
-        $user = Auth::attempt($credentialsAuth);
+        $user = Auth::attempt($user);
 
         if ($user) {
             $user = Auth::user();
-            switch ($credentials['type']) {
-                case 0:
-                    // Normal user
-                    if ($user->active == 2) {
-                        return 406;
 
-                    }
-                    if (!$user->email_verified_at) {
-                        return 405;
+            // Normal user
 
-                    }
-                    if ($user->role->name != 'user' || !$user->active) {
-                        $this->logout();
-                        return 401;
-                    }
-                    $response = [
-                        'token' => $user->createToken('books')->accessToken,
-                        'user' => $user,
-                        'status' => 200,
-                    ];
-                    return $response;
+            if ($user->isAdmin() || !$user->active) {
 
-                    break;
-                case 1:
-                    // Admin
-
-                    if ($user->role->name == 'user' || !$user->active || $user->active == 2) {
-                        $this->logout();
-                        return false;
-                    }
-                    return $user;
-
-                    break;
+                return [
+                    'status' => 404,
+                ];
             }
-            return $user;
+
+            return [
+                'token' => $user->createToken('books')->accessToken,
+                'user' => $user,
+                'status' => 200,
+            ];
+
         }
-        return 401;
+
+        return [
+            'status' => 404,
+        ];
 
     }
 

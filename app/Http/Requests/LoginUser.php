@@ -27,7 +27,7 @@ class LoginUser extends FormRequest
         return [
             'email' => 'required|email',
             'password' => 'required',
-            'type' => 'required|in:0'
+
         ];
 
     }

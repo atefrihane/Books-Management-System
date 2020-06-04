@@ -17,7 +17,6 @@ class Category extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'count_books' => count($this->books),
 
         ];
     }

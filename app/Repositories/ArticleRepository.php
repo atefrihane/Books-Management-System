@@ -35,8 +35,8 @@ class ArticleRepository implements ArticleRepositoryInterface
  
         $articlePhoto = $this->image->uploadImage($article['photo'], 'articles');
 
-        isset($article['audio_link']) ? $audioArticle = $this->image->uploadAudio($article['audio_link'], '/img/articles/audio/') : $audioArticle = null;
-        isset($article['pdf_link']) ? $pdfArticle = $this->image->uploadAudio($article['pdf_link'], '/img/articles/pdf/') : $pdfArticle = null;
+        isset($article['audio_link']) ? $audioArticle = $this->image->uploadFile($article['audio_link'], '/img/articles/audio/') : $audioArticle = null;
+        isset($article['pdf_link']) ? $pdfArticle = $this->image->uploadFile($article['pdf_link'], '/img/articles/pdf/') : $pdfArticle = null;
         $articleCategories = json_decode($article['categories']);
         $newarticle = article::create([
             'photo' => $articlePhoto,
@@ -79,12 +79,12 @@ class ArticleRepository implements ArticleRepositoryInterface
 
             if (isset($article['audio_link'])) {
                 $this->image->deleteFile($checkArticle->audio_link);
-                $audioArticle = $this->image->uploadAudio($article['audio_link'], '/img/articles/audio/');
+                $audioArticle = $this->image->uploadFile($article['audio_link'], '/img/articles/audio/');
             }
 
             if (isset($article['pdf_link'])) {
                 $this->image->deleteFile($checkArticle->pdf_link);
-                $pdfArticle = $this->image->uploadAudio($article['pdf_link'], '/img/articles/pdf/');
+                $pdfArticle = $this->image->uploadFile($article['pdf_link'], '/img/articles/pdf/');
             }
             $articleCategories = json_decode($article['categories']);
             $checkArticle->update([
