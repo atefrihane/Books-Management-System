@@ -28,7 +28,7 @@ class StoreUser extends FormRequest
             'email' => 'bail|required|email:rfc,dns|unique:users,email,NULL,id,deleted_at,NULL',
             'full_name' => 'bail|required|max:200',
              'password' => 'bail|required|confirmed|max:100',
-            'photo' => 'nullable|image|mimes:jpeg,png,jpg|max:4096',
+     
             
         ];
 

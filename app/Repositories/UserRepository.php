@@ -20,8 +20,7 @@ class UserRepository implements UserRepositoryInterface
     public function register($user)
     {
 
-        isset($user['photo']) ? $photo = $this->image->uploadFile($user['photo'], '/img/users') : '';
-
+       
         return User::create([
             'full_name' => $user['full_name'],
             'email' => $user['email'],
