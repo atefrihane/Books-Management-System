@@ -75,22 +75,10 @@ class UserControllerApi extends Controller
     }
     public function handleUpdateProfile(UpdateProfile $request)
     {
-        isset($request->user) ? $user = $request->user : $user = $request->all();
 
-        $response = $this->users->update($user);
-
-        switch (isset($response['user'])) {
-
-            case 0:
-                $response['status'] == -1 ? $status = 404 : $status = 405;
-                return response()->json(['status' => $status]);
-                break;
-
-            case 1:
-                return response()->json(['status' => 200, 'user' => new UserResource($response['user'])]);
-
-                break;
-
+        $updateFrontOffice = $this->users->updateUser($request->all());
+        if ($updateFrontOffice) {
+            return response()->json(['status' => 200]);
         }
 
     }
@@ -98,8 +86,8 @@ class UserControllerApi extends Controller
     public function handleUpdateAdminProfile(UpdateAdminProfile $request)
     {
 
-        $response = $this->users->update($request->all());
-        if ($response) {
+        $updateBackoffice = $this->users->updateAdmin($request->all());
+        if ($updateBackoffice) {
             return response()->json(['status' => 200]);
         }
 

@@ -23,8 +23,7 @@ class UserRepository implements UserRepositoryInterface
         isset($user['photo']) ? $photo = $this->image->uploadFile($user['photo'], '/img/users') : '';
 
         return User::create([
-            'first_name' => $user['first_name'],
-            'last_name' => $user['last_name'],
+            'full_name' => $user['full_name'],
             'email' => $user['email'],
             'password' => bcrypt($user['password']),
             'photo' => isset($photo) ? $photo : null,
@@ -119,7 +118,28 @@ class UserRepository implements UserRepositoryInterface
         return false;
 
     }
-    public function update($user)
+
+    public function updateUser($user)
+    {
+        $checkUser = $this->fetchById($user['user_id']);
+        if ($checkUser) {
+            $photo = null;
+            if (isset($user['photo']) && $user['photo'] != $checkUser->photo) {
+             
+                $this->image->deleteFile($checkUser->photo);
+                $photo = $this->image->uploadFile($user['photo'], '/img/users');
+            }
+
+            return $checkUser->update([
+                'full_name' => isset($user['full_name']) ? $user['full_name'] : $checkUser->full_name,
+                'description' => isset($user['description']) ? $user['description'] : $checkUser->description,
+                'country' => isset($user['country']) ? $user['country'] : $checkUser->country,
+                'photo' => $photo,
+                'first_login' => $user['first_login'],
+            ]);
+        }
+    }
+    public function updateAdmin($user)
     {
 
         $checkUser = $this->fetchById($user['user_id']);
@@ -127,7 +147,7 @@ class UserRepository implements UserRepositoryInterface
         if ($checkUser) {
 
             $checkUser->update([
-                'active' => $user['active'],
+                'active' => isset($user['active']),
                 'role_id' => $user['role_id'],
             ]);
 

@@ -8,7 +8,7 @@ Route::group(['module' => 'User', 'middleware' => ['api'], 'namespace' => 'App\M
     Route::get('api/home', 'UserControllerApi@showUserHomeDetails');
 });
 
-Route::group(['module' => 'User', 'middleware' => ['auth:api', 'verified'], 'namespace' => 'App\Modules\User\Controllers'], function () {
+Route::group(['module' => 'User', 'middleware' => ['auth:api'], 'namespace' => 'App\Modules\User\Controllers'], function () {
 
     Route::get('/api/user/{id}','UserControllerApi@showUserDetails');
     Route::post('/api/user/{id}/update', 'UserControllerApi@handleUpdateProfile');

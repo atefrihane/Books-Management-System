@@ -25,8 +25,7 @@ class UserSeeder extends Seeder
                 [
                     'email' => 'test@test.tn',
                     'password' => bcrypt('123456'),
-                    'first_name' => 'Super',
-                    'last_name' => 'Admin',
+                    'full_name' => 'Super Admin' ,
                     'active' => 1,
                     'role_id' => 1,
                     'country'=>'tunisia',
@@ -37,8 +36,7 @@ class UserSeeder extends Seeder
                 [
                     'email' => 'yalafa4762@emailhost99.com ',
                     'password' => bcrypt('123456'),
-                    'first_name' => 'yala',
-                    'last_name' => 'fa',
+                    'full_name' => 'yala fala',
                     'active' => 1,
                     'role_id' => 3,
                     'country'=>'tunisia',

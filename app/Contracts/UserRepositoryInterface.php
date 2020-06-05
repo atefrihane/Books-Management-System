@@ -7,7 +7,8 @@ interface UserRepositoryInterface
     public function login($user);
     public function all();
     public function delete($userId);
-    public function update($userId);
+    public function updateUser($user);
+    public function updateAdmin($user);
     public function fetchById($userId);
     public function logout();
 }

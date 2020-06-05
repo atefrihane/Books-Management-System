@@ -25,7 +25,7 @@
                         <tr v-for="(user,index) in allUsers">
 
 
-                            <td>{{formatName(user)}}</td>
+                            <td>{{$root.ucfirst(user.full_name)}}</td>
                             <td>{{user.email}} &nbsp;&nbsp; <i
                                     :class="[user.email_verified_at ? successMail : failedMail]" data-toggle="tooltip"
                                     data-placement="top" :title="statusEmail(user)"></i> </td>
@@ -117,10 +117,7 @@
                 }
                 return 'Email not valid'
             },
-            formatName(user) {
-                return this.$root.ucfirst(user.first_name) + ' ' + this.$root.ucfirst(user.last_name)
-
-            },
+        
             formatType(user) {
            
                 return this.$root.ucfirst(user.role.name)

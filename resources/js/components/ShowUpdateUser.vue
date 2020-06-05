@@ -19,27 +19,20 @@
 
                 <div class="row mt-2">
                     <div class="col-md-6">
-                        <label for="exampleInputEmail1" class="mt-2 mb-2">First Name </label>
-                        <input type="text" class="form-control" :value="$root.ucfirst(first_name)" disabled>
+                        <label for="exampleInputEmail1" class="mt-2 mb-2">Full Name </label>
+                        <input type="text" class="form-control" :value="$root.ucfirst(full_name)" disabled>
 
                     </div>
 
                 </div>
 
-                <div class="row mt-2">
-                    <div class="col-md-6">
-                        <label for="exampleInputEmail1" class="mt-2 mb-2">Last Name </label>
-                        <input type="text" class="form-control" :value="$root.ucfirst(last_name)" disabled>
-
-                    </div>
-
-                </div>
+             
 
 
                 <div class="row mt-2">
                     <div class="col-md-6">
                         <label for="exampleInputEmail1" class="mt-2 mb-2">Email </label>
-                        <input type="text" class="form-control" :value="$root.ucfirst(email)" disabled>
+                        <input type="text" class="form-control" :value="email" disabled>
 
                     </div>
 
@@ -115,8 +108,8 @@
 
                 user_id: this.old_user.id,
                 email: this.old_user.email,
-                first_name: this.old_user.first_name,
-                last_name: this.old_user.last_name,
+                full_name: this.old_user.full_name,
+      
                 role_id: this.old_user.role_id,
                 active: this.old_user.active,
                 isActive: false,

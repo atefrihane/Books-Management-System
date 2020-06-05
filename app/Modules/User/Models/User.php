@@ -23,7 +23,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function formatName()
     {
-        return $this->first_name . ' ' . $this->last_name;
+        return ucfirst($this->full_name);
     }
     public function role()
     {

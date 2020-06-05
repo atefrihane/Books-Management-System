@@ -17,11 +17,12 @@ class CreateUsersTable extends Migration
             $table->bigIncrements('id');
             $table->string('email');
             $table->string('password');
-            $table->string('first_name');
-            $table->string('last_name');
+            $table->string('full_name');
+            $table->text('description')->nullable();
             $table->integer('active')->default(0);
             $table->string('country')->nullable();
             $table->string('photo')->nullable();
+            $table->integer('first_login')->default(1);
             $table->timestamp('email_verified_at')->nullable();
             $table->unsignedBigInteger('role_id');
             $table->foreign('role_id')->references('id')->on('roles');

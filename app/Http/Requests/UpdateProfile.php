@@ -27,8 +27,12 @@ class UpdateProfile extends FormRequest
 
         return [
             'user_id'=>'required|exists:users,id',
-            'role_id' => 'required|exists:roles,id',
-            'active' => 'required|in:0,1',
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg|max:4096',
+            'full_name' => 'nullable|max:200',
+            'description' => 'nullable|max:500',
+            'country' => 'nullable|max:200',
+            'first_login' => 'required|in:0'
+        
         ];
 
     }

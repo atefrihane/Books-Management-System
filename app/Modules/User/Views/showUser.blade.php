@@ -31,16 +31,12 @@
                     </div>
 
                     <div class="row mt-2">
-                        <div class="col-md-6">
-                            <label for="exampleInputEmail1">Last name</label>
+                        <div class="col-md-12">
+                            <label for="exampleInputEmail1">Full name</label>
                             <input type="text" class="form-control" placeholder="Nom.."
-                                value="{{ucfirst($user->last_name)}}" disabled>
+                                value="{{ucfirst($user->full_name)}}" disabled>
                         </div>
-                        <div class="col-md-6">
-                            <label for="exampleInputEmail1">First name</label>
-                            <input type="text" class="form-control" placeholder="Prénom.."
-                                value="{{ucfirst($user->first_name)}}" disabled>
-                        </div>
+                
 
                     </div>
 
