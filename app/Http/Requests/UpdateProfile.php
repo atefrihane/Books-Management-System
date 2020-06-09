@@ -31,7 +31,7 @@ class UpdateProfile extends FormRequest
             'full_name' => 'nullable|max:200',
             'description' => 'nullable|max:500',
             'country' => 'nullable|max:200',
-            'first_login' => 'required|in:0'
+            'first_login' => 'nullable|in:0'
         
         ];
 
