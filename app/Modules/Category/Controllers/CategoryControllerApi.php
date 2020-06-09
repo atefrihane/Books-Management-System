@@ -6,6 +6,7 @@ use App\Contracts\CategoryRepositoryInterface;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCategory;
 use App\Http\Requests\UpdateCategory;
+use App\Http\Resources\Category as CategoryResource;
 
 class CategoryControllerApi extends Controller
 {
@@ -14,6 +15,11 @@ class CategoryControllerApi extends Controller
     {
         $this->categories = $categories;
 
+    }
+
+    public function showCategories()
+    {
+        return response()->json(['status' => 200, 'categories' => CategoryResource::collection($this->categories->all())]);
     }
 
     public function handleAddCategory(StoreCategory $request)
