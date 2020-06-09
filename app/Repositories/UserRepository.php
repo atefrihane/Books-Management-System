@@ -20,7 +20,6 @@ class UserRepository implements UserRepositoryInterface
     public function register($user)
     {
 
-       
         return User::create([
             'full_name' => $user['full_name'],
             'email' => $user['email'],
@@ -124,7 +123,7 @@ class UserRepository implements UserRepositoryInterface
         if ($checkUser) {
             $photo = null;
             if (isset($user['photo']) && $user['photo'] != $checkUser->photo) {
-             
+
                 $this->image->deleteFile($checkUser->photo);
                 $photo = $this->image->uploadFile($user['photo'], '/img/users');
             }
@@ -134,7 +133,7 @@ class UserRepository implements UserRepositoryInterface
                 'description' => isset($user['description']) ? $user['description'] : $checkUser->description,
                 'country' => isset($user['country']) ? $user['country'] : $checkUser->country,
                 'photo' => $photo,
-                'first_login' => $user['first_login'],
+                'first_login' => $user['first_login'] ? $user['first_login'] : $checkUser->first_login,
             ]);
         }
     }
