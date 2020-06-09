@@ -133,7 +133,7 @@ class UserRepository implements UserRepositoryInterface
                 'description' => isset($user['description']) ? $user['description'] : $checkUser->description,
                 'country' => isset($user['country']) ? $user['country'] : $checkUser->country,
                 'photo' => $photo,
-                'first_login' => $user['first_login'] ? $user['first_login'] : $checkUser->first_login,
+                'first_login' => isset($user['first_login']) ? $user['first_login'] : $checkUser->first_login,
             ]);
         }
     }
