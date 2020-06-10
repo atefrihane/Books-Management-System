@@ -19,7 +19,7 @@ class Article extends JsonResource
         return [
             'id' => $this->id,
             'title' => $this->title,
-            'description' => $this->subject,
+            'description' => $this->description,
             'quotes' => $this->quotes,
             'writing_date' => $this->writing_date,
             'content' => $this->content,
