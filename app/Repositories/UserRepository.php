@@ -25,6 +25,7 @@ class UserRepository implements UserRepositoryInterface
             'email' => $user['email'],
             'password' => bcrypt($user['password']),
             'photo' => isset($photo) ? $photo : null,
+            'active' => 1,
             'role_id' => USER::ROLE_USER,
         ]);
 
