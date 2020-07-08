@@ -101,7 +101,7 @@
                                 .splice(this.articles.indexOf(event), 1);
                             this.allArticles = this.articles
                             toast.fire({
-                                type: 'success',
+                                icon: 'success',
                                 title: 'Article deleted'
                             })
 
@@ -112,7 +112,7 @@
 
                         if (response.data.status == 404) {
                             swal2.fire({
-                                type: 'error',
+                                icon: 'error',
                                 title: 'Article not found..',
                                 allowOutsideClick: false,
                                 showConfirmButton: true,

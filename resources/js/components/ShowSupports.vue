@@ -147,7 +147,7 @@
                             this.supports.splice(this.supports.indexOf(event), 1);
                             this.allsupports = this.supports;
                             toast.fire({
-                                type: 'success',
+                                icon: 'success',
                                 title: 'Avis supprimé'
                             })
 
@@ -157,7 +157,7 @@
 
                         if (response.data.status == 404) {
                             swal2.fire({
-                                type: 'error',
+                                icon: 'error',
                                 title: 'Avis introuvable..',
                                 allowOutsideClick: false,
                                 showConfirmButton: true,

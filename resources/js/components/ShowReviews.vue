@@ -233,7 +233,7 @@
 
                             this.allReviews[this.reviewIndex].active = this.newStatus
                             toast.fire({
-                                type: 'success',
+                                icon: 'success',
                                 title: 'Etat modifié'
                             })
 
@@ -243,7 +243,7 @@
 
                         {
                             toast.fire({
-                                type: 'error',
+                                icon: 'error',
                                 title: 'Erreur'
                             })
 
@@ -262,7 +262,7 @@
                         {
 
                             toast.fire({
-                                type: 'success',
+                                icon: 'success',
                                 title: 'Utilisateur bloqué'
                             })
                             this.allReviews.forEach(review => {
@@ -280,7 +280,7 @@
 
                         {
                             toast.fire({
-                                type: 'error',
+                                icon: 'error',
                                 title: 'Erreur'
                             })
 
@@ -298,7 +298,7 @@
                         {
 
                             toast.fire({
-                                type: 'success',
+                                icon: 'success',
                                 title: 'Utilisateur débloqué'
                             })
                             this.allReviews.forEach(review => {
@@ -317,7 +317,7 @@
 
                         {
                             toast.fire({
-                                type: 'error',
+                                icon: 'error',
                                 title: 'Erreur'
                             })
 

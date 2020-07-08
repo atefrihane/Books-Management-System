@@ -110,7 +110,7 @@
 
                             if (response.data.status == 200) {
                                 swal2.fire({
-                                    type: 'success',
+                                    icon: 'success',
                                     title: 'Category added successfuly',
                                     allowOutsideClick: false,
                                     showConfirmButton: true,
@@ -127,7 +127,7 @@
 
                             if (response.data.status == 405) {
                                 swal2.fire({
-                                    type: 'error',
+                                    icon: 'error',
                                     title: 'Name already in use',
                                     allowOutsideClick: false,
                                     showConfirmButton: true,

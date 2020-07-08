@@ -140,7 +140,7 @@
                             this.user = ''
 
                             toast.fire({
-                                type: 'success',
+                                icon: 'success',
                                 title: 'User deleted'
                             })
                             this.$root.destroyDataTable()
@@ -150,7 +150,7 @@
 
                         if (response.data.status == 404) {
                             swal2.fire({
-                                type: 'error',
+                                icon: 'error',
                                 title: 'User  not found..',
                                 allowOutsideClick: false,
                                 showConfirmButton: true,

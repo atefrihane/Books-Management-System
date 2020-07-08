@@ -194,7 +194,7 @@
                         this.isActive = false;
                         if (response.data.status == 200) {
                             swal2.fire({
-                                type: 'success',
+                                icon: 'success',
                                 title: 'Used edited',
                                 allowOutsideClick: false,
                                 showConfirmButton: true,

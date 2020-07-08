@@ -88,7 +88,7 @@
         let message = $("textarea[name=message]").val();
         if (message == "") {
             swal2.fire({
-                type: 'error',
+                icon: 'error',
                 title: 'Veuillez rédiger une réponse',
                 allowOutsideClick: false,
                 showConfirmButton: true,
@@ -102,7 +102,7 @@
 
             $.ajax({
 
-                type: 'POST',
+                icon: 'POST',
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
                 
@@ -119,7 +119,7 @@
                 
                     if (response.status == 200) {
                         swal2.fire({
-                            type: 'success',
+                            icon: 'success',
                             title: 'Réponse envoyée avec succés',
                             allowOutsideClick: false,
                             showConfirmButton: true,
@@ -139,7 +139,7 @@
 
                     if (response.status == 404) {
                         swal2.fire({
-                            type: 'error',
+                            icon: 'error',
                             title: 'Message introuvable',
                             allowOutsideClick: false,
                             showConfirmButton: true,

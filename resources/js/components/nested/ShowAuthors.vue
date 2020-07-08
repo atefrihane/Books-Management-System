@@ -160,7 +160,7 @@
                 })
                    
                     toast.fire({
-                        type: 'success',
+                        icon: 'success',
                         title: 'Author selected'
                     })
                     this.selectedAuthor= id

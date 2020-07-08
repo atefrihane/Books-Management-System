@@ -140,7 +140,7 @@
                             this.journal.releases.splice(this.journal.releases.indexOf(event), 1);
                             this.allReleases = this.journal.releases;
                             toast.fire({
-                                type: 'success',
+                                icon: 'success',
                                 title: 'Numéro supprimé'
                             })
 
@@ -150,7 +150,7 @@
 
                         if (response.data.status == 404) {
                             swal2.fire({
-                                type: 'error',
+                                icon: 'error',
                                 title: 'Numéro introuvable..',
                                 allowOutsideClick: false,
                                 showConfirmButton: true,

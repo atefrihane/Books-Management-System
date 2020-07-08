@@ -171,7 +171,7 @@
                     
                             this.allOrders[this.orderIndex].status=this.newStatus
                             toast.fire({
-                                type: 'success',
+                                icon: 'success',
                                 title: 'Etat modifié'
                             })
 
@@ -181,7 +181,7 @@
 
                         {
                             toast.fire({
-                                type: 'success',
+                                icon: 'success',
                                 title: 'Achat introuvable'
                             })
 

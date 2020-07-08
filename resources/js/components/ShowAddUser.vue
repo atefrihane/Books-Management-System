@@ -220,7 +220,7 @@
                     recipient: '',
                     recipient_phone: '',
                     role_id: '',
-                    type: '',
+                    icon: '',
                     active: 0
                 },
                 errors: [],
@@ -372,7 +372,7 @@
                             this.$Progress.finish()
                             if (response.data.status == 200) {
                                 swal2.fire({
-                                    type: 'success',
+                                    icon: 'success',
                                     title: 'Utilisateur ajouté avec succés',
                                     allowOutsideClick: false,
                                     showConfirmButton: true,

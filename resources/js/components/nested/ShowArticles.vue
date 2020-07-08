@@ -117,14 +117,14 @@
                             })
 
                         if (!isSelected) {
-                            toast.fire({type: 'success', title: 'Article selectionné'})
+                            toast.fire({icon: 'success', title: 'Article selectionné'})
                             this
                                 .selectedArticles
                                 .push(id)
                             this.$emit('submitArticles', this.selectedArticles)
 
                         } else {
-                            toast.fire({type: 'success', title: 'Article retiré'})
+                            toast.fire({icon: 'success', title: 'Article retiré'})
 
                             this.selectedArticles = this
                                 .selectedArticles

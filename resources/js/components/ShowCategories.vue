@@ -115,7 +115,7 @@
                             this.allCategories.splice(this.allCategories.indexOf(event), 1);
                             this.category  =''
                             toast.fire({
-                                type: 'success',
+                                icon: 'success',
                                 title: 'Category deleted'
                             })
 
@@ -128,7 +128,7 @@
 
                         if (response.data.status == 400) {
                             swal2.fire({
-                                type: 'error',
+                                icon: 'error',
                                 title: 'Category not found..',
                                 allowOutsideClick: false,
                                 showConfirmButton: true,

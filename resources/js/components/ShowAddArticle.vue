@@ -263,7 +263,7 @@
 
 
                 swal2.fire({
-                    type: 'error',
+                    icon: 'error',
                     title: 'File not supported',
                     allowOutsideClick: false,
                     showConfirmButton: true,
@@ -304,7 +304,7 @@
 
 
                 swal2.fire({
-                    type: 'error',
+                    icon: 'error',
                     title: 'File not supported',
                     allowOutsideClick: false,
                     showConfirmButton: true,
@@ -475,7 +475,7 @@
                             this.isActive = false;
                             if (response.data.status == 200) {
                                 swal2.fire({
-                                    type: 'success',
+                                    icon: 'success',
                                     title: 'Article added successfuly',
                                     allowOutsideClick: false,
                                     showConfirmButton: true,

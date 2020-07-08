@@ -117,7 +117,7 @@
 
 
                 swal2.fire({
-                    type: 'error',
+                    icon: 'error',
                     title: 'File not supported',
                     allowOutsideClick: false,
                     showConfirmButton: true,
@@ -180,7 +180,7 @@
                             this.$Progress.finish()
                             if (response.data.status == 200) {
                                 swal2.fire({
-                                    type: 'success',
+                                    icon: 'success',
                                     title: 'Author updated',
                                     allowOutsideClick: false,
                                     showConfirmButton: true,

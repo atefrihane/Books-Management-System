@@ -12,27 +12,27 @@ try {
 
     require('bootstrap');
     require('admin-lte');
-    // require('chart.js');
-    // require('sweetalert');
-    // require('datatables.net-bs4');
-    // require('summernote');
+    require('chart.js');
+    require('sweetalert');
+    require('datatables.net-bs4');
+    require('summernote');
 
-    // $(document).ready(function() {
-    //     $('#summernote').summernote({
-    //         toolbar: [
-    //             ['style', ['style']],
-    //             ['font', ['bold', 'underline', 'clear']],
-    //             ['fontsize', ['fontsize']], , ['fontname', ['fontname']],
-    //             ['color', ['color']],
-    //             ['para', ['ul', 'ol', 'paragraph']],
-    //             ['view', ['fullscreen']],
-    //             ['insert', ['link']],
-    //         ],
-    //         height: 500,
-    //         focus: true
+    $(document).ready(function() {
+        $('#summernote').summernote({
+            toolbar: [
+                ['style', ['style']],
+                ['font', ['bold', 'underline', 'clear']],
+                ['fontsize', ['fontsize']], , ['fontname', ['fontname']],
+                ['color', ['color']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['view', ['fullscreen']],
+                ['insert', ['link']],
+            ],
+            height: 500,
+            focus: true
 
-    //     });
-    // });
+        });
+    });
     // Load the full build.
     var _ = require('lodash');
 

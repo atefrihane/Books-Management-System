@@ -110,7 +110,7 @@
                             this.books.splice(this.books.indexOf(event), 1);
                             this.allBooks = this.books;
                             toast.fire({
-                                type: 'success',
+                                icon: 'success',
                                 title: 'Book deleted'
                             })
 
@@ -121,7 +121,7 @@
 
                         if (response.data.status == 404) {
                             swal2.fire({
-                                type: 'error',
+                                icon: 'error',
                                 title: 'Book not found..',
                                 allowOutsideClick: false,
                                 showConfirmButton: true,

@@ -111,7 +111,7 @@
 
                             if (response.data.status == 200) {
                                 swal2.fire({
-                                    type: 'success',
+                                    icon: 'success',
                                     title: 'Category updated successfuly',
                                     allowOutsideClick: false,
                                     showConfirmButton: true,
@@ -127,7 +127,7 @@
 
                             if (response.data.status == 404) {
                                 swal2.fire({
-                                    type: 'error',
+                                    icon: 'error',
                                     title: 'Category not found',
                                     allowOutsideClick: false,
                                     showConfirmButton: true,
@@ -140,7 +140,7 @@
 
                             if (response.data.status == 405) {
                                 swal2.fire({
-                                    type: 'error',
+                                    icon: 'error',
                                     title: 'Name already in use',
                                     allowOutsideClick: false,
                                     showConfirmButton: true,

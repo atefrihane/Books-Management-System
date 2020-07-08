@@ -121,7 +121,7 @@
 
                             this.allAuthors[this.authorIndex].active = this.newStatus
                             toast.fire({
-                                type: 'success',
+                                icon: 'success',
                                 title: 'Etat modifié'
                             })
 
@@ -131,7 +131,7 @@
 
                         {
                             toast.fire({
-                                type: 'success',
+                                icon: 'success',
                                 title: 'Achat introuvable'
                             })
 
@@ -153,7 +153,7 @@
                             this.authors.splice(this.authors.indexOf(event), 1);
                             this.allAuthors = this.authors;
                             toast.fire({
-                                type: 'success',
+                                icon: 'success',
                                 title: 'Auteur deleted'
                             })
 
@@ -165,7 +165,7 @@
 
                         if (response.data.status == 404) {
                             swal2.fire({
-                                type: 'error',
+                                icon: 'error',
                                 title: 'Author not found..',
                                 allowOutsideClick: false,
                                 showConfirmButton: true,
