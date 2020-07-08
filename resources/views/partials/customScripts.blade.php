@@ -31,15 +31,15 @@
             }
         );
 
-        $("input[type=text]").attr('maxlength', '150');
-        $("input[type=email]").attr('maxlength', '150');
+        // $("input[type=text]").attr('maxlength', '150');
+        // $("input[type=email]").attr('maxlength', '150');
 
-        $("input[type=number]").attr({
-            "max": 999999,
-            "min": 1
+        // $("input[type=number]").attr({
+        //     "max": 999999,
+        //     "min": 1
 
-        });
-        $("textarea").attr('maxlength', '500');
+        // });
+        // $("textarea").attr('maxlength', '500');
     });
 
     //disable edit sent message

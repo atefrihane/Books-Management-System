@@ -70,25 +70,7 @@
 
 
 
-                    <div class="row mt-3">
-                        <div class="col-md-12">
-                            <label for="exampleInputEmail1">Description</label>
-                            <textarea class="form-control" cols="30" rows="3" v-model="article.description"
-                                placeholder="Description"></textarea>
 
-
-                        </div>
-
-                    </div>
-
-                    <div class="row mt-3">
-                        <div class="col-md-12">
-                            <label for="exampleInputEmail1">Quotes</label>
-
-                                  <vue-editor ref="quotes" v-model="article.quotes"></vue-editor>
-                        </div>
-
-                    </div>
                     <div class="row mt-3">
                         <div class="col-md-12">
                             <label for="exampleInputEmail1">Writing date</label>
@@ -100,8 +82,17 @@
 
                     <div class="row mt-3">
                         <div class="col-md-12">
+                            <label for="exampleInputEmail1">Published date</label>
+                            <input class="form-control" type="date" v-model="article.published_date"
+                                placeholder="Published date">
+                        </div>
+
+                    </div>
+
+                    <div class="row mt-3">
+                        <div class="col-md-12">
                             <label for="exampleInputEmail1">Content</label>
-                     <vue-editor ref="content" v-model="article.content"></vue-editor>
+                            <vue-editor ref="content" v-model="article.content"></vue-editor>
                         </div>
 
                     </div>
@@ -222,7 +213,8 @@
         mounted() {
             this.formatCategories()
             this.formatAuthors()
-          
+             this.$refs['content'].quill.format('align', 'right');
+
 
 
         },
@@ -243,8 +235,9 @@
                     title: '',
                     categories: [],
                     author_id: '',
-                    description: '',
+
                     writing_date: '',
+                    published_date: '',
                     photo: '',
                     audio_link: '',
                     pdf_link: '',
@@ -264,9 +257,9 @@
                 this.article.active = this.article_details.active
                 this.article.title = this.article_details.title
                 this.article.categories = this.article_details.categories
-                this.article.quotes = this.article_details.quotes
+
                 this.article.writing_date = this.article_details.writing_date
-                this.article.description = this.article_details.description
+                this.article.published_date = this.article_details.published_date
                 this.article.photo = this.article_details.photo
                 this.article.author_id = this.article_details.author_id
                 this.article.audio_link = this.article_details.audio_link
@@ -457,22 +450,6 @@
 
 
 
-
-
-
-                if (!this.article.description) {
-                    this.disabled = false;
-                    this.errors.push('Description required');
-                    window.scrollTo(0, 0);
-                    return;
-                }
-                if (!this.article.quotes) {
-                    this.disabled = false;
-                    this.errors.push('quotes required');
-                    window.scrollTo(0, 0);
-                    return;
-                }
-
                 if (!this.article.writing_date) {
                     this.disabled = false;
                     this.errors.push('Writing date required');
@@ -480,6 +457,12 @@
                     return;
                 }
 
+                if (!this.article.published_date) {
+                    this.disabled = false;
+                    this.errors.push('Published  date required');
+                    window.scrollTo(0, 0);
+                    return;
+                }
 
                 if (!this.article.author_id) {
                     this.disabled = false;
@@ -497,10 +480,10 @@
             },
             submitAddarticle() {
                 this.disabled = true;
-              
+
                 let validate = this.validateData()
                 if (validate) {
-                this.isActive = true;
+                    this.isActive = true;
                     let body = new FormData()
 
                     body.append('id', this.article.id)
@@ -515,10 +498,9 @@
                     body.append('categories', JSON.stringify(this.article.categories))
                     body.append('title', this.article.title)
                     body.append('active', this.article.active)
-                    body.append('description', this.article.description)
 
-                    body.append('quotes', this.article.quotes)
                     body.append('writing_date', this.article.writing_date)
+                    body.append('published_date', this.article.published_date)
                     body.append('content', this.article.content)
                     body.append('author_id', this.article.author_id)
 

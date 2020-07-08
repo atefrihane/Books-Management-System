@@ -38,13 +38,12 @@ class ArticleRepository implements ArticleRepositoryInterface
         isset($article['audio_link']) ? $audioArticle = $this->image->uploadFile($article['audio_link'], '/img/articles/audio/') : $audioArticle = null;
         isset($article['pdf_link']) ? $pdfArticle = $this->image->uploadFile($article['pdf_link'], '/img/articles/pdf/') : $pdfArticle = null;
         $articleCategories = json_decode($article['categories']);
-        $newarticle = article::create([
+        $newArticle = Article::create([
             'photo' => $articlePhoto,
             'active' => $article['active'],
             'title' => $article['title'],
-            'description' => $article['description'],
-            'quotes' => $article['quotes'],
             'writing_date' => $article['writing_date'],
+            'published_date' => $article['published_date'],
             'content' => $article['content'],
             'audio_link' => $audioArticle,
             'pdf_link' => $pdfArticle,
@@ -52,7 +51,7 @@ class ArticleRepository implements ArticleRepositoryInterface
 
         ]);
 
-        $newarticle->categories()->attach(array_column($articleCategories, 'id'));
+        $newArticle->categories()->attach(array_column($articleCategories, 'id'));
         return true;
 
     }
@@ -91,9 +90,8 @@ class ArticleRepository implements ArticleRepositoryInterface
                 'photo' => $articlePhoto,
                 'active' => $article['active'],
                 'title' => $article['title'],
-                'description' => $article['description'],
-                'quotes' => $article['quotes'],
                 'writing_date' => $article['writing_date'],
+                'published_date' => $article['published_date'],
                 'content' => $article['content'],
                 'audio_link' => $audioArticle,
                 'pdf_link' => $pdfArticle,

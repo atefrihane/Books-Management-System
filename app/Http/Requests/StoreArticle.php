@@ -28,8 +28,6 @@ class StoreArticle extends FormRequest
         return [
             'photo' => 'required',
             'title' => 'required|max:200',
-            'description' => 'required|max:200',
-            'quotes' => 'required|max:2000',
             'writing_date' => 'required|date',
             'content' => 'required|max:1000000',
              'active' => 'required|in:0,1',

@@ -1,16 +1,8 @@
 <template>
     <div class="container-fluid">
         <div class="card card-primary">
-        <vue-element-loading 
-        :active="isActive"
-         spinner="bar-fade-scale" 
-         color="#FF6700" 
-         size="100"
-         :text="'Uploading '+percentage+' %'" 
-         :is-full-screen="true"
-
-         
-         />
+            <vue-element-loading :active="isActive" spinner="bar-fade-scale" color="#FF6700" size="100"
+                :text="'Uploading '+percentage+' %'" :is-full-screen="true" />
             <h3 class=" p-4">Add an article</h3>
 
             <form role="form">
@@ -78,25 +70,8 @@
 
 
 
-                    <div class="row mt-3">
-                        <div class="col-md-12">
-                            <label for="exampleInputEmail1">Description</label>
-                            <textarea class="form-control" cols="30" rows="3" v-model="article.description"
-                                placeholder="Description"></textarea>
 
 
-                        </div>
-
-                    </div>
-
-                    <div class="row mt-3">
-                        <div class="col-md-12">
-                            <label for="exampleInputEmail1">Quotes</label>
-
-                            <vue-editor ref="quotes" v-model="article.quotes"></vue-editor>
-                        </div>
-
-                    </div>
                     <div class="row mt-3">
                         <div class="col-md-12">
                             <label for="exampleInputEmail1">Writing date</label>
@@ -108,13 +83,22 @@
 
                     <div class="row mt-3">
                         <div class="col-md-12">
-                            <label for="exampleInputEmail1">Content</label>
-                         <vue-editor ref="content" v-model="article.content"></vue-editor>
+                            <label for="exampleInputEmail1">Published date</label>
+                            <input class="form-control" type="date" v-model="article.published_date"
+                                placeholder="Published date">
                         </div>
 
                     </div>
 
-              
+                    <div class="row mt-3">
+                        <div class="col-md-12">
+                            <label for="exampleInputEmail1">Content</label>
+                            <vue-editor ref="content" v-model="article.content"></vue-editor>
+                        </div>
+
+                    </div>
+
+
 
                     <div class="container mt-4">
                         <div class="form-group mt-2 mb-2">
@@ -131,15 +115,7 @@
                         </div>
                         <div class="rounded-top" style="border: 1px solid #ced4da;">
 
-                            <div class="row" v-if="article.pdf_link">
 
-                                <div class="p-4 mx-auto">
-
-                                    <embed :src="$root.previewBinaryFile(this.article.pdf_link,1)" width="500"
-                                        height="375" type="application/pdf">
-                                </div>
-
-                            </div>
                             <div class="p-4">
                                 <div class="input-group mt-2">
                                     <div class="custom-file">
@@ -170,18 +146,7 @@
                         </div>
                         <div class="rounded-top" style="border: 1px solid #ced4da;">
 
-                            <div class="row" v-if="article.audio_link">
 
-                                <div class="p-4 mx-auto">
-
-                                    <audio controls>
-
-                                        <source :src="$root.previewBinaryFile(article.audio_link,2)" type="audio/mpeg">
-                                        Your browser does not support the audio element.
-                                    </audio>
-                                </div>
-
-                            </div>
                             <div class="p-4">
                                 <div class="input-group mt-2">
                                     <div class="custom-file">
@@ -231,13 +196,10 @@
     } from "vue2-editor";
 
     export default {
-  
+
         mounted() {
             this.formatCategories()
-               this.$refs['quotes'].quill.format('direction', 'rtl');
-               this.$refs['quotes'].quill.format('align', 'right');
-               this.$refs['content'].quill.format('direction', 'rtl');
-               this.$refs['content'].quill.format('align', 'right');
+ this.$refs['content'].quill.format('align', 'right');
 
         },
         props: ['categories', 'authors'],
@@ -246,8 +208,8 @@
                 digital_name: 'Upload an audio file',
                 pdf_name: 'Upload a pdf file',
                 disabled: false,
-                isActive:false,
-                percentage : 0,
+                isActive: false,
+                percentage: 0,
 
                 errors: [],
                 article: {
@@ -255,8 +217,10 @@
                     title: '',
                     categories: [],
                     author_id: '',
-                    description: '',
+
                     writing_date: '',
+
+                    published_date: '',
                     photo: '',
                     audio_link: '',
                     pdf_link: '',
@@ -440,22 +404,16 @@
 
 
 
-                if (!this.article.description) {
+                if (!this.article.writing_date) {
                     this.disabled = false;
-                    this.errors.push('Description required');
-                    window.scrollTo(0, 0);
-                    return;
-                }
-                if (!this.article.quotes) {
-                    this.disabled = false;
-                    this.errors.push('quotes required');
+                    this.errors.push('Writing date required');
                     window.scrollTo(0, 0);
                     return;
                 }
 
-                if (!this.article.writing_date) {
+                if (!this.article.published_date) {
                     this.disabled = false;
-                    this.errors.push('Writing date required');
+                    this.errors.push('Published  date required');
                     window.scrollTo(0, 0);
                     return;
                 }
@@ -483,10 +441,10 @@
             },
             submitAddarticle() {
                 this.disabled = true;
-        
+
                 let validate = this.validateData()
                 if (validate) {
-                     this.isActive = true;
+                    this.isActive = true;
                     let body = new FormData()
 
 
@@ -496,10 +454,9 @@
                     body.append('categories', JSON.stringify(this.article.categories))
                     body.append('title', this.article.title)
                     body.append('active', this.article.active)
-                    body.append('description', this.article.description)
 
-                    body.append('quotes', this.article.quotes)
                     body.append('writing_date', this.article.writing_date)
+                    body.append('published_date', this.article.published_date)
                     body.append('content', this.article.content)
                     body.append('author_id', this.article.author_id)
 
@@ -513,9 +470,9 @@
                     }
 
 
-                    axios.post('/api/article/save', body,config)
+                    axios.post('/api/article/save', body, config)
                         .then((response) => {
-                         this.isActive = false;
+                            this.isActive = false;
                             if (response.data.status == 200) {
                                 swal2.fire({
                                     type: 'success',
@@ -533,7 +490,7 @@
                             }
                         })
                         .catch((error) => {
-                          this.isActive = false;
+                            this.isActive = false;
                             this.disabled = false;
                             if (error.response.status == 422) {
                                 this.errors = []

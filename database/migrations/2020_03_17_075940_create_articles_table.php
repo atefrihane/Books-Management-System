@@ -16,9 +16,8 @@ class CreateArticlesTable extends Migration
         Schema::create('articles', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('title');
-            $table->text('description');
-            $table->longText('quotes');
             $table->date('writing_date');
+            $table->date('published_date');
             $table->longText('content');
             $table->integer('active');
             $table->string('photo')->nullable();
