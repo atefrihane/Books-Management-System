@@ -34,12 +34,11 @@
 
                     </div>
 
-
                     <div class="row mt-3">
                         <div class="col-md-12">
                             <label for="exampleInputEmail1">Subject</label>
-                            <textarea type="text" cols="30" rows="10" class="form-control" placeholder="Subject.."
-                                v-model="book.subject"> </textarea>
+
+                            <vue-editor ref="vue-editor-quill" v-model="book.subject"></vue-editor>
                         </div>
 
                     </div>
@@ -47,8 +46,8 @@
                     <div class="row mt-3">
                         <div class="col-md-12">
                             <label for="exampleInputEmail1">Why to read</label>
-                            <textarea type="text" cols="30" rows="10" class="form-control" placeholder="Why to read..."
-                                v-model="book.why_to_read"></textarea>
+
+                            <vue-editor ref="vue-editor-quill" v-model="book.why_to_read"></vue-editor>
 
 
 
@@ -188,7 +187,8 @@
 
 
 
-                    <show-authors :authors="this.authors" v-on:matchAuthors="matchAuthors($event)"> </show-authors>
+                    <show-authors :authors="this.authors" :oldSearchedAuthors="this.searchedAuthors"
+                        v-if="this.searchedAuthors.length > 0" v-on:matchAuthors="matchAuthors($event)"></show-authors>
                     <div class="mx-auto mt-4" style="width: 200px;">
                         <div class="row">
                             <a href="/books" class="btn btn-danger ml-3">Annuler </a>
@@ -218,7 +218,7 @@
         mounted() {
             this.formatCategories()
             this.formatAuthors()
-           
+
         },
         props: ['categories', 'authors', 'book_details'],
         data() {

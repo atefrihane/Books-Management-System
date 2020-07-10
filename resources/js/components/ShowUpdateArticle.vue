@@ -180,7 +180,7 @@
 
 
 
-                    <show-authors :authors="this.authors" v-on:matchAuthors="matchAuthors($event)"> </show-authors>
+                    <show-authors :authors="this.authors"  :oldSearchedAuthors="this.searchedAuthors" v-if="this.searchedAuthors.length > 0"  v-on:matchAuthors="matchAuthors($event)"> </show-authors>
                     <div class="mx-auto mt-4" style="width: 200px;">
                         <div class="row">
                             <a href="/articles" class="btn btn-danger ml-3">Cancel </a>

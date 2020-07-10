@@ -38,8 +38,8 @@
                     <div class="row mt-3">
                         <div class="col-md-12">
                             <label for="exampleInputEmail1">Subject</label>
-                            <textarea type="text" cols="30" rows="10" class="form-control" placeholder="Subject.."
-                                v-model="book.subject"> </textarea>
+
+                            <vue-editor ref="vue-editor-quill" v-model="book.subject"></vue-editor>
                         </div>
 
                     </div>
@@ -47,8 +47,8 @@
                     <div class="row mt-3">
                         <div class="col-md-12">
                             <label for="exampleInputEmail1">Why to read</label>
-                            <textarea type="text" cols="30" rows="10" class="form-control" placeholder="Why to read..."
-                                v-model="book.why_to_read"></textarea>
+
+                            <vue-editor ref="vue-editor-quill" v-model="book.why_to_read"></vue-editor>
 
 
 
