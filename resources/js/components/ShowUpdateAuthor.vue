@@ -39,8 +39,7 @@
                     <div class="row mt-3">
                         <div class="col-md-12">
                             <label for="exampleInputEmail1">Description</label>
-                            <textarea class="form-control" rows="3" placeholder="Déscription.."
-                                v-model="author.biography"></textarea>
+                      <vue-editor ref="content"  v-model="author.biography"></vue-editor>
                         </div>
 
                     </div>

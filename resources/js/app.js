@@ -181,7 +181,10 @@ const app = new Vue({
         },
         ucfirst(string) {
             return string.charAt(0).toUpperCase() + string.slice(1)
-        }
+        },
+        formatHTML(string) {
+            return string.replace(/(<p>|<\/p>)/g, "");
+        },
 
 
 

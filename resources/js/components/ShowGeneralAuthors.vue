@@ -6,13 +6,13 @@
             <div class="card-body">
 
 
-           <table class="table table-bordered table-hover  table-responsive-sm">
+                <table class="table table-bordered table-hover  table-responsive-sm">
                     <thead>
                         <tr>
                             <th scope="col">Photo</th>
                             <th scope="col">Full name</th>
-                             <th scope="col " class="is-wrapped">Biography</th>
-                          
+                            <th scope="col " class="is-wrapped">Biography</th>
+
                             <th scope="col"></th>
                         </tr>
                     </thead>
@@ -21,14 +21,15 @@
 
                             <td class="style-image">
                                 <div class="container">
-                                    <img :src="author.photo ? author.photo : '/img/placeholder.jpg'" alt="" class="img-fluid">
+                                    <img :src="author.photo ? author.photo : '/img/placeholder.jpg'" alt=""
+                                        class="img-fluid">
                                 </div>
 
 
                             </td>
                             <td>{{$root.ucfirst(author.first_name)+' '+$root.ucfirst(author.last_name)}}</td>
-                          <td>{{author.biography}}</td>
-                          
+                            <td> {{$root.formatHTML(author.biography)}}</td>
+
                             <td>
                                 <div class="dropdown">
                                     <button class="btn btn-secondary dropdown-toggle btn-hide" type="button"
@@ -57,9 +58,9 @@
                 </table>
 
 
-              
 
-        
+
+
 
             </div><!-- /.card-body -->
 
@@ -71,7 +72,7 @@
 </template>
 
 <script>
-   import ShowModal from './nested/ShowModal.vue'
+    import ShowModal from './nested/ShowModal.vue'
     export default {
         mounted() {
 
@@ -88,7 +89,7 @@
                 userId: '',
                 userIndex: '',
                 newStatus: '',
-                author : ''
+                author: ''
 
 
 
@@ -96,13 +97,13 @@
 
         },
         methods: {
+         
 
-
-                affectValue(author) {
+            affectValue(author) {
                 this.author = author
-        
+
             },
-          
+
 
             affectNewStatut(event) {
                 this.newStatus = event.target.value
@@ -141,7 +142,7 @@
                         console.log(error);
                     });
             },
-              removeItem(event) {
+            removeItem(event) {
                 let authorStatus = event.active;
 
                 axios.post(`/api/author/${event.id}/delete`, {
@@ -149,7 +150,7 @@
                     })
                     .then((response) => {
                         if (response.data.status == 200) {
-        
+
                             this.authors.splice(this.authors.indexOf(event), 1);
                             this.allAuthors = this.authors;
                             toast.fire({
@@ -157,10 +158,10 @@
                                 title: 'Auteur deleted'
                             })
 
-                             this.author = ''
+                            this.author = ''
                             this.$root.destroyDataTable()
                             this.$root.updateDataTable()
-                        
+
                         }
 
                         if (response.data.status == 404) {
