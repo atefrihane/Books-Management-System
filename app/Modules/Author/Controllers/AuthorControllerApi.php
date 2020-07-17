@@ -5,6 +5,7 @@ namespace App\Modules\Author\Controllers;
 use App\Contracts\AuthorRepositoryInterface;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreAuthor;
+use App\Http\Resources\Author as AuthorResource;
 
 class AuthorControllerApi extends Controller
 {
@@ -39,6 +40,14 @@ class AuthorControllerApi extends Controller
         $deleteAuthor = $this->authors->delete($id);
         if ($deleteAuthor) {
             return response()->json(['status' => 200]);
+        }
+        return response()->json(['status' => 404]);
+    }
+    public function showAuthor($id)
+    {
+        $checkAuthor = $this->authors->fetchById($id);
+        if ($checkAuthor) {
+            return response()->json(['status' => 200 ,'author' => new AuthorResource($checkAuthor)]);
         }
         return response()->json(['status' => 404]);
     }
