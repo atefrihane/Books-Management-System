@@ -10,7 +10,7 @@
 
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
-        <!-- Messages Dropdown Menu -->
+        {{-- <!-- Messages Dropdown Menu -->
         <li class="nav-item dropdown">
             <a class="nav-link" data-toggle="dropdown" href="#">
                 <i class="far fa-comments"></i>
@@ -47,7 +47,7 @@
                 <div class="dropdown-divider"></div>
                 <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
             </div>
-        </li>
+        </li> --}}
 
         <li class="nav-item dropdown">
             <a class="nav-link" data-toggle="dropdown" href="#">
@@ -144,6 +144,13 @@
                             <p>Authors</p>
                         </a>
                     </li>
+
+                    <li class="nav-item">
+                        <a href="{{route('showSendNotification')}}" class="nav-link {{ Route::is('showSendNotification') ? 'active' : '' }}">
+                                <i class="fas fa-bell"></i>&nbsp;
+                                <p>Notifications</p>
+                            </a>
+                        </li>
 
             
 

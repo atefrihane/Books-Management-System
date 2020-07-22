@@ -1,33 +1,41 @@
 <?php
 namespace App\Repositories;
 
-use App\Contracts\ProductRepositoryInterface;
+use App\Contracts\ArticleRepositoryInterface;
+use App\Contracts\AuthorRepositoryInterface;
+use App\Contracts\BookRepositoryInterface;
+use App\Contracts\CategoryRepositoryInterface;
 use App\Contracts\StatisticRepositoryInterface;
 use App\Contracts\UserRepositoryInterface;
 
 class StatisticRepository implements StatisticRepositoryInterface
 {
-    private $users, $products;
+    private $users, $categories, $authors, $books, $articles;
 
     public function __construct(
         UserRepositoryInterface $users,
-        ProductRepositoryInterface $products
+        CategoryRepositoryInterface $categories,
+        AuthorRepositoryInterface $authors,
+        BookRepositoryInterface $books,
+        ArticleRepositoryInterface $articles
     ) {
         $this->users = $users;
-        $this->products = $products;
+        $this->categories = $categories;
+        $this->authors = $authors;
+        $this->books = $books;
+        $this->articles = $articles;
     }
 
-    public function getStatistics($type)
+    public function getStatistics()
     {
-        // get User statistics
-        $usersStatistics = $this->users->getUserStatistics($type);
 
-        // get count of digital ressources
-        $getDigitalRessources = $this->products->getDigitalRessources($type);
-
-        // get count of  downloaded digital ressources
-        $getDigitalDownloadedRessources = $this->products->getDigitalDownloadedRessources(1);
-
+        return [
+            'users' => $this->users->registered(),
+            'categories' => $this->categories->count(),
+            'books' => $this->books->count(),
+            'authors' => $this->authors->count(),
+            'articles' => $this->articles->count(),
+        ];
     }
 
 }

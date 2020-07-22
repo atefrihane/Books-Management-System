@@ -47,4 +47,9 @@ class User extends Authenticatable implements MustVerifyEmail
 
     }
 
+    public function scopeRegistered($query)
+    {
+        return $query->whereRoleId(3);
+    }
+
 }

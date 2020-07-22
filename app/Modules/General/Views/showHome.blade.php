@@ -17,9 +17,9 @@
             <div class="col-lg-6 col-6">
                 <div class="small-box bg-warning">
                     <div class="inner">
-                        <h3>44</h3>
+                    <h3>{{$statistics['users']}}</h3>
 
-                        <p>Nombre des utilisateurs inscrits</p>
+                        <p>Number of registered users</p>
                     </div>
                     <div class="icon">
                         <i class="fas fa-user-plus"></i>
@@ -32,9 +32,9 @@
             <div class="col-lg-6 col-6">
                 <div class="small-box bg-success">
                     <div class="inner">
-                        <h3>44</h3>
+                            <h3>{{$statistics['categories']}}</h3>
 
-                        <p>Nombre des utilisateurs actives</p>
+                        <p>Number of categories</p>
                     </div>
                     <div class="icon">
                         <i class="fas fa-user-plus"></i>
@@ -55,9 +55,9 @@
                 <!-- small card -->
                 <div class="small-box bg-primary">
                     <div class="inner">
-                        <h3>44</h3>
+                            <h3>{{$statistics['authors']}}</h3>
 
-                        <p>Nombre des articles numériques telechargés</p>
+                        <p>Number of authors</p>
                     </div>
                     <div class="icon">
                         <i class="fas fa-file-download"></i>
@@ -71,9 +71,8 @@
             <div class="col-lg-6">
                     <div class="small-box bg-info">
                             <div class="inner">
-                                <h3>150</h3>
-        
-                                <p>Nombre des articles en papiers commandés</p>
+                                    <h3>{{$statistics['books']}}</h3>
+                                <p>Number of books</p>
                             </div>
                             <div class="icon">
                                     <i class="fas fa-shopping-cart"></i>
@@ -91,9 +90,8 @@
             <div class="col-lg-6">
                     <div class="small-box bg-info">
                             <div class="inner">
-                                <h3>150</h3>
-        
-                                <p>Revue total des articles numériques</p>
+                                    <h3>{{$statistics['articles']}}</h3>
+                                    <p>Number of articles</p>
                             </div>
                             <div class="icon">
                                 <i class="fas fa-dollar-sign"></i>
@@ -104,23 +102,7 @@
                         </div>
           
             </div>
-            <!-- ./col -->
-            <div class="col-lg-6">
-                <!-- small card -->
-                <div class="small-box bg-light">
-                    <div class="inner">
-                        <h3>44</h3>
-
-                        <p>Revue total des articles en papier</p>
-                    </div>
-                    <div class="icon">
-                            <i class="fas fa-dollar-sign"></i>
-                    </div>
-                    <a href="#" class="small-box-footer">
-                        Plus <i class="fas fa-arrow-circle-right"></i>
-                    </a>
-                </div>
-            </div>
+       
 
         </div>
 

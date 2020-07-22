@@ -110,12 +110,12 @@ Breadcrumbs::for('showUpdateAuthor', function ($trail, $author) {
     $trail->push($author->fullName());
 });
 
-//Orders
+//Notifications
 
-// Breadcrumbs::for('orders', function ($trail) {
+Breadcrumbs::for('sendNotification', function ($trail) {
 
-//     $trail->push('Liste des achats', route('showOrders'));
-// });
+    $trail->push('Send notification', route('showSendNotification'));
+});
 
 // Breadcrumbs::for('showOrder', function ($trail, $order) {
 //     $trail->parent('orders');

@@ -7,13 +7,18 @@ use App\Http\Controllers\Controller;
 
 class GeneralController extends Controller
 {
-
-
+    private $statistics;
+    public function __construct(StatisticRepositoryInterface $statistics)
+    {
+        $this->statistics = $statistics;
+    }
 
     public function showHome()
     {
 
-        return view('General::showHome');
+        return view('General::showHome', [
+            'statistics' => $this->statistics->getStatistics(),
+        ]);
     }
 
     public function showLogin()

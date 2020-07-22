@@ -17,6 +17,10 @@ class UserRepository implements UserRepositoryInterface
         $this->image = $image;
     }
 
+    public function registered()
+    {
+        return User::registered()->count();
+    }
     public function register($user)
     {
 

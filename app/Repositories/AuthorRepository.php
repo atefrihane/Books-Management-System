@@ -18,6 +18,11 @@ class AuthorRepository implements AuthorRepositoryInterface
     {
         return Author::all();
     }
+
+    public function count()
+    {
+        return Author::count();
+    }
     public function store($author)
     {
 

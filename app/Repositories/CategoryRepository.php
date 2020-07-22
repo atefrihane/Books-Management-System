@@ -10,6 +10,11 @@ class CategoryRepository implements CategoryRepositoryInterface
     {
         return Category::all();
     }
+
+    public function count()
+    {
+        return Category::count();
+    }
     public function store($category)
     {
 

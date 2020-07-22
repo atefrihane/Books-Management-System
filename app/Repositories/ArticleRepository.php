@@ -19,6 +19,10 @@ class ArticleRepository implements ArticleRepositoryInterface
 
         return Article::all();
     }
+    public function count()
+    {
+        return Article::count();
+    }
 
     public function getFirstarticle()
     {
