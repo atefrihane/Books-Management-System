@@ -73,7 +73,7 @@
     import ShowModal from './nested/ShowModal.vue'
     export default {
         mounted() {
-            this.filterActiveArticles();
+            // this.filterActiveArticles();
 
         },
         props: ['articles'],
