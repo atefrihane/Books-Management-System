@@ -123,7 +123,7 @@ Breadcrumbs::for('collections', function ($trail) {
 
     $trail->push('Liste of collections', route('showCollections'));
 });
-Breadcrumbs::for('showAddCollection', function ($trail) {
+Breadcrumbs::for('addCollection', function ($trail) {
     $trail->parent('collections');
     $trail->push('Add an collection');
 });
@@ -132,7 +132,7 @@ Breadcrumbs::for('showCollection', function ($trail, $collection) {
     $trail->push(ucfirst($collection->name));
 });
 
-Breadcrumbs::for('showUpdateCollection', function ($trail, $collection) {
+Breadcrumbs::for('updateCollection', function ($trail, $collection) {
     $trail->parent('collections');
     $trail->push('Update a collection');
     $trail->push(ucfirst($collection->name));

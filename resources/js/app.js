@@ -78,6 +78,13 @@ Vue.component('add-user', require('./components/ShowAddUser.vue').default);
 Vue.component('update-user', require('./components/ShowUpdateUser.vue').default);
 
 
+//collections
+
+Vue.component('show-collections', require('./components/ShowCollections.vue').default);
+Vue.component('add-collection', require('./components/ShowAddCollection.vue').default);
+Vue.component('update-collection', require('./components/ShowUpdateCollection.vue').default);
+
+
 //nested components
 
 Vue.component('show-modal', require('./components/nested/ShowModal.vue').default);
