@@ -20,6 +20,7 @@ class RepositoryServiceProvider extends ServiceProvider
             'Category',
             'Language',
             'Author',
+            'Collection',
             'Image', 'Statistic', 'Role', //Just a class
 
         ];

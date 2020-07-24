@@ -2,12 +2,13 @@
 
 namespace App\Modules\Book\Models;
 
-use App\Modules\Article\Models\Article;
 use App\Modules\Author\Models\Author;
-use App\Modules\Category\Models\Category;
-use App\Modules\Language\Models\Language;
-
+use App\Modules\Article\Models\Article;
 use Illuminate\Database\Eloquent\Model;
+use App\Modules\Category\Models\Category;
+
+use App\Modules\Language\Models\Language;
+use App\Modules\Collection\Models\Collection;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Book extends Model
@@ -29,6 +30,11 @@ class Book extends Model
     public function categories()
     {
         return $this->belongsToMany(Category::class, 'book_category');
+
+    }
+    public function collections()
+    {
+        return $this->belongsToMany(Collection::class, 'book_collection');
 
     }
 

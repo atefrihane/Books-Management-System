@@ -1,0 +1,5 @@
+<?php
+
+/**
+ *	Collection Helper
+ */

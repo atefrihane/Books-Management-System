@@ -117,6 +117,27 @@ Breadcrumbs::for('sendNotification', function ($trail) {
     $trail->push('Send notification', route('showSendNotification'));
 });
 
+//Collections
+
+Breadcrumbs::for('collections', function ($trail) {
+
+    $trail->push('Liste of collections', route('showCollections'));
+});
+Breadcrumbs::for('showAddCollection', function ($trail) {
+    $trail->parent('collections');
+    $trail->push('Add an collection');
+});
+Breadcrumbs::for('showCollection', function ($trail, $collection) {
+    $trail->parent('collections');
+    $trail->push(ucfirst($collection->name));
+});
+
+Breadcrumbs::for('showUpdateCollection', function ($trail, $collection) {
+    $trail->parent('collections');
+    $trail->push('Update a collection');
+    $trail->push(ucfirst($collection->name));
+});
+
 // Breadcrumbs::for('showOrder', function ($trail, $order) {
 //     $trail->parent('orders');
 //     $trail->push($order->code);

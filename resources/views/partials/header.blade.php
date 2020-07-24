@@ -120,6 +120,15 @@
 
 
                 </li>
+
+                <li class="nav-item">
+                    <a href="{{route('showCollections')}}" class="nav-link {{ Route::is('showCollections') ? 'active' : '' }}">
+                        <i class="fas fa-book"></i> &nbsp;
+                        <p>Collections</p>
+                    </a>
+
+
+                </li>
                 <li class="nav-item">
                     <a href="{{route('showBooks')}}" class="nav-link {{ Route::is('showBooks') ? 'active' : '' }}">
                         <i class="fas fa-book"></i> &nbsp;
