@@ -2,23 +2,25 @@
 
 namespace App\Modules\Book\Controllers;
 
-use App\Contracts\ArticleRepositoryInterface;
-use App\Contracts\AuthorRepositoryInterface;
+use App\Http\Controllers\Controller;
 use App\Contracts\BookRepositoryInterface;
+use App\Contracts\AuthorRepositoryInterface;
+use App\Contracts\ArticleRepositoryInterface;
 use App\Contracts\CategoryRepositoryInterface;
 use App\Contracts\LanguageRepositoryInterface;
-use App\Http\Controllers\Controller;
+use App\Contracts\CollectionRepositoryInterface;
 
 class BookController extends Controller
 {
-    private $books, $languages, $categories, $authors, $articles;
+    private $books, $languages, $categories, $authors, $articles,$collections;
 
     public function __construct(
         BookRepositoryInterface $books,
         LanguageRepositoryInterface $languages,
         CategoryRepositoryInterface $categories,
         AuthorRepositoryInterface $authors,
-        ArticleRepositoryInterface $articles
+        ArticleRepositoryInterface $articles,
+        CollectionRepositoryInterface $collections
 
     ) {
         $this->books = $books;
@@ -26,12 +28,13 @@ class BookController extends Controller
         $this->categories = $categories;
         $this->authors = $authors;
         $this->articles = $articles;
+        $this->collections = $collections;
     }
 
     public function showBooks()
     {
       
-        return view('Book::showBooks', ['books' => $this->books->all()]);
+        return view('Book::showBooks', ['books' => $this->books->all('countCategories')]);
 
     }
 
@@ -39,10 +42,11 @@ class BookController extends Controller
     {
 
         return view('Book::showAddBook', [
-            'languages' => $this->languages->all(),
+  
             'categories' => $this->categories->all(),
             'authors' => $this->authors->all(),
             'articles' => $this->articles->all(),
+            'collections' => $this->collections->all('general')
         ]);
     }
 
@@ -64,12 +68,14 @@ class BookController extends Controller
         $checkBook = $this->books->fetchById($id);
 
         if ($checkBook) {
+      
             return view('Book::showUpdateBook', [
                 'book' => $checkBook,
-                'languages' => $this->languages->all(),
+            
                 'categories' => $this->categories->all(),
                 'authors' => $this->authors->all(),
                 'articles' => $this->articles->all(),
+                'collections' => $this->collections->all('general')
             ]);
         }
         return view('General::showNotFound');

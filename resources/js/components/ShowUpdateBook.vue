@@ -186,6 +186,9 @@
                     </div>
 
 
+                    <show-nested-collections v-if="this.loaded" :collections="this.collections"
+                        :oldSelectedCollections="this.selected_collections"
+                        v-on:submitCollections="submitCollections($event)"> </show-nested-collections>
 
                     <show-authors :authors="this.authors" :oldSearchedAuthors="this.searchedAuthors"
                         v-if="this.searchedAuthors.length > 0" v-on:matchAuthors="matchAuthors($event)"></show-authors>
@@ -210,6 +213,7 @@
 
 <script>
     import ShowAuthors from './nested/ShowAuthors.vue'
+    import ShowNestedCollections from './nested/ShowNestedCollections.vue'
     import ShowErrors from './nested/ShowErrors.vue'
     import {
         VueEditor
@@ -220,21 +224,25 @@
             this.formatAuthors()
 
         },
-        props: ['categories', 'authors', 'book_details'],
+        props: ['categories', 'authors', 'book_details', 'collections'],
         data() {
             return {
                 digital_name: 'Upload an audio file',
                 pdf_name: 'Upload a pdf file',
                 disabled: false,
                 searchedAuthors: [],
+
                 isActive: false,
+                loaded: false,
                 percentage: 0,
                 errors: [],
                 book: {
+                    id: '',
                     active: 1,
                     title: '',
                     categories: [],
-
+                    collections: [],
+                    selected_collections: [],
                     author_id: '',
                     subject: '',
 
@@ -257,6 +265,7 @@
                     this.$set(this.categories[i], 'disabled', false)
 
                 }
+                this.selected_collections = _.map(this.book_details.collections, 'id');
                 this.book.id = this.book_details.id
                 this.book.active = this.book_details.active
                 this.book.title = this.book_details.title
@@ -268,6 +277,9 @@
                 this.book.audio_link = this.book_details.audio_link
                 this.book.pdf_link = this.book_details.pdf_link
                 this.book.categories = this.book_details.categories
+                this.book.collections = this.book_details.collections
+                this.loaded = true
+
 
             },
             formatAuthors() {
@@ -291,6 +303,8 @@
 
                 }
             },
+
+
 
             async uploadFile(event, type) {
                 // 0 image
@@ -438,6 +452,13 @@
                 this.book.author_id = authorId
 
             },
+            submitCollections(collections) {
+
+                this.book.collections = collections
+
+
+            },
+
 
 
 
@@ -520,6 +541,10 @@
                     }
 
                     body.append('categories', JSON.stringify(this.book.categories))
+                   
+                        body.append('collections', JSON.stringify(this.book.collections))
+                   
+
                     body.append('title', this.book.title)
                     body.append('active', this.book.active)
                     body.append('why_to_read', this.book.why_to_read)

@@ -14,9 +14,23 @@ class BookRepository implements BookRepositoryInterface
         $this->image = $image;
 
     }
-    public function all()
+    public function all($type)
     {
-        return Book::all();
+        switch ($type) {
+            case 'general':
+                return Book::all();
+                break;
+
+            case 'countCategories':
+                return Book::withCount('categories')->get();
+                break;
+
+            case 'nested':
+                return Book::with('categories', 'authors', 'collections')->get();
+                break;
+
+        }
+
     }
     public function count()
     {
@@ -29,7 +43,7 @@ class BookRepository implements BookRepositoryInterface
     }
     public function getLastId()
     {
-        return $this->getFirstBook() ? $id = $this->all()->last()->id + 1 : 1;
+        return $this->getFirstBook() ? $id = $this->all('general')->last()->id + 1 : 1;
 
     }
     public function store($book)
@@ -41,6 +55,7 @@ class BookRepository implements BookRepositoryInterface
         isset($book['audio_link']) ? $audioBook = $this->image->uploadFile($book['audio_link'], '/img/books/audio') : $audioBook = null;
 
         $bookCategories = json_decode($book['categories']);
+
         $newBook = Book::create([
             'photo' => $bookPhoto,
             'active' => $book['active'],
@@ -55,6 +70,10 @@ class BookRepository implements BookRepositoryInterface
         ]);
 
         $newBook->categories()->attach(array_column($bookCategories, 'id'));
+        if (isset($book['collections'])) {
+            $bookCollections = json_decode($book['collections']);
+            $newBook->collections()->attach($bookCollections);
+        }
 
         return true;
 
@@ -62,12 +81,12 @@ class BookRepository implements BookRepositoryInterface
     public function fetchById($id)
     {
 
-        return Book::find($id);
+        return Book::with('categories', 'collections')->find($id);
 
     }
     public function update($book)
     {
-    
+
         $checkBook = $this->fetchById($book['id']);
 
         if ($checkBook) {
@@ -101,11 +120,13 @@ class BookRepository implements BookRepositoryInterface
                 'audio_link' => $bookAudio,
                 'pdf_link' => $bookPdf,
                 'author_id' => $book['author_id'],
-    
+
             ]);
-       
 
             $checkBook->categories()->sync(array_column($bookCategories, 'id'));
+
+            $bookCollections = json_decode($book['collections']);
+            (count($bookCollections) > 0) ? $checkBook->collections()->sync($bookCollections) : $checkBook->collections()->detach();
 
             return true;
 

@@ -71,7 +71,7 @@ class BookControllerApi extends Controller
     }
     public function showBooks()
     {
-        return response()->json(['status' => 200, 'books' => BookResource::collection($this->books->all())]);
+        return response()->json(['status' => 200, 'books' => BookResource::collection($this->books->all('countCategories'))]);
     }
     public function showFilterBooks(Request $request)
     {

@@ -17,7 +17,7 @@
 <div class="content" id="app">
 
    <update-book 
-   :languages="{{$languages}}"
+   :collections="{{$collections}}"
     :categories="{{$categories}}"
     :authors="{{$authors}}"
     :articles="{{$articles}}"

@@ -17,6 +17,9 @@ class CollectionRepository implements CollectionRepositoryInterface
     public function all($type)
     {
         switch ($type) {
+            case 'general':
+                return Collection::all();
+                break;
             case 'countBooks':
                 return Collection::withCount('books')->get();
             case 'nested':
@@ -44,7 +47,7 @@ class CollectionRepository implements CollectionRepositoryInterface
     {
 
         $checkCollection = $this->fetchById($collection['id']);
-       
+
         if ($checkCollection) {
             $collectionPhoto = $checkCollection->photo;
             if ($checkCollection->photo != $collection['photo']) {

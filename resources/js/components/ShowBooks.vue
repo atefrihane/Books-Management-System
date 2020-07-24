@@ -33,7 +33,7 @@
 
                             </td>
                             <td>{{book.title}}</td>
-                            <td>{{book.categories.length}}</td>
+                            <td>{{book.categories_count}}</td>
 
 
                             <td>{{book.active == 1 ? 'Active' : 'Inactive'}}</td>
@@ -81,7 +81,7 @@
     import ShowModal from './nested/ShowModal.vue'
     export default {
         mounted() {
-            this.filterActiveBooks();
+         
 
         },
         props: ['books'],

@@ -17,10 +17,11 @@
 <div class="content" id="app">
 
    <add-book 
-   :languages="{{$languages}}"
+ 
     :categories="{{$categories}}"
     :authors="{{$authors}}"
     :articles="{{$articles}}"
+    :collections="{{$collections}}"
    > </add-book>
    <vue-progress-bar></vue-progress-bar>
 

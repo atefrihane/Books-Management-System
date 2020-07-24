@@ -88,7 +88,7 @@ Vue.component('update-collection', require('./components/ShowUpdateCollection.vu
 //nested components
 
 Vue.component('show-modal', require('./components/nested/ShowModal.vue').default);
-Vue.component('show-articles', require('./components/nested/ShowArticles.vue').default);
+Vue.component('show-nested-collections', require('./components/nested/ShowNestedCollections.vue').default);
 Vue.component('show-authors', require('./components/nested/ShowAuthors.vue').default);
 Vue.component('show-errors', require('./components/nested/ShowErrors.vue').default);
 

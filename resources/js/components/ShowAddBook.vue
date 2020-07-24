@@ -181,9 +181,12 @@
 
                     </div>
 
-
+                    <show-nested-collections :collections="this.collections"
+                        v-on:submitCollections="submitCollections($event)"> </show-nested-collections>
 
                     <show-authors :authors="this.authors" v-on:matchAuthors="matchAuthors($event)"> </show-authors>
+
+
                     <div class="mx-auto mt-4" style="width: 200px;">
                         <div class="row">
                             <a href="/books" class="btn btn-danger ml-3">Annuler </a>
@@ -206,6 +209,7 @@
 
 <script>
     import ShowAuthors from './nested/ShowAuthors.vue'
+    import ShowNestedCollections from './nested/ShowNestedCollections.vue'
     import ShowErrors from './nested/ShowErrors.vue'
     // Basic Use - Covers most scenarios
     import {
@@ -220,7 +224,7 @@
 
 
         },
-        props: ['categories', 'authors'],
+        props: ['categories', 'authors', 'collections'],
         data() {
             return {
                 digital_name: 'Upload an audio file',
@@ -234,7 +238,7 @@
                     active: 1,
                     title: '',
                     categories: [],
-
+                    collections: [],
                     author_id: '',
                     subject: '',
 
@@ -406,6 +410,13 @@
 
             },
 
+            submitCollections(collections) {
+
+                this.book.collections = collections
+
+
+            },
+
 
 
             validateData() {
@@ -485,6 +496,10 @@
                     body.append('audio_link', this.book.audio_link)
                     body.append('pdf_link', this.book.pdf_link)
                     body.append('categories', JSON.stringify(this.book.categories))
+                    if (this.book.collections.length > 0) {
+                        body.append('collections', JSON.stringify(this.book.collections))
+                    }
+
                     body.append('title', this.book.title)
                     body.append('active', this.book.active)
                     body.append('why_to_read', this.book.why_to_read)
