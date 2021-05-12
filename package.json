@@ -29,7 +29,7 @@
         "@fortawesome/fontawesome-free": "^5.12.1",
         "@trevoreyre/autocomplete-vue": "^2.1.1",
         "admin-lte": "^3.0.2",
-        "chart.js": "^2.9.3",
+        "chart.js": "^2.9.4",
         "datatables.net-bs4": "^1.10.20",
         "summernote": "^0.8.16",
         "vue-element-loading": "^1.1.5",
